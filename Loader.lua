@@ -23,7 +23,7 @@ local function wipeFolder(path)
     end
 end
 
-for _, folder in {'Galaxy', 'Galaxy/games', 'Galaxy/libs', 'Galaxy/ui', 'Galaxy/config'} do
+for _, folder in {'Galaxy', 'Galaxy/Games', 'Galaxy/Libs', 'Galaxy/UI', 'Galaxy/Config'} do
     if not isfolder(folder) then
         makefolder(folder)
     end
