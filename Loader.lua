@@ -2,11 +2,13 @@ repeat task.wait() until game:IsLoaded()
 
 if isfolder('Galaxy') then
     delfolder('Galaxy')
+else
 end
 
 for _, folder in {'Galaxy', 'Galaxy/Games', 'Galaxy/Libs', 'Galaxy/UI', 'Galaxy/Config'} do
     if not isfolder(folder) then
         makefolder(folder)
+	else
     end
 end
 
