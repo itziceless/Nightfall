@@ -12,13 +12,15 @@ for _, folder in {'Galaxy', 'Galaxy/Games', 'Galaxy/Libs', 'Galaxy/UI', 'Galaxy/
     end
 end
 
---[[if not isfile('Galaxy/UI/Main.lua') then
-    writefile('Galaxy/UI/Main.lua', "yo")--loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/UI/Main.lua", true))())
+if not isfile('Galaxy/UI/Main.lua') then
+    writefile('Galaxy/UI/Main.lua', loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/UI/Main.lua", true))())
+else
 end
 
 if not isfile('Galaxy/Games/Universal.lua') then
-    writefile('Galaxy/Games/Universal.lua', "yo")--loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Games/Universal.lua", true))())
-end--]]
+    writefile('Galaxy/Games/Universal.lua', loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Games/Universal.lua", true))())
+else
+end
 
 local LicenseKeys = {
     ["OWNER-Q4R7-T8Y2-U1I5"] = { type = "FOREVER", firstUse = nil },
