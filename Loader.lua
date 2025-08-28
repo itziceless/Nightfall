@@ -15,8 +15,19 @@ end
 local ui = loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/UI/Main.lua", true))()
 local univ = loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Games/Universal.lua", true))()
 
+if isfile('Galaxy/UI/Main.lua') then
+	delfile('Galaxy/UI/Main.lua')
+else
+end
+
+
 if not isfile('Galaxy/UI/Main.lua') then
     writefile('Galaxy/UI/Main.lua', ui)
+else
+end
+
+if isfile('Galaxy/Games/Universal.lua') then
+	delfile('Galaxy/Games/Universal.lua')
 else
 end
 
