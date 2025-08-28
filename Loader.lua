@@ -52,11 +52,15 @@ function getgenv().VerifyLicenseKey(key)
     return false
 end
 
--- Example usage:
-local playerInputKey = LicenseKeys -- replace with user input from TextBox or input
-if getgenv().VerifyLicenseKey(playerInputKey) then
-    print("License valid! Access granted. Loading Galaxy!")
-     local isfile = isfile or function(file)
+for _, v in pairs(LicenseKeys) do 
+    if getgenv().CheckLicense == LicenseKeys then
+        whitelisted = true
+        break
+    end
+end
+     
+if whitelisted then
+	local isfile = isfile or function(file)
     local suc, res = pcall(function()
         return readfile(file)
     end)
@@ -97,7 +101,7 @@ end
 
 loadfile('Galaxy/UI/Main.lua')
 loadfile('Galaxy/Games/Universal.lua')
-else
-    print("License invalid or expired.")
-end 
-
+	else
+	game:GetService("Players").LocalPlayer:Kick('Key Invalid or Expired. Get a key in our discord. \n https://discord.gg/ryDhGJkEyP (also in youre clipboard)')
+	setclipboard("https://discord.gg/ryDhGJkEyP")
+end
