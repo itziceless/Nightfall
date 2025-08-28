@@ -23,6 +23,10 @@ local function wipeFolder(path)
     end
 end
 
+if isfolder('Galaxy') then
+    wipefolder('Galaxy')
+end
+
 for _, folder in {'Galaxy', 'Galaxy/Games', 'Galaxy/Libs', 'Galaxy/UI', 'Galaxy/Config'} do
     if not isfolder(folder) then
         makefolder(folder)
@@ -35,14 +39,6 @@ end
 
 if not isfile('Galaxy/Games/Universal.lua') then
     writefile('Galaxy/Games/Universal.lua', loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Games/Universal.lua", true))())
-end
-
-if isfile('Galaxy/Games/Universal.lua') then
-    delfile('Galaxy/Games/Universal.lua')
-end
-
-if isfile('Galaxy/UI/Main.lua') then
-    delfile('Galaxy/UI/Main.lua')
 end
 
 loadfile('Galaxy/UI/Main.lua')
