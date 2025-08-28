@@ -28,11 +28,11 @@ for _, folder in {'Galaxy', 'Galaxy/Games', 'Galaxy/Libs', 'Galaxy/UI', 'Galaxy/
 end
 
 if not isfile('Galaxy/UI/Main.lua') then
-    writefile('Galaxy/UI/Main.lua', loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/UI/Main.lua", true))())
+    writefile('Galaxy/UI/Main.lua', "yo")--loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/UI/Main.lua", true))())
 end
 
 if not isfile('Galaxy/Games/Universal.lua') then
-    writefile('Galaxy/Games/Universal.lua', loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Games/Universal.lua", true))())
+    writefile('Galaxy/Games/Universal.lua', "yo")--loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Games/Universal.lua", true))())
 end
 
 local LicenseKeys = {
