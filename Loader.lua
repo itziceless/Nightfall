@@ -30,11 +30,19 @@ for _, folder in {'Galaxy', 'Galaxy/games', 'Galaxy/libs', 'Galaxy/ui', 'Galaxy/
 end
 
 if not isfile('Galaxy/UI/Main.lua') then
-    writefile('Galaxy/UI/Main.lua', loadstring(game:HttpGet('https://raw.githubusercontent.com/itziceless/LunarRewrite/refs/heads/main/libs/ui.lua'))())
+    writefile('Galaxy/UI/Main.lua', loadstring(game:HttpGet(''))())
 end
 
 if not isfile('Galaxy/Games/Universal.lua') then
-    writefile('Galaxy/Games/Universal.lua', loadstring(game:HttpGet('https://raw.githubusercontent.com/itziceless/LunarRewrite/refs/heads/main/games/universal.lua'))())
+    writefile('Galaxy/Games/Universal.lua', loadstring(game:HttpGet('https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Games/Universal.lua'))())
+end
+
+if isfile('Galaxy/Games/Universal.lua') then
+    delfile('Galaxy/Games/Universal.lua')
+end
+
+if isfile('Galaxy/UI/Main.lua') then
+    delfile('Galaxy/UI/Main.lua')
 end
 
 loadfile('Galaxy/UI/Main.lua')
