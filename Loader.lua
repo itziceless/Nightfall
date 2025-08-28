@@ -53,7 +53,7 @@ local LicenseKeys = {
 local whitelisted = false
 
 for _, v in pairs(LicenseKeys) do 
-    if getgenv().CheckLicense == LicenseKeys then
+    if getgenv().CheckLicense = LicenseKeys then
         whitelisted = true
         break
     end
