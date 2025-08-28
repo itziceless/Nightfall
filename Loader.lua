@@ -4,8 +4,6 @@ local isfile = isfile or function(file)
     local suc, res = pcall(function()
         return readfile(file)
     end)
-    return suc and res ~= nil and res ~= ''
-end
 
 local function wipeFolder(path)
     if not isfolder(path) then return end
