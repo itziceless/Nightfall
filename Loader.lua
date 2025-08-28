@@ -92,6 +92,6 @@ if whitelisted then
 loadfile('Galaxy/UI/Main.lua')
 loadfile('Galaxy/Games/Universal.lua')
 	else
-	game:GetService("Players").LocalPlayer:Kick('Key Invalid or Expired. Get a key in our discord. \n https://discord.gg/ryDhGJkEyP (also in youre clipboard)')
-	setclipboard("https://discord.gg/ryDhGJkEyP")
+	--game:GetService("Players").LocalPlayer:Kick('Key Invalid or Expired. Get a key in our discord. \n https://discord.gg/ryDhGJkEyP (also in youre clipboard)')
+	print(LicenseKeys)
 end
