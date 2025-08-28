@@ -30,9 +30,8 @@ LicenseKeys = {
 
 
 -- Function to check if a key is valid
-getgenv().VerifyLicense = function()
-    local key = getgenv().License
-    local info = getgenv().LicenseKeys[key]
+function getgenv().VerifyLicenseKey(key)
+    local info = LicenseKeys[key]
     if not info then return false end
 
     if info.type == "FOREVER" then
@@ -53,9 +52,11 @@ getgenv().VerifyLicense = function()
     return false
 end
 
--- Example usage
-if getgenv().VerifyLicense() then
-    local isfile = isfile or function(file)
+-- Example usage:
+local playerInputKey = LicenseKeys -- replace with user input from TextBox or input
+if getgenv().VerifyLicenseKey(playerInputKey) then
+    print("License valid! Access granted. Loading Galaxy!")
+     local isfile = isfile or function(file)
     local suc, res = pcall(function()
         return readfile(file)
     end)
@@ -97,5 +98,6 @@ end
 loadfile('Galaxy/UI/Main.lua')
 loadfile('Galaxy/Games/Universal.lua')
 else
-    error("License invalid or expired.")
-end
+    print("License invalid or expired.")
+end 
+
