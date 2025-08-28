@@ -50,6 +50,8 @@ local LicenseKeys = {
     ["N1O5-P8Q3-R6S2"] = { type = "1D", firstUse = nil },
 }
 
+print(LicenseKeys)
+
 local whitelisted = false
 
 for _, v in pairs(LicenseKeys) do 
