@@ -28,30 +28,6 @@ LicenseKeys = {
     ["N1O5-P8Q3-R6S2"] = { type = "1D", firstUse = nil },
 }
 
-
--- Function to check if a key is valid
-function getgenv().VerifyLicenseKey(key)
-    local info = LicenseKeys[key]
-    if not info then return false end
-
-    if info.type == "FOREVER" then
-        return true
-    end
-
-    -- Start timer on first use
-    if not info.firstUse then
-        info.firstUse = os.time()
-        return true
-    end
-
-    local elapsed = os.time() - info.firstUse
-    if info.type == "1D" and elapsed <= 86400 then return true end
-    if info.type == "1W" and elapsed <= 604800 then return true end
-    if info.type == "1M" and elapsed <= 2592000 then return true end
-
-    return false
-end
-
 for _, v in pairs(LicenseKeys) do 
     if getgenv().CheckLicense == LicenseKeys then
         whitelisted = true
