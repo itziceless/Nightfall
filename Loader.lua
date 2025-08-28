@@ -55,7 +55,7 @@ local LicenseKeys = {
     "ADMIN-P3L9-K2J6-M7N4",
     "ADMIN-A1B5-C8D2-E9F6",
     "PRIVATE-G7H3-J2K5-L8M1",
-    ["PRIVATE-X4Y9-Z1A7-B6C3"] = { type = "FOREVER", firstUse = nil },
+    --[[["PRIVATE-X4Y9-Z1A7-B6C3"] = { type = "FOREVER", firstUse = nil },
     ["PRIVATE-D2E8-F3G5-H1I9"] = { type = "FOREVER", firstUse = nil },
     ["J6K4-L7M2-N9O1"] = { type = "1M", firstUse = nil },
     ["P8Q3-R5S1-T6U7"] = { type = "FOREVER", firstUse = nil },
@@ -75,10 +75,9 @@ local LicenseKeys = {
     ["V6W3-X8Y1-Z4A5"] = { type = "1W", firstUse = nil },
     ["B9C2-D5E8-F1G4"] = { type = "1M", firstUse = nil },
     ["H7I2-J4K6-L9M3"] = { type = "FOREVER", firstUse = nil },
-    ["N1O5-P8Q3-R6S2"] = { type = "1D", firstUse = nil },
-
-print(LicenseKeys)
-
+    ["N1O5-P8Q3-R6S2"] = { type = "1D", firstUse = nil },--]]
+}
+	
 local whitelisted = false
 
 for _, v in pairs(LicenseKeys) do 
@@ -92,6 +91,5 @@ if whitelisted then
 loadfile('Galaxy/UI/Main.lua')
 loadfile('Galaxy/Games/Universal.lua')
 	else
-	--game:GetService("Players").LocalPlayer:Kick('Key Invalid or Expired. Get a key in our discord. \n https://discord.gg/ryDhGJkEyP (also in youre clipboard)')
-	print(LicenseKeys)
+	game:GetService("Players").LocalPlayer:Kick('Key Invalid or Expired. Get a key in our discord. \n https://discord.gg/ryDhGJkEyP (also in youre clipboard)')
 end
