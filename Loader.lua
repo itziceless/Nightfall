@@ -7,10 +7,6 @@ local isfile = isfile or function(file)
     return suc and res ~= nil and res ~= ''
 end
 
-local delfile = delfile or function(file)
-    writefile(file, '')
-end
-
 local function wipeFolder(path)
     if not isfolder(path) then return end
     for _, file in listfiles(path) do
