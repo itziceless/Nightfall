@@ -18,7 +18,7 @@ local function wipeFolder(path)
 end
 
 if isfolder('Galaxy') then
-    wipefolder('Galaxy')
+    delfolder('Galaxy')
 end
 
 for _, folder in {'Galaxy', 'Galaxy/Games', 'Galaxy/Libs', 'Galaxy/UI', 'Galaxy/Config'} do
