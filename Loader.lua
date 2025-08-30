@@ -28,7 +28,17 @@ else
 end
 
 if not isfile('Galaxy/Games/Universal.lua') then
-    writefile('Galaxy/Games/Universal.lua', "univ")
+    writefile('Galaxy/Games/Universal.lua', "univ") 
+else
+end
+
+if isfile('Galaxy/Games/PremiumUniversal.lua') then
+	delfile('Galaxy/Games/PremiumUniversal.lua')
+else
+end
+
+if not isfile('Galaxy/Games/PremiumUniversal.lua') then
+    writefile('Galaxy/Games/PremiumUniversal.lua', "PremiumUniv")
 else
 end
 
@@ -71,7 +81,9 @@ end
      
 if whitelisted then
 loadfile('Galaxy/UI/Main.lua')
-loadfile('Galaxy/Games/Universal.lua')
+loadfile('Galaxy/Games/PremiumUniversal.lua')
+	print("loaded in premium mode")
 	else
-	game:GetService("Players").LocalPlayer:Kick('Key Invalid or Expired. Get a key in our discord. \n https://discord.gg/ryDhGJkEyP (also in youre clipboard)')
+	loadfile('Galaxy/Games/Universal.lua')
+	print("loaded in normal mode")
 end
