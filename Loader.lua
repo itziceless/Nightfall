@@ -5,7 +5,7 @@ if isfolder('Galaxy') then
 else
 end
 
-for _, folder in {'Galaxy', 'Galaxy/Games', 'Galaxy/Libs', 'Galaxy/UI', 'Galaxy/Config'} do
+for _, folder in {'Galaxy', 'Galaxy/Games', 'Galaxy/Libs', 'Galaxy/UI', 'Galaxy/Config', 'Galaxy/PremiumGames'} do
     if not isfolder(folder) then
         makefolder(folder)
 	else
@@ -32,13 +32,13 @@ if not isfile('Galaxy/Games/Universal.lua') then
 else
 end
 
-if isfile('Galaxy/Games/PremiumUniversal.lua') then
-	delfile('Galaxy/Games/PremiumUniversal.lua')
+if isfile('Galaxy/PremiumGames/Universal.lua') then
+	delfile('Galaxy/PremiumGames/Universal.lua')
 else
 end
 
-if not isfile('Galaxy/Games/PremiumUniversal.lua') then
-    writefile('Galaxy/Games/PremiumUniversal.lua', "PremiumUniv")
+if not isfile('Galaxy/PremiumGames/Universal.lua') then
+    writefile('Galaxy/PremiumGames/Universal.lua', "Univ")
 else
 end
 
@@ -81,7 +81,7 @@ end
      
 if whitelisted then
 loadfile('Galaxy/UI/Main.lua')
-loadfile('Galaxy/Games/PremiumUniversal.lua')
+loadfile('Galaxy/PremiumGames/Universal.lua')
 	print("loaded in premium mode")
 	else
 	loadfile('Galaxy/Games/Universal.lua')
