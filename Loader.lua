@@ -39,7 +39,7 @@ local LicenseKeys = {
     "PRIVATE-G7H3-J2K5-L8M1",
     "PRIVATE-X4Y9-Z1A7-B6C3",
     "PRIVATE-D2E8-F3G5-H1I9",
-    ["J6K4-L7M2-N9O1"] = { type = "1M", firstUse = nil },
+    --[[["J6K4-L7M2-N9O1"] = { type = "1M", firstUse = nil },
     ["P8Q3-R5S1-T6U7"] = { type = "FOREVER", firstUse = nil },
     ["V2W9-X3Y6-Z8A4"] = { type = "1D", firstUse = nil },
     ["B5C1-D7E2-F4G9"] = { type = "1W", firstUse = nil },
