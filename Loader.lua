@@ -49,14 +49,19 @@ local loadstring = function(...)
 	return res
 end
 
+if not shared.GalaxyDeveloper then
+	local _, subbed = pcall(function()
+		return game:HttpGet('https://github.com/itziceless/Galaxy')
+	end)
 	local commit = subbed:find('currentOid')
 	commit = commit and subbed:sub(commit + 13, commit + 52) or nil
 	commit = commit and #commit == 40 and commit or 'main'
 	if commit == 'main' or (isfile('Galaxy/Libs/commit.txt') and readfile('Galaxy/Libs/commit.txt') or '') ~= commit then
-		wipeFolder('Galaxy/Games')
+		WipeFolder('Galaxy')
 		wipeFolder('Galaxy/PremiumGames')
-		wipeFolder('newvape/UI')
-		wipeFolder('newvape/Libs')
+		wipeFolder('Galaxy/Games')
+		wipeFolder('Galaxy/UI')
+		wipeFolder('Galaxy/Libs')
 	end
 	writefile('Galaxy/Libs/commit.txt', commit)
 end
