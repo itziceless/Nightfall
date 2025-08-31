@@ -24,7 +24,7 @@ local loadstring = function(...)
 end
 
 if not isfile('Galaxy/UI/UI.txt') then
-	writefile('Galaxy/UI/UI.txt', 'new')
+	writefile('Galaxy/UI/UI.txt', 'Main')
 end
 
 local Galaxy = loadstring(downloadFile('Galaxy/UI/'..gui..'.lua'), 'gui')()
