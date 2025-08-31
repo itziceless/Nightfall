@@ -1,36 +1,36 @@
 repeat task.wait() until game:IsLoaded()
 
-if isfile('Galaxy/UI/Main.lua') then
-	delfile('Galaxy/UI/Main.lua')
-else
+local function downloadFile(path, func)
+	if not isfile(path) then
+		local suc, res = pcall(function()
+			return game:HttpGet('https://raw.githubusercontent.com/itziceless/Lunar/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
+		end)
+		if not suc or res == '404: Not Found' then
+			error(res)
+		end
+		if path:find('.lua') then
+			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
+		end
+		writefile(path, res)
+	end
+	return (func or readfile)(path)
+end
+local loadstring = function(...)
+	local res, err = loadstring(...)
+	if err and vape then
+		API:CreateNotification('Galaxy', 'Failed to load : '..err, 30)
+	end
+	return res
 end
 
-if not isfile('Galaxy/UI/Main.lua') then
-    writefile('Galaxy/UI/Main.lua', "Main")
-else
+if not isfile('Galaxy/UI/UI.txt') then
+	writefile('Galaxy/UI/UI.txt', 'new')
 end
 
-if isfile('Galaxy/Games/Universal.lua') then
-	delfile('Galaxy/Games/Universal.lua',)
-else
-end
+local Galaxy = loadstring(downloadFile('Galaxy/UI/'..gui..'.lua'), 'gui')()
+shared.Galaxy = Galaxy
 
-if not isfile('Galaxy/Games/Universal.lua') then
-    writefile('Galaxy/Games/Universal.lua', "univ") 
-else
-end
-
-if isfile('Galaxy/PremiumGames/Universal.lua') then
-	delfile('Galaxy/PremiumGames/Universal.lua')
-else
-end
-
-if not isfile('Galaxy/PremiumGames/Universal.lua') then
-    writefile('Galaxy/PremiumGames/Universal.lua', "Univ")
-else
-end
-
-local LicenseKeys = {
+--[[local LicenseKeys = {
     "OWNER-Q4R7-T8Y2-U1I5",
     "ADMIN-P3L9-K2J6-M7N4",
     "ADMIN-A1B5-C8D2-E9F6",
@@ -55,7 +55,7 @@ local LicenseKeys = {
     ["V6W3-X8Y1-Z4A5"] = { type = "1W", firstUse = nil },
     ["B9C2-D5E8-F1G4"] = { type = "1M", firstUse = nil },
     ["H7I2-J4K6-L9M3"] = { type = "FOREVER", firstUse = nil },
-    ["N1O5-P8Q3-R6S2"] = { type = "1D", firstUse = nil },--]]
+    ["N1O5-P8Q3-R6S2"] = { type = "1D", firstUse = nil },
 }
 	
 local whitelisted = false
@@ -75,4 +75,4 @@ loadfile('Galaxy/PremiumGames/Universal.lua')
 	loadfile('Galaxy/UI/Main.lua')
 	loadfile('Galaxy/Games/Universal.lua')
 	print("loaded in normal mode")
-end
+end--]]
