@@ -1,4 +1,4 @@
---repeat task.wait() until game:IsLoaded()
+repeat task.wait() until game:IsLoaded()
 
 local isfile = isfile or function(file)
 	local suc, res = pcall(function()
