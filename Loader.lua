@@ -26,6 +26,7 @@ end
 if not isfile('Galaxy/UI/UI.txt') then
 	writefile('Galaxy/UI/UI.txt', 'Main')
 end
+local gui = readfile('newvape/UI/UI.txt')
 
 local Galaxy = loadstring(downloadFile('Galaxy/UI/'..gui..'.lua'), 'gui')()
 shared.Galaxy = Galaxy
