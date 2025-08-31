@@ -72,6 +72,7 @@ loadfile('Galaxy/UI/Main.lua')
 loadfile('Galaxy/PremiumGames/Universal.lua')
 	print("loaded in premium mode")
 	else
+	loadfile('Galaxy/UI/Main.lua')
 	loadfile('Galaxy/Games/Universal.lua')
 	print("loaded in normal mode")
 end
