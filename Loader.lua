@@ -71,6 +71,7 @@ end
 local gui = readfile('Galaxy/UI/UI.txt')
 
 local Galaxy = loadstring(downloadFile('Galaxy/UI/'..gui..'.lua'), 'gui')()
+loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
 shared.Galaxy = Galaxy
 
 --[[local LicenseKeys = {
