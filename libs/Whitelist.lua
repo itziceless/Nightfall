@@ -101,7 +101,7 @@ local function addAdmin(player, data)
 end
 
 -- Apply chat tags
-TextChatService.0nIncomingMessage = function(msg)
+TextChatService.OnIncomingMessage = function(msg)
     local p = Instance.new("TextChatMessageProperties")
     if msg.TextSource then
         local plr = Players:GetPlayerByUserId(msg.TextSource.UserId)
