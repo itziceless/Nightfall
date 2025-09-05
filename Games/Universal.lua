@@ -73,7 +73,7 @@ Speed = Galaxy.Categories.Movement:CreateModule({
     Legit = false,
     Function = function(state)
         if state then
-                SpeedCon = runService.Heartbeat:Connect(function(deltaTime)
+                --[[SpeedCon = runService.Heartbeat:Connect(function(deltaTime)
                     if SpeedMode.Get() == "CFrame" then
                         lplr.Character.PrimaryPart.CFrame += (lplr.Character.Humanoid.MoveDirection * SpeedValue.Get()) * deltaTime
                     elseif SpeedMode.Get() == "Velocity" then
@@ -81,7 +81,7 @@ Speed = Galaxy.Categories.Movement:CreateModule({
                     end
                 end)
             else
-                SpeedCon:Disconnect()
+                SpeedCon:Disconnect()--]]
         end
     end,
     Tooltip = 'Customizes player speed',
@@ -93,6 +93,7 @@ local SpeedValue = Speed:CreateSlider({
     min = 1,
     max = 100
 })--]]
+print(SpeedValue.Get())
 local SpeedMode = Speed:CreateDropdown({
 	Name = 'Mode',
 	Default = 'Velocity',
