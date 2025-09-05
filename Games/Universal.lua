@@ -57,10 +57,10 @@ local lplr = playersService.LocalPlayer
 local assetfunction = getcustomasset
 
 local Galaxy = shared.Galaxy
-local tween = Galaxy.Libraries.tween
+--[[local tween = Galaxy.Libraries.tween
 local targetinfo = Galaxy.Libraries.targetinfo
 local getfontsize = Galaxy.Libraries.getfontsize
-local getcustomasset = Galaxy.Libraries.getcustomasset
+local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
 local Speed
 local SpeedSlider
