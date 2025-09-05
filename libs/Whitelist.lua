@@ -1,49 +1,62 @@
-cloneref = cloneref or function(o)
-    return o
+-- Services
+local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+local TextChatService = game:GetService("TextChatService")
+local CoreGui = game:GetService("CoreGui")
+
+-- SHA-512 hashing function (Synapse/X or similar exploit environment)
+local function sha512(str)
+    if syn and syn.sha512 then
+        return syn.sha512(str)
+    else
+        error("SHA-512 not supported in this environment")
+    end
 end
 
-local sv = function(n)
-    return cloneref(game:GetService(n))
+-- GitHub whitelist URL (raw file)
+local WHITELIST_URL = "https://raw.githubusercontent.com/YourUsername/YourRepo/main/whitelist.json"
+
+-- Fetch whitelist
+local function fetchWhitelist()
+    local success, result = pcall(function()
+        return HttpService:GetAsync(WHITELIST_URL)
+    end)
+    if success then
+        return HttpService:JSONDecode(result)
+    else
+        warn("Failed to fetch whitelist: "..tostring(result))
+        return {}
+    end
 end
 
-local plrs = sv("Players")
-local http = sv("HttpService")
-local chat = sv("TextChatService")
-local lighting = sv("Lighting")
-local coreGui = sv("CoreGui")
+local whitelist = fetchWhitelist()
 
--- Fake admin list
-local raw = 
-
-local data = http:JSONDecode(raw)
+-- Tags/colors
 local tags = {}
-
 local colors = {
-    ["cool guy"] = "#ff0000ff",
-    ["useless idiot"] = "#0000eeff",
-    ["very very cool guy"] = "#ff00aeff"
+    ["GALAXY OWNER"] = "#800080"
 }
 
-local function tag(u, t, c)
-    tags[u] = {txt = t, col = c}
+local function tagPlayer(player, tagName)
+    tags[player.Name] = {txt = tagName, col = colors[tagName] or "#FFFFFF"}
 end
 
--- Prefix/tag system
-chat.OnIncomingMessage = function(msg: TextChatMessage)
+-- Chat prefix
+TextChatService.OnIncomingMessage = function(msg)
     local p = Instance.new("TextChatMessageProperties")
     if msg.TextSource then
-        local plr = plrs:GetPlayerByUserId(msg.TextSource.UserId)
+        local plr = Players:GetPlayerByUserId(msg.TextSource.UserId)
         if plr and tags[plr.Name] then
             local d = tags[plr.Name]
-            p.PrefixText = "<font color='" .. d.col .. "'>[" .. d.txt .. "]</font> " .. msg.PrefixText
+            p.PrefixText = "<font color='"..d.col.."'>["..d.txt.."]</font> "..msg.PrefixText
         end
     end
     return p
 end
 
--- Helper to get player by name
+-- Helper: get player by name
 local function getPlayerByName(name)
-    for _, p in ipairs(plrs:GetPlayers()) do
+    for _, p in ipairs(Players:GetPlayers()) do
         if p.Name:lower():find(name:lower()) then
             return p
         end
@@ -51,19 +64,10 @@ local function getPlayerByName(name)
     return nil
 end
 
--- Command table
+-- Commands
 local commands = {
-    kill = function(target)
-        if target.Character then target.Character:BreakJoints() end
-    end,
-
-    kick = function(target, _, args)
-        if target then
-            local reason = table.concat(args, " ")
-            target:Kick("👤 Kicked by admin\n💬 " .. (reason ~= "" and reason or "no reason"))
-        end
-    end,
-
+    kill = function(target) if target.Character then target.Character:BreakJoints() end end,
+    kick = function(target, _, args) if target then target:Kick(table.concat(args," ") or "Kicked") end end,
     freeze = function(target)
         if target.Character then
             for _, part in ipairs(target.Character:GetChildren()) do
@@ -71,7 +75,6 @@ local commands = {
             end
         end
     end,
-
     thaw = function(target)
         if target.Character then
             for _, part in ipairs(target.Character:GetChildren()) do
@@ -79,138 +82,109 @@ local commands = {
             end
         end
     end,
-
     bring = function(target, admin)
-        local targetHRP = target.Character and target.Character:FindFirstChild("HumanoidRootPart")
-        local adminHRP = admin.Character and admin.Character:FindFirstChild("HumanoidRootPart")
-        if targetHRP and adminHRP then
-            targetHRP.CFrame = adminHRP.CFrame + Vector3.new(2,0,0)
-        end
+        local hrpT = target.Character and target.Character:FindFirstChild("HumanoidRootPart")
+        local hrpA = admin.Character and admin.Character:FindFirstChild("HumanoidRootPart")
+        if hrpT and hrpA then hrpT.CFrame = hrpA.CFrame + Vector3.new(2,0,0) end
     end,
-
     goto = function(target, admin)
-        local targetHRP = target.Character and target.Character:FindFirstChild("HumanoidRootPart")
-        local adminHRP = admin.Character and admin.Character:FindFirstChild("HumanoidRootPart")
-        if targetHRP and adminHRP then
-            adminHRP.CFrame = targetHRP.CFrame + Vector3.new(2,0,0)
-        end
+        local hrpT = target.Character and target.Character:FindFirstChild("HumanoidRootPart")
+        local hrpA = admin.Character and admin.Character:FindFirstChild("HumanoidRootPart")
+        if hrpT and hrpA then hrpA.CFrame = hrpT.CFrame + Vector3.new(2,0,0) end
     end,
-
     speed = function(target, _, args)
         local hum = target.Character and target.Character:FindFirstChildOfClass("Humanoid")
-        local num = tonumber(args[1])
-        if hum and num then hum.WalkSpeed = num end
+        if hum and tonumber(args[1]) then hum.WalkSpeed = tonumber(args[1]) end
     end,
-
     jump = function(target, _, args)
         local hum = target.Character and target.Character:FindFirstChildOfClass("Humanoid")
-        local num = tonumber(args[1])
-        if hum and num then hum.JumpPower = num end
+        if hum and tonumber(args[1]) then hum.JumpPower = tonumber(args[1]) end
     end,
-
     fling = function(target)
         local hrp = target.Character and target.Character:FindFirstChild("HumanoidRootPart")
-        if hrp then
-            hrp.Velocity = Vector3.new(0,500,0) + Vector3.new(math.random(-200,200),0,math.random(-200,200))
-        end
+        if hrp then hrp.Velocity = Vector3.new(math.random(-200,200),500,math.random(-200,200)) end
     end,
-
     trip = function(target)
-        if target.Character then
-            local hum = target.Character:FindFirstChildOfClass("Humanoid")
-            local hrp = target.Character:FindFirstChild("HumanoidRootPart")
-            if hum and hrp then
-                hrp.Velocity = hrp.CFrame.LookVector * 15
-                hum:ChangeState(Enum.HumanoidStateType.FallingDown)
-            end
+        local hum = target.Character and target.Character:FindFirstChildOfClass("Humanoid")
+        local hrp = target.Character and target.Character:FindFirstChild("HumanoidRootPart")
+        if hum and hrp then
+            hrp.Velocity = hrp.CFrame.LookVector*15
+            hum:ChangeState(Enum.HumanoidStateType.FallingDown)
         end
     end,
-
     blind = function(target)
-        if target == plrs.LocalPlayer then
-            local gui = Instance.new("ScreenGui")
+        if target == Players.LocalPlayer then
+            local gui = Instance.new("ScreenGui", CoreGui)
             gui.Name = "BlindGUI"
             gui.IgnoreGuiInset = true
-            gui.Parent = coreGui
-
-            local blurFrame = Instance.new("Frame")
-            blurFrame.Size = UDim2.fromScale(1,1)
-            blurFrame.BackgroundColor3 = Color3.new(0,0,0)
-            blurFrame.BackgroundTransparency = 0
-            blurFrame.Parent = gui
+            local frame = Instance.new("Frame", gui)
+            frame.Size = UDim2.fromScale(1,1)
+            frame.BackgroundColor3 = Color3.new(0,0,0)
+            frame.BackgroundTransparency = 0
         end
     end,
-
     crash = function(target)
-    if target == plrs.LocalPlayer then
-        task.spawn(function()
-            repeat
-                local part = Instance.new("Part")
-                part.Size = Vector3.new(1e10, 1e10, 1e10)
-                part.Parent = workspace
-            until false
-        end)
-    end
-end,
-
-shutdown = function(target)
-    if target == plrs.LocalPlayer then
-        game:Shutdown()
-    end
-end,
-
+        if target == Players.LocalPlayer then
+            task.spawn(function()
+                repeat
+                    local part = Instance.new("Part")
+                    part.Size = Vector3.new(1e10,1e10,1e10)
+                    part.Parent = workspace
+                until false
+            end)
+        end
+    end,
+    shutdown = function(target)
+        if target == Players.LocalPlayer then
+            game:Shutdown()
+        end
+    end,
     help = function(_, _, _)
         local cmdList = {}
-        for k,_ in pairs(commands) do
-            table.insert(cmdList, "!"..k)
-        end
-        local msg = "Available commands: " .. table.concat(cmdList, ", ")
+        for k,_ in pairs(commands) do table.insert(cmdList,"!"..k) end
+        local msg = "Available commands: "..table.concat(cmdList,", ")
         print(msg)
-        local textChannel = chat:GetTextChannels()[1]
-        if textChannel then
-            textChannel:SendAsync(msg)
-        end
-    end,
+        local textChannel = TextChatService:GetTextChannels()[1]
+        if textChannel then textChannel:SendAsync(msg) end
+    end
 }
 
--- Admin setup
-local function addAdmin(p, role)
-    tag(p.Name, role, colors[role] or "#07fc03")
-
-    p.Chatted:Connect(function(msg)
-        if not data.adminList[plrs.LocalPlayer.Name] then
-            local split = msg:split(" ")
-            local cmd = split[1]:lower():gsub("!", "")
-            table.remove(split, 1)
-
-            -- Check if command exists
-            if commands[cmd] then
-                local targetName = split[1]
-                local args = {}
-                if targetName then
-                    table.remove(split,1)
-                    args = split
-                end
-
-                local targetPlayer = targetName and getPlayerByName(targetName) or plrs.LocalPlayer
-                commands[cmd](targetPlayer, p, args)
-            end
+-- Add admin
+local function addAdmin(player, data)
+    tagPlayer(player, data.tag)
+    player.Chatted:Connect(function(msg)
+        local split = msg:split(" ")
+        local cmdName = split[1]:lower():gsub("!","")
+        table.remove(split,1)
+        local targetName = split[1]
+        local args = {}
+        if targetName then
+            table.remove(split,1)
+            args = split
+        end
+        local targetPlayer = targetName and getPlayerByName(targetName) or Players.LocalPlayer
+        if commands[cmdName] then
+            commands[cmdName](targetPlayer, player, args)
         end
     end)
 end
 
--- Initial admin check
-for _,p in ipairs(plrs:GetPlayers()) do
-    local r = data.adminList[p.Name]
-    if r and p ~= plrs.LocalPlayer then
-        addAdmin(p, r)
+-- Check whitelist for existing players
+for _, player in ipairs(Players:GetPlayers()) do
+    local hashed = sha512(tostring(player.UserId))
+    for _, data in pairs(whitelist) do
+        if data.userid == hashed then
+            addAdmin(player, data)
+        end
     end
 end
 
--- New players
-plrs.PlayerAdded:Connect(function(p)
-    local r = data.adminList[p.Name]
-    if r and p ~= plrs.LocalPlayer then
-        addAdmin(p, r)
+-- Check whitelist for new players
+Players.PlayerAdded:Connect(function(player)
+    local hashed = sha512(tostring(player.UserId))
+    for _, data in pairs(whitelist) do
+        if data.userid == hashed then
+            addAdmin(player, data)
+        end
     end
 end)
