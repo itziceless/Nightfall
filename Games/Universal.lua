@@ -56,7 +56,7 @@ local gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA('
 local lplr = playersService.LocalPlayer
 local assetfunction = getcustomasset
 
-local Galaxy = readfile('Galaxy/UI/UI.txt')
+local Galaxy = readfile('Galaxy/UI/Main.lua')
 --[[local tween = Galaxy.Libraries.tween
 local targetinfo = Galaxy.Libraries.targetinfo
 local getfontsize = Galaxy.Libraries.getfontsize
@@ -67,7 +67,7 @@ print(Galaxy.Categories)
 --[[local Speed
 local SpeedSlider
 local oldSpeed
-Speed = Galaxy.Categories.Movement:CreateModule({
+Speed = Galaxy.Movement:CreateModule({
     Name = 'Speed',
     Legit = false,
     Function = function(state)
