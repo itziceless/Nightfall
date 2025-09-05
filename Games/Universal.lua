@@ -1,4 +1,4 @@
---[[Galaxy:CreateNotification('Galaxy', 'Welcome back to Galaxy, '..userkey, 2, "normal")
+Galaxy:CreateNotification('Galaxy', 'Welcome back to Galaxy, '..userkey, 2, "normal")
 local loadstring = function(...)
 	local res, err = loadstring(...)
 	if err and vape then
@@ -61,4 +61,4 @@ local Galaxy = shared.Galaxy
 local tween = Galaxy.Libraries.tween
 local targetinfo = Galaxy.Libraries.targetinfo
 local getfontsize = Galaxy.Libraries.getfontsize
-local getcustomasset = Galaxy.Libraries.getcustomasset--]]
+local getcustomasset = Galaxy.Libraries.getcustomasset
