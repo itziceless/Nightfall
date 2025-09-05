@@ -61,3 +61,24 @@ local tween = Galaxy.Libraries.tween
 local targetinfo = Galaxy.Libraries.targetinfo
 local getfontsize = Galaxy.Libraries.getfontsize
 local getcustomasset = Galaxy.Libraries.getcustomasset
+
+local Speed
+local SpeedSlider
+local oldSpeed
+Speed = Combat:CreateModule({
+    Name = 'Speed',
+    Legit = false,
+    Function = function(state)
+        if state then
+			
+        end
+    end,
+    Tooltip = 'Customizes player speed',
+})
+local SpeedSlider = Speed:CreateSlider({
+    Name = 'Value',
+    Legit = false,
+    Default = 50,
+    min = 1,
+    max = 100
+})
