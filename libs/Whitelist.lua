@@ -5,7 +5,7 @@ local HttpService = game:GetService("HttpService")
 local Workspace = game:GetService("Workspace")
 
 -- Load SHA-512 hash library
-local hashModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Lunar/main/libraries/hash.lua", true))()
+local hashModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/hash", true))()
 
 -- Fetch whitelist JSON from GitHub (raw link)
 local success, whitelist = pcall(function()
