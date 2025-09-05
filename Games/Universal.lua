@@ -62,9 +62,7 @@ local targetinfo = Galaxy.Libraries.targetinfo
 local getfontsize = Galaxy.Libraries.getfontsize
 local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
-print(Galaxy.API.Categories)
-
---[[local Speed
+local Speed
 local SpeedSlider
 local oldSpeed
 Speed = Galaxy.Movement:CreateModule({
@@ -83,4 +81,4 @@ local SpeedSlider = Speed:CreateSlider({
     Default = 50,
     min = 1,
     max = 100
-})--]]
+})
