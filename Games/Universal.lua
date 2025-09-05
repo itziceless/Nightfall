@@ -85,3 +85,8 @@ local SpeedSlider = Speed:CreateSlider({
     min = 1,
     max = 100
 })--]]
+local SpeedMode = Speed:CreateDropdown({
+	Name = 'Mode',
+	Default = 'Velocity',
+	Options = {"Velocity", "Cframe", "Pulse"}
+})
