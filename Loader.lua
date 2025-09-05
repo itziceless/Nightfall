@@ -71,11 +71,10 @@ end
 local gui = readfile('Galaxy/UI/UI.txt')
 
 local Galaxy = loadstring(downloadFile('Galaxy/UI/'..gui..'.lua'), 'gui')()
+print(Galaxy)
 loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
 shared.Galaxy = Galaxy
-
-print(Galaxy)
 
 --[[local LicenseKeys = {
     "OWNER-Q4R7-T8Y2-U1I5",
