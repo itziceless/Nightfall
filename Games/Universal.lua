@@ -67,7 +67,7 @@ for k, v in pairs(Galaxy.Categories) do
     print(k, v)
 end
 
-local Speed
+--[[local Speed
 local SpeedSlider
 local oldSpeed
 Speed = Galaxy.Categories.Movement:CreateModule({
