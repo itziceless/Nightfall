@@ -1,4 +1,3 @@
-Galaxy:CreateNotification('Galaxy', 'Welcome back to Galaxy, '..userkey, 2, "normal")
 local loadstring = function(...)
 	local res, err = loadstring(...)
 	if err and vape then
