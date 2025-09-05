@@ -65,7 +65,7 @@ local getcustomasset = Galaxy.Libraries.getcustomasset
 local Speed
 local SpeedSlider
 local oldSpeed
-Speed = Combat:CreateModule({
+Speed = Galaxy.Combat:CreateModule({
     Name = 'Speed',
     Legit = false,
     Function = function(state)
