@@ -9,7 +9,7 @@ local hashModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/it
 
 -- Fetch whitelist JSON from GitHub (raw link)
 local success, whitelist = pcall(function()
-    local url = "https://raw.githubusercontent.com/YourUsername/YourRepo/main/whitelist.json"
+    local url = "https://raw.githubusercontent.com/itziceless/whitelists/refs/heads/main/PlayerWhitelist.json"
     local jsonData = game:HttpGet(url, true)
     return HttpService:JSONDecode(jsonData)
 end)
