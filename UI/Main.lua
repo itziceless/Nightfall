@@ -1744,6 +1744,4 @@ API:CreateNotification(
 "normal"
 )
 
-print(API.Categories)
-
 return API
