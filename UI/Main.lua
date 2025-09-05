@@ -1744,4 +1744,6 @@ API:CreateNotification(
 "normal"
 )
 
+shared.Galaxy = API
+					
 return API
