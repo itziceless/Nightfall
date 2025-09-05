@@ -73,7 +73,7 @@ Speed = Galaxy.Categories.Movement:CreateModule({
     Legit = false,
     Function = function(state)
         if state then
-                SpeedCon = RunService.Heartbeat:Connect(function(deltaTime)
+                SpeedCon = runService.Heartbeat:Connect(function(deltaTime)
                     if SpeedMode.Get() == "CFrame" then
                         lplr.Character.PrimaryPart.CFrame += (lplr.Character.Humanoid.MoveDirection * SpeedValue.Get()) * deltaTime
                     elseif SpeedMode.Get() == "Velocity" then
