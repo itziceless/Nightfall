@@ -1,6 +1,5 @@
 -- Services
 
--- iceless has 2 fingers inside me :3
 
 local Players = game:GetService("Players")
 local TextChatService = game:GetService("TextChatService")
