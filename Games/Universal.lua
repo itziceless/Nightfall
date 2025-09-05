@@ -65,7 +65,7 @@ local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
 print(Galaxy)
 
-local Speed
+--[[local Speed
 local SpeedSlider
 local oldSpeed
 Speed = Galaxy.Categories.Movement:CreateModule({
@@ -84,4 +84,4 @@ local SpeedSlider = Speed:CreateSlider({
     Default = 50,
     min = 1,
     max = 100
-})
+})--]]
