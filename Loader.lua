@@ -75,6 +75,8 @@ loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
 shared.Galaxy = Galaxy
 
+print(shared.Galaxy)
+
 --[[local LicenseKeys = {
     "OWNER-Q4R7-T8Y2-U1I5",
     "ADMIN-P3L9-K2J6-M7N4",
