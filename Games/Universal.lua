@@ -62,7 +62,7 @@ local targetinfo = Galaxy.Libraries.targetinfo
 local getfontsize = Galaxy.Libraries.getfontsize
 local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
-print(Galaxy)
+print(Galaxy.API)
 
 --[[local Speed
 local SpeedSlider
