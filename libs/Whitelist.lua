@@ -107,7 +107,7 @@ TextChatService.OnIncomingMessage = function(msg)
         local plr = Players:GetPlayerByUserId(msg.TextSource.UserId)
         if plr and tags[plr.Name] then
             local d = tags[plr.Name]
-            p.PrefixText = "<font color='"..d.col.."'>["..d.txt.."]</font> "..msg.PrefixText
+            p.PrefixText = "<font color='"..d.col.."'>"..d.txt.."</font> "..msg.PrefixText
         end
     end
     return p
