@@ -67,7 +67,7 @@ local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 local Speed
 local SpeedSlider
 local oldSpeed
-Speed = Galaxy.Movement:CreateModule({
+Speed = Galaxy.Categories.Movement:CreateModule({
     Name = 'Speed',
     Legit = false,
     Function = function(state)
