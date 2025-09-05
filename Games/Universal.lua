@@ -56,13 +56,14 @@ local gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA('
 local lplr = playersService.LocalPlayer
 local assetfunction = getcustomasset
 
-local Galaxy = loadstring(readfile('Galaxy/UI/Main.lua'))()
+local Galaxy = shared.Galaxy
 
 --[[local tween = Galaxy.Libraries.tween
 local targetinfo = Galaxy.Libraries.targetinfo
 local getfontsize = Galaxy.Libraries.getfontsize
 local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
+print(Galaxy)
 
 local Speed
 local SpeedSlider
