@@ -73,12 +73,20 @@ Speed = Galaxy.Categories.Movement:CreateModule({
     Legit = false,
     Function = function(state)
         if state then
-			
+                SpeedCon = RunService.Heartbeat:Connect(function(deltaTime)
+                    if SpeedMode.Get() == "CFrame" then
+                        lplr.Character.PrimaryPart.CFrame += (lplr.Character.Humanoid.MoveDirection * SpeedValue.Get()) * deltaTime
+                    elseif SpeedMode.Get() == "Velocity" then
+                        lplr.Character.PrimaryPart.Velocity = Vector3.new(lplr.Character.Humanoid.MoveDirection.X * SpeedValue.Get(), lplr.Character.PrimaryPart.Velocity.Y, lplr.Character.Humanoid.MoveDirection.Z * SpeedValue.Get())
+                    end
+                end)
+            else
+                SpeedCon:Disconnect()
         end
     end,
     Tooltip = 'Customizes player speed',
 })
-local SpeedSlider = Speed:CreateSlider({
+local SpeedValue = Speed:CreateSlider({
     Name = 'Value',
     Legit = false,
     Default = 50,
