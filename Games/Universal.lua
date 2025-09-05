@@ -63,7 +63,7 @@ local targetinfo = Galaxy.Libraries.targetinfo
 local getfontsize = Galaxy.Libraries.getfontsize
 local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
-for k, v in pairs(Galaxy) do
+for k, v in pairs(Galaxy.Categories) do
     print(k, v)
 end
 
