@@ -35,7 +35,7 @@ local function downloadFile(path, func)
 			error(res)
 		end
 		if path:find('.lua') then
-			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after Galaxy updates.\n'..res
+			res = '--Remove this if you want to keep the files the same after updates.\n'..res
 		end
 		writefile(path, res)
 	end
