@@ -63,7 +63,9 @@ local targetinfo = Galaxy.Libraries.targetinfo
 local getfontsize = Galaxy.Libraries.getfontsize
 local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
-print(table.concat(myTable, Galaxy))
+for k, v in pairs(Galaxy) do
+    print(k, v)
+end
 
 --[[local Speed
 local SpeedSlider
