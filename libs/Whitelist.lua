@@ -13,15 +13,7 @@ local lighting = sv("Lighting")
 local coreGui = sv("CoreGui")
 
 -- Fake admin list
-local raw = [[
-{
-    "adminList": {
-        "1": "cool guy",
-        "2": "useless idiot",
-        "3": "very very cool guy"
-    }
-}
-]]
+local raw = 
 
 local data = http:JSONDecode(raw)
 local tags = {}
