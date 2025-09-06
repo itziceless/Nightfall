@@ -100,7 +100,6 @@ SpeedMode = Speed:CreateDropdown({
 	Default = 'Velocity',
 	Options = {"Velocity", "Cframe", "Pulse"}
 })
-task.spawn(function()
     local Rejoin = Galaxy.Categories.Misc.CreateModule({
         Name = "Rejoin",
 		Legit = true,
@@ -110,4 +109,3 @@ task.spawn(function()
             end
         end,
     })
-end)
