@@ -81,12 +81,12 @@ end
 AimAssist = Galaxy.Categories.Combat:CreateModule({
 	Name = "AimAssist",
 	Legit = false,
-	Function = function(enabled)
+	Function = function(called)
 		if CircleObject then
-			CircleObject.Visible = enabled
+			CircleObject.Visible = called
 		end
 
-		if enabled then
+		if called then
 			local ent
 			local rightClicked = not RightClick.Enabled or inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
 
@@ -97,7 +97,7 @@ AimAssist = Galaxy.Categories.Combat:CreateModule({
 					CircleObject.Position = inputService:GetMouseLocation()
 				end
 
-				if rightClicked and not vape.gui.ScaledGui.ClickGui.Visible then
+				if rightClicked then
 					ent = entitylib.EntityMouse({
 						Range = FOV.Get(),
 						Part = Part.Get(),
