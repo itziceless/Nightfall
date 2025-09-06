@@ -155,11 +155,11 @@ task.spawn(function()
     })
 end)
 task.spawn(function()
-    local Rejoin = Galaxy.Categories.Misc.CreateButton({
+    local Rejoin = Galaxy.Categories.Misc.CreateModule({
         Name = "Rejoin",
         Function = function(called)
             if called then
-                TeleportService:Teleport(game.PlaceId, lplr, TeleportService:GetLocalPlayerTeleportData())
+                teleportService:Teleport(game.PlaceId, lplr, TeleportService:GetLocalPlayerTeleportData())
             end
         end,
     })
