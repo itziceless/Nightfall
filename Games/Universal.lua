@@ -152,11 +152,6 @@ FOV = AimAssist:CreateSlider({
 	Min = 0,
 	Max = 1000,
 	Default = 100,
-	Function = function(val)
-		if CircleObject then
-			CircleObject.Radius = val
-		end
-	end
 })
 
 -- Speed Slider
@@ -174,9 +169,7 @@ AimAssist:CreateToggle({
 		if enabled then
 			CircleObject = Drawing.new("Circle")
 			CircleObject.Filled = CircleFilled.Enabled
-			CircleObject.Color = Color3.fromHSV(CircleColor.Hue, CircleColor.Sat, CircleColor.Value)
-			CircleObject.Position = vape.gui.AbsoluteSize / 2
-			CircleObject.Radius = FOV.Value
+			CircleObject.Radius = FOV.Get()
 			CircleObject.NumSides = 100
 			CircleObject.Transparency = 1 - CircleTransparency.Value
 			CircleObject.Visible = AimAssist.Enabled
@@ -196,18 +189,6 @@ AimAssist:CreateToggle({
 	end
 })
 
--- Circle color
-CircleColor = AimAssist:CreateColorSlider({
-	Name = "Circle Color",
-	Function = function(hue, sat, val)
-		if CircleObject then
-			CircleObject.Color = Color3.fromHSV(hue, sat, val)
-		end
-	end,
-	Darker = true,
-	Visible = false
-})
-
 -- Circle Transparency
 CircleTransparency = AimAssist:CreateSlider({
 	Name = "Transparency",
@@ -215,13 +196,6 @@ CircleTransparency = AimAssist:CreateSlider({
 	Max = 1,
 	Decimal = 10,
 	Default = 0.5,
-	Function = function(val)
-		if CircleObject then
-			CircleObject.Transparency = 1 - val
-		end
-	end,
-	Darker = true,
-	Visible = false
 })
 
 -- Circle Filled
@@ -232,8 +206,6 @@ CircleFilled = AimAssist:CreateToggle({
 			CircleObject.Filled = enabled
 		end
 	end,
-	Darker = true,
-	Visible = false
 })
 
 -- Require right click toggle
