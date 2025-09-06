@@ -88,7 +88,7 @@ AimAssist = Galaxy.Categories.Combat:CreateModule({
 
 		if called then
 			local ent
-			local rightClicked = not RightClick.default or inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
+			local rightClicked = not RightClick.default or inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
 
 			-- RenderStepped loop
 			local connection
