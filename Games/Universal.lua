@@ -77,7 +77,7 @@ AimAssist = Galaxy.Categories.Combat:CreateModule({
 				for _, player in ipairs(Players:GetPlayers()) do
 					if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
 						local head = player.Character.Head
-						local screenPos, onScreen = Camera:WorldToViewportPoint(head.Position)
+						local screenPos, onScreen = gameCamera:WorldToViewportPoint(head.Position)
 						if onScreen then
 							local mouse = inputService:GetMouseLocation()
 							local dist = (Vector2.new(screenPos.X, screenPos.Y) - mouse).Magnitude
