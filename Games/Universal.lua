@@ -73,8 +73,8 @@ local oldSpeed
 Speed = Galaxy.Categories.Movement:CreateModule({
     Name = 'Speed',
     Legit = false,
-    Function = function(state)
-        if state then
+    Function = function(called)
+        if called then
                 SpeedCon = runService.Heartbeat:Connect(function(deltaTime)
                     if SpeedMode.Get() == "CFrame" then
                         lplr.Character.PrimaryPart.CFrame += (lplr.Character.Humanoid.MoveDirection * SpeedValue.Get()) * deltaTime
@@ -103,6 +103,7 @@ SpeedMode = Speed:CreateDropdown({
 task.spawn(function()
     local Rejoin = Galaxy.Categories.Misc.CreateModule({
         Name = "Rejoin",
+		Legit = true,
         Function = function(called)
             if called then
                 teleportService:Teleport(game.PlaceId, lplr, TeleportService:GetLocalPlayerTeleportData())
