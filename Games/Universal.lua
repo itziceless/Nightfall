@@ -143,6 +143,7 @@ AimAssist = Galaxy.Categories.Combat:CreateModule({
 -- Part selector
 Part = AimAssist:CreateDropdown({
 	Name = "Part",
+	Default = "RootPart",
 	List = {"RootPart", "Head"}
 })
 
