@@ -143,7 +143,7 @@ AimAssist = Galaxy.Categories.Combat:CreateModule({
 Part = AimAssist:CreateDropdown({
 	Name = "Part",
 	Default = "RootPart",
-	List = {"RootPart", "Head"}
+	Options = {"RootPart", "Head"}
 })
 
 -- FOV Slider
