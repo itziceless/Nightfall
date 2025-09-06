@@ -71,7 +71,7 @@ Rejoin = Galaxy.Categories.Misc:CreateModule({
     Legit = false,
     Function = function(called)
         if called then
-                TeleportService:Teleport(game.PlaceId, lplr, TeleportService:GetLocalPlayerTeleportData())
+                teleportService:Teleport(game.PlaceId, lplr, teleportService:GetLocalPlayerTeleportData())
         end
     end,
     Tooltip = 'Makes you rejoin your current server',
