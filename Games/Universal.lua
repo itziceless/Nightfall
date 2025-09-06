@@ -72,7 +72,7 @@ AimAssist = Galaxy.Categories.Combat:CreateModule({
 	Function = function(called)
 		if called then
 			-- Enable
-			AimAssistConnection = RunService.RenderStepped:Connect(function()
+			AimAssistConnection = runService.RenderStepped:Connect(function()
 				local closestChar, closestHead, closestDist
 				for _, player in ipairs(Players:GetPlayers()) do
 					if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
