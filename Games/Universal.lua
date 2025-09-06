@@ -71,7 +71,6 @@ local CircleColor, CircleTransparency, CircleFilled, CircleObject
 local RightClick
 local moveConst = Vector2.new(1, 0.77) * math.rad(0.5)
 
--- Utility function to wrap angles
 local function wrapAngle(num)
 	num = num % math.pi
 	num = num - (num >= (math.pi / 2) and math.pi or 0)
@@ -89,7 +88,7 @@ AimAssist = Galaxy.Categories.Combat:CreateModule({
 
 		if enabled then
 			local ent
-			local rightClicked = not RightClick.Enabled or inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
+			local rightClicked = not RightClick.Enabled or inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
 
 			-- RenderStepped loop
 			local connection
