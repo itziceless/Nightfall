@@ -72,16 +72,30 @@ local gui = readfile('Galaxy/UI/UI.txt')
 
 local Galaxy = loadstring(downloadFile('Galaxy/UI/'..gui..'.lua'), 'gui')()
 loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
-	if isfile('Galaxy/Games/'..game.PlaceId..'.lua') then
-		loadstring(readfile('Galaxy/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
-	else
-			local suc, res = pcall(function()
-				return game:HttpGet('https://raw.githubusercontent.com/itziceless/Galaxy/'..readfile('Galaxy/Libs/commit.txt')..'/games/'..game.PlaceId..'.lua', true)
-			end)
-			if suc and res ~= '404: Not Found' then
-				loadstring(downloadFile('Galaxy/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
-		end
-	end
+	local path = "Galaxy/Games/" .. game.PlaceId .. ".lua"
+
+if isfile(path) then
+    -- Load from local file
+    local src = readfile(path)
+    loadstring(src)()
+else
+    -- Try fetching from GitHub
+    local suc, res = pcall(function()
+        return game:HttpGet(
+            "https://raw.githubusercontent.com/itziceless/Galaxy/"
+            .. readfile("Galaxy/Libs/commit.txt")
+            .. "/Games/"
+            .. game.PlaceId
+            .. ".lua",
+            true
+        )
+    end)
+
+    if suc and res and res ~= "404: Not Found" then
+        -- Save locally for next time
+        loadstring(downloadFile('Galaxy/Games/' .. game.PlaceId .. '.lua'), tostring(game.PlaceId))()
+    end
+end
 print(suc, res)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
 
