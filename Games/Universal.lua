@@ -65,22 +65,6 @@ local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
 --print(Galaxy)
 task.spawn(function()
-local Rejoin
-Rejoin = Galaxy.Categories.Misc:CreateModule({
-    Name = 'Rejoin',
-    Legit = false,
-    Function = function(called)
-        if called then
-				Galaxy.ConfigSystem.CanSave = false
-                teleportService:Teleport(game.PlaceId, lplr, teleportService:GetLocalPlayerTeleportData())
-			task.wait(2)
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Loader.lua", true))()				
-        end
-    end,
-    Tooltip = 'Makes you rejoin your current server',
-})
-end)
-task.spawn(function()
 local Speed
 local SpeedValue
 local SpeedMode
@@ -115,5 +99,21 @@ SpeedMode = Speed:CreateDropdown({
 	Name = 'Mode',
 	Default = 'Velocity',
 	Options = {"Velocity", "Cframe", "Pulse"}
+})
+end)
+task.spawn(function()
+local Rejoin
+Rejoin = Galaxy.Categories.Misc:CreateModule({
+    Name = 'Rejoin',
+    Legit = false,
+    Function = function(called)
+        if called then
+				Galaxy.ConfigSystem.CanSave = false
+                teleportService:Teleport(game.PlaceId, lplr, teleportService:GetLocalPlayerTeleportData())
+			task.wait(2)
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Loader.lua", true))()				
+        end
+    end,
+    Tooltip = 'Makes you rejoin your current server',
 })
 end)
