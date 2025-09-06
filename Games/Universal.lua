@@ -64,7 +64,7 @@ local getfontsize = Galaxy.Libraries.getfontsize
 local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
 --print(Galaxy)
-
+task.spawn(function()
 local Speed
 local SpeedValue
 local SpeedMode
@@ -100,7 +100,9 @@ SpeedMode = Speed:CreateDropdown({
 	Default = 'Velocity',
 	Options = {"Velocity", "Cframe", "Pulse"}
 })
-    local Rejoin = Galaxy.Categories.Misc.CreateModule({
+end)
+	task.spawn(function()
+    local Rejoin = Galaxy.Categories.Misc:CreateModule({
         Name = "Rejoin",
 		Legit = true,
         Function = function(called)
@@ -109,3 +111,4 @@ SpeedMode = Speed:CreateDropdown({
             end
         end,
     })
+end)
