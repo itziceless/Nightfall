@@ -100,60 +100,6 @@ SpeedMode = Speed:CreateDropdown({
 	Default = 'Velocity',
 	Options = {"Velocity", "Cframe", "Pulse"}
 })
-	
-task.spawn(function()
-    local Flight, FlightVelo, FlightMode
-    local FlightCon
-
-    local upVal
-    local startY
-
-    Flight = Galaxy.Categories.Movement:CreateModule({
-        Name = "Flight",
-        Function = function(called)
-            if called then
-                startY = lplr.Character.PrimaryPart.Position.Y
-                FlightCon = runService.Heartbeat:Connect(function(deltaTime)
-                    if FlightMode.Get() == "Velocity" then
-                        upVal = FlightVelo.Get()
-                        if UserInputService:IsKeyDown("Space") then
-                            upVal = 44
-                        elseif UserInputService:IsKeyDown("LeftShift") then
-                            upVal = -44
-                        end
-                        lplr.Character.PrimaryPart.Velocity = Vector3.new(lplr.Character.PrimaryPart.Velocity.X, upVal, lplr.Character.PrimaryPart.Velocity.Z)
-                    elseif FlightMode.Get() == "CFrame" then
-                        upVal = FlightVelo.Get() / 100
-                        if UserInputService:IsKeyDown("Space") then
-                            upVal = 0.22
-                        elseif UserInputService:IsKeyDown("LeftShift") then
-                            upVal = -0.22
-                        end
-                        startY += upVal
-                        lplr.Character.PrimaryPart.CFrame = CFrame.new(Vector3.new(lplr.Character.PrimaryPart.Position.X, startY, lplr.Character.PrimaryPart.Position.Z))
-                    elseif FlightMode.Get() == "Swim" then
-                        lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Swimming)
-                    end
-                end)
-            else
-                lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Landed)
-                FlightCon:Disconnect()
-                lplr.Character.PrimaryPart.Velocity = Vector3.zero
-            end
-        end
-    })
-    FlightMode = Flight:CreateDropdown({
-        Name = "Mode",
-        Options = {"Velocity", "CFrame", "Swim"}
-    })
-    FlightVelo = Flight:CreateSlider({
-        Name = "Velocity",
-        Maximum = 100,
-        Minimum = 0,
-        Default = 10,
-        Disabled = false,
-    })
-end)
 task.spawn(function()
     local Rejoin = Galaxy.Categories.Misc.CreateModule({
         Name = "Rejoin",
