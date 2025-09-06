@@ -82,6 +82,7 @@ loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
 				loadstring(downloadFile('Galaxy/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
 		end
 	end
+print(suc, res)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
 
 --[[local LicenseKeys = {
