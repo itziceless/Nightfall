@@ -57,12 +57,13 @@ local lplr = playersService.LocalPlayer
 local assetfunction = getcustomasset
 
 local Galaxy = shared.Galaxy
-
+local entitylib = loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/entitylib.lua", true))()
 --[[local tween = Galaxy.Libraries.tween
 local targetinfo = Galaxy.Libraries.targetinfo
 local getfontsize = Galaxy.Libraries.getfontsize
 local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
+entitylib.start()
 run(function()
 	local AimAssist
 	local Targets
@@ -272,9 +273,7 @@ Rejoin = Galaxy.Categories.Misc:CreateModule({
     Function = function(called)
         if called then
 				Galaxy.ConfigSystem.CanSave = false
-                teleportService:Teleport(game.PlaceId, lplr, teleportService:GetLocalPlayerTeleportData())
-			task.wait(2)
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Loader.lua", true))()				
+                teleportService:Teleport(game.PlaceId, lplr, teleportService:GetLocalPlayerTeleportData())		
         end
     end,
     Tooltip = 'Makes you rejoin your current server',
