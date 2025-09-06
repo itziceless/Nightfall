@@ -101,14 +101,16 @@ SpeedMode = Speed:CreateDropdown({
 	Options = {"Velocity", "Cframe", "Pulse"}
 })
 end)
-	task.spawn(function()
-    local Rejoin = Galaxy.Categories.Misc:CreateModule({
-        Name = "Rejoin",
-		Legit = true,
-        Function = function(called)
-            if called then
-                teleportService:Teleport(game.PlaceId, lplr, TeleportService:GetLocalPlayerTeleportData())
-            end
-        end,
-    })
+task.spawn(function()
+local Rejoin
+Rejoin = Galaxy.Categories.Misc:CreateModule({
+    Name = 'Rejoin',
+    Legit = false,
+    Function = function(called)
+        if called then
+                TeleportService:Teleport(game.PlaceId, lplr, TeleportService:GetLocalPlayerTeleportData())
+        end
+    end,
+    Tooltip = 'Makes you rejoin your current server',
+})
 end)
