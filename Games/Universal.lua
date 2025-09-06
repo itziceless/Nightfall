@@ -88,7 +88,7 @@ AimAssist = Galaxy.Categories.Combat:CreateModule({
 
 		if called then
 			local ent
-			local rightClicked = not RightClick.Enabled or inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
+			local rightClicked = not RightClick.default or inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
 
 			-- RenderStepped loop
 			local connection
@@ -121,7 +121,7 @@ AimAssist = Galaxy.Categories.Combat:CreateModule({
 			end)
 
 			-- Right click handlers
-			if RightClick.Enabled then
+			if RightClick.default then
 				inputService.InputBegan:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseButton2 then
 						ent = nil
