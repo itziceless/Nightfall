@@ -86,7 +86,7 @@ if isfile(path) then
         loadstring(downloadFile('Galaxy/Games/' .. game.PlaceId .. '.lua'), tostring(game.PlaceId))()
     end
 end
-print(suc, res)
+print(path)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
 
 --[[local LicenseKeys = {
