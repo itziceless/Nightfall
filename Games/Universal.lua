@@ -71,6 +71,7 @@ Rejoin = Galaxy.Categories.Misc:CreateModule({
     Legit = false,
     Function = function(called)
         if called then
+				Galaxy.ConfigSystem.CanSave = false
                 teleportService:Teleport(game.PlaceId, lplr, teleportService:GetLocalPlayerTeleportData())
         end
     end,
