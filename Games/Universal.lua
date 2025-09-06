@@ -64,161 +64,48 @@ local getfontsize = Galaxy.Libraries.getfontsize
 local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
 entitylib.start()
-task.spawn(function()
-local AimAssist
-local Part, FOV, Speed
-local CircleColor, CircleTransparency, CircleFilled, CircleObject
-local RightClick
-local moveConst = Vector2.new(1, 0.77) * math.rad(0.5)
-
-local function wrapAngle(num)
-	num = num % math.pi
-	num = num - (num >= (math.pi / 2) and math.pi or 0)
-	num = num + (num < -(math.pi / 2) and math.pi or 0)
-	return num
-end
+local AimAssistConnection
 
 AimAssist = Galaxy.Categories.Combat:CreateModule({
 	Name = "AimAssist",
 	Legit = false,
 	Function = function(called)
-		if CircleObject then
-			CircleObject.Visible = called
-		end
-
 		if called then
-			local ent
-			local rightClicked = not RightClick.default or inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
-
-			-- RenderStepped loop
-			local connection
-			connection = runService.RenderStepped:Connect(function(dt)
-				if CircleObject then
-					CircleObject.Position = inputService:GetMouseLocation()
-				end
-
-				if rightClicked then
-					ent = entitylib.EntityMouse({
-						Range = FOV.Get(),
-						Part = Part.Get(),
-						Origin = gameCamera.CFrame.Position
-					})
-
-					if ent then
-						local facing = gameCamera.CFrame.LookVector
-						local targetPos = (ent[Part.Value].Position - gameCamera.CFrame.Position).Unit
-						targetPos = targetPos == targetPos and targetPos or Vector3.zero
-
-						if targetPos ~= Vector3.zero then
-							local diffYaw = wrapAngle(math.atan2(facing.X, facing.Z) - math.atan2(targetPos.X, targetPos.Z))
-							local diffPitch = math.asin(facing.Y) - math.asin(targetPos.Y)
-							local angle = Vector2.new(diffYaw, diffPitch) / (moveConst * UserSettings():GetService("UserGameSettings").MouseSensitivity)
-							angle *= math.min(Speed.Value * dt, 1)
-							mousemoverel(angle.X, angle.Y)
+			-- Enable
+			AimAssistConnection = RunService.RenderStepped:Connect(function()
+				local closestChar, closestHead, closestDist
+				for _, player in ipairs(Players:GetPlayers()) do
+					if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
+						local head = player.Character.Head
+						local screenPos, onScreen = Camera:WorldToViewportPoint(head.Position)
+						if onScreen then
+							local mouse = UserInputService:GetMouseLocation()
+							local dist = (Vector2.new(screenPos.X, screenPos.Y) - mouse).Magnitude
+							if not closestDist or dist < closestDist then
+								closestChar = player.Character
+								closestHead = head
+								closestDist = dist
+							end
 						end
 					end
 				end
+
+				if closestHead then
+					-- Smoothly move camera
+					local targetCF = CFrame.new(Camera.CFrame.Position, closestHead.Position)
+					Camera.CFrame = Camera.CFrame:Lerp(targetCF, 0.15) -- adjust smoothing speed here
+				end
 			end)
-
-			-- Right click handlers
-			if RightClick.default then
-				inputService.InputBegan:Connect(function(input)
-					if input.UserInputType == Enum.UserInputType.MouseButton2 then
-						ent = nil
-						rightClicked = true
-					end
-				end)
-				inputService.InputEnded:Connect(function(input)
-					if input.UserInputType == Enum.UserInputType.MouseButton2 then
-						rightClicked = false
-					end
-				end)
-			end
-		end
-	end,
-	Tooltip = "Smoothly aims to closest valid target"
-})
-
--- Part selector
-Part = AimAssist:CreateDropdown({
-	Name = "Part",
-    Options = {"RootPart", "Head"},
-    Default = "RootPart"
-})
-
--- FOV Slider
-FOV = AimAssist:CreateSlider({
-	Name = "FOV",
-	Min = 0,
-	Max = 1000,
-	Default = 100,
-})
-
--- Speed Slider
-Speed = AimAssist:CreateSlider({
-	Name = "Speed",
-	Min = 0,
-	Max = 30,
-	Default = 15
-})
-
--- Range Circle Toggle
-AimAssist:CreateToggle({
-	Name = "Range Circle",
-	Function = function(enabled)
-		if enabled then
-			CircleObject = Drawing.new("Circle")
-			CircleObject.Filled = CircleFilled.Enabled
-			CircleObject.Radius = FOV.Get()
-			CircleObject.NumSides = 100
-			CircleObject.Transparency = 1 - CircleTransparency.Value
-			CircleObject.Visible = AimAssist.Enabled
 		else
-			if CircleObject then
-				pcall(function()
-					CircleObject.Visible = false
-					CircleObject:Remove()
-				end)
-				CircleObject = nil
+			-- Disable
+			if AimAssistConnection then
+				AimAssistConnection:Disconnect()
+				AimAssistConnection = nil
 			end
 		end
-
-		CircleColor.Object.Visible = enabled
-		CircleTransparency.Object.Visible = enabled
-		CircleFilled.Object.Visible = enabled
-	end
-})
-
--- Circle Transparency
-CircleTransparency = AimAssist:CreateSlider({
-	Name = "Transparency",
-	Min = 0,
-	Max = 1,
-	Decimal = 10,
-	Default = 0.5,
-})
-
--- Circle Filled
-CircleFilled = AimAssist:CreateToggle({
-	Name = "Circle Filled",
-	Function = function(enabled)
-		if CircleObject then
-			CircleObject.Filled = enabled
-		end
+		Tooltip = "Smoothly aims to closest valid target",
 	end,
 })
-
--- Require right click toggle
-RightClick = AimAssist:CreateToggle({
-	Name = "Require right click",
-	Function = function()
-		if AimAssist.Enabled then
-			AimAssist:Toggle()
-			AimAssist:Toggle()
-		end
-	end
-})
-end)
 task.spawn(function()
 local Speed
 local SpeedValue
