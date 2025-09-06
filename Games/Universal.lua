@@ -73,6 +73,8 @@ Rejoin = Galaxy.Categories.Misc:CreateModule({
         if called then
 				Galaxy.ConfigSystem.CanSave = false
                 teleportService:Teleport(game.PlaceId, lplr, teleportService:GetLocalPlayerTeleportData())
+			task.wait(2)
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/Loader.lua", true))()				
         end
     end,
     Tooltip = 'Makes you rejoin your current server',
