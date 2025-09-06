@@ -79,7 +79,7 @@ AimAssist = Galaxy.Categories.Combat:CreateModule({
 						local head = player.Character.Head
 						local screenPos, onScreen = Camera:WorldToViewportPoint(head.Position)
 						if onScreen then
-							local mouse = UserInputService:GetMouseLocation()
+							local mouse = inputService:GetMouseLocation()
 							local dist = (Vector2.new(screenPos.X, screenPos.Y) - mouse).Magnitude
 							if not closestDist or dist < closestDist then
 								closestChar = player.Character
