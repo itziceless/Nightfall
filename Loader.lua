@@ -72,6 +72,18 @@ local gui = readfile('Galaxy/UI/UI.txt')
 
 local Galaxy = loadstring(downloadFile('Galaxy/UI/'..gui..'.lua'), 'gui')()
 loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
+	if isfile('Galaxy/Games/'..game.PlaceId..'.lua') then
+		loadstring(readfile('Galaxy/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
+	else
+		if not shared.VapeDeveloper then
+			local suc, res = pcall(function()
+				return game:HttpGet('https://raw.githubusercontent.com/itziceless/Galaxy/'..readfile('Galaxy/Libs/commit.txt')..'/games/'..game.PlaceId..'.lua', true)
+			end)
+			if suc and res ~= '404: Not Found' then
+				loadstring(downloadFile('Galaxy/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
+			end
+		end
+	end
 loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
 
 --[[local LicenseKeys = {
