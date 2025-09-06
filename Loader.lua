@@ -75,9 +75,7 @@ loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
 	local path = "Galaxy/Games/" .. game.PlaceId .. ".lua"
 
 if isfile(path) then
-    -- Load from local file
-    local src = readfile(path)
-    loadstring(src)()
+    loadfile(path)
 	else
     local suc, res = pcall(function()
         return loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/".. readfile("Galaxy/Libs/commit.txt") .. "/Games/" .. game.PlaceId .. ".lua", true))()
