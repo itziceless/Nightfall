@@ -31,6 +31,7 @@ local API = {
     ToggleNotifications = {},
     BlatantMode = {},
     Version = '1.0',
+	ConfigSystem = {}
 }
 
 local Players = game:GetService('Players')
@@ -53,12 +54,11 @@ then
 end
 
 local Config = {}
-local ConfigSystem = {}
 
-ConfigSystem.CanSave = true
+API.ConfigSystem.CanSave = true
 local FilePath = 'Galaxy/Configs/' .. game.PlaceId .. '.json'
-function ConfigSystem:Save_Config()
-    if not ConfigSystem.CanSave then
+function API.ConfigSystem:Save_Config()
+    if not API.ConfigSystem.CanSave then
         return
     end
     if isfile(FilePath) then
@@ -66,7 +66,7 @@ function ConfigSystem:Save_Config()
     end
     writefile(FilePath, HttpService:JSONEncode(Config))
 end
-function ConfigSystem:Load_Config()
+function API.ConfigSystem:Load_Config()
     if isfile(FilePath) then
         Config = HttpService:JSONDecode(readfile(FilePath))
     end
@@ -472,7 +472,7 @@ local function createCategoryButton(category)
     end)
 end
 
-ConfigSystem:Load_Config()
+API.ConfigSystem:Load_Config()
 
 -- ========== CATEGORY CREATION ==========
 function API:CreateCategory(categorysettings)
@@ -755,7 +755,7 @@ function API:CreateCategory(categorysettings)
 			if typeof(def.Function) == "function" then
 				task.spawn(def.Function, state, module)
 				Config[module.Name].Enabled = state
-				task.delay(0.01, function() ConfigSystem:Save_Config() end)
+				task.delay(0.01, function() API.ConfigSystem:Save_Config() end)
             end
 		end
 		Module.MouseButton1Click:Connect(function()
@@ -830,7 +830,7 @@ bindholder.MouseButton1Down:Connect(function()
 			SetupKeyListener()
 		end
 
-		task.delay(0.01, function() ConfigSystem:Save_Config() end)
+		task.delay(0.01, function() API.ConfigSystem:Save_Config() end)
 		rebinding = false
 	end)
 end)
@@ -897,7 +897,7 @@ end
 				TweenService:Create(knobmain, TweenInfo.new(0.3), { Position = val and UDim2.fromOffset(22, 4) or UDim2.fromOffset(5, 4) }):Play()
 				TweenService:Create(knob, uipal.TWEEN, { BackgroundColor3 = val and uipal.ModuleOn or uipal.headerBg }):Play()
 				Config[module.Name].Toggles[toggle.Name].Enabled = val
-				task.delay(0.01, function() ConfigSystem:Save_Config() end)
+				task.delay(0.01, function() API.ConfigSystem:Save_Config() end)
 				if module.Enabled then
 					if togsettings.callback then togsettings.callback(val) end
 					module:_refreshSettingsHeight()
@@ -1012,7 +1012,7 @@ local function updateSlider(val)
     -- save config
     Config[module.Name].Sliders[sliderapi.Name].Value = current
     task.delay(0.01, function()
-        ConfigSystem:Save_Config()
+        API.ConfigSystem:Save_Config()
     end)
 end
 
@@ -1141,7 +1141,7 @@ end
                 current = opt
                 Selected.Text = opt
 				Config[module.Name].Dropdowns[dropdownsettings.Name].Option = opt
-				task.delay(0.01, function() ConfigSystem:Save_Config() end)
+				task.delay(0.01, function() API.ConfigSystem:Save_Config() end)
                 -- collapse
                 expanded = false
                 visible = not visible
@@ -1628,7 +1628,7 @@ local Uninject = Settings:CreateModule({
     Legit = true,
     Function = function(state)
         if state then
-            ConfigSystem.CanSave = false
+            API.ConfigSystem.CanSave = false
             task.wait(1)
             Root:Destroy()
             blur:Destroy()
