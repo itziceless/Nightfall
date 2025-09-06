@@ -75,17 +75,29 @@ loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
 	local path = "Galaxy/Games/" .. game.PlaceId .. ".lua"
 
 if isfile(path) then
-    loadfile(path)
-	else
+    -- Load from file properly
+    local src = readfile(path)
+    loadstring(src)()
+else
     local suc, res = pcall(function()
-        return loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/".. readfile("Galaxy/Libs/commit.txt") .. "/Games/" .. game.PlaceId .. ".lua", true))()
+        return game:HttpGet(
+            "https://raw.githubusercontent.com/itziceless/Galaxy/"
+            .. readfile("Galaxy/Libs/commit.txt")
+            .. "/Games/"
+            .. game.PlaceId
+            .. ".lua",
+            true
+        )
     end)
 
     if suc and res and res ~= "404: Not Found" then
-        -- Save locally for next time
-        loadstring(downloadFile('Galaxy/Games/' .. game.PlaceId .. '.lua'), tostring(game.PlaceId))()
+        -- Save locally
+        writefile(path, res)
+        -- Run it
+        loadstring(res)()
     end
 end
+
 print(path)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
 
