@@ -113,7 +113,7 @@ task.spawn(function()
         Function = function(called)
             if called then
                 startY = lplr.Character.PrimaryPart.Position.Y
-                FlightCon = RunService.Heartbeat:Connect(function(deltaTime)
+                FlightCon = runService.Heartbeat:Connect(function(deltaTime)
                     if FlightMode.Get() == "Velocity" then
                         upVal = FlightVelo.Get()
                         if UserInputService:IsKeyDown("Space") then
