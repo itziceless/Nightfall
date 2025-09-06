@@ -69,7 +69,7 @@ if not isfile('Galaxy/UI/UI.txt') then
 	writefile('Galaxy/UI/UI.txt', 'Main')
 end
 local gui = readfile('Galaxy/UI/UI.txt')
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
 local Galaxy = loadstring(downloadFile('Galaxy/UI/'..gui..'.lua'), 'gui')()
 loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
 	if isfile('Galaxy/Games/'..game.PlaceId..'.lua') then
@@ -84,4 +84,3 @@ loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
 			end
 		end
 	end
-loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
