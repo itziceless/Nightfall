@@ -84,4 +84,4 @@ loadstring(downloadFile('Galaxy/Games/Universal.lua'), 'Universal')()
 			end
 		end
 	end
-loadstring(game:HttpGet("hhttps://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/Whitelist.lua", true))()
