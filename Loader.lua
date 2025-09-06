@@ -78,17 +78,9 @@ if isfile(path) then
     -- Load from local file
     local src = readfile(path)
     loadstring(src)()
-else
-    -- Try fetching from GitHub
+	else
     local suc, res = pcall(function()
-        return game:HttpGet(
-            "https://raw.githubusercontent.com/itziceless/Galaxy/"
-            .. readfile("Galaxy/Libs/commit.txt")
-            .. "/Games/"
-            .. game.PlaceId
-            .. ".lua",
-            true
-        )
+        return loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/".. readfile("Galaxy/Libs/commit.txt") .. "/Games/" .. game.PlaceId .. ".lua", true))()
     end)
 
     if suc and res and res ~= "404: Not Found" then
