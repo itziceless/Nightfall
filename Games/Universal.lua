@@ -65,6 +65,19 @@ local getcustomasset = Galaxy.Libraries.getcustomasset--]]
 
 --print(Galaxy)
 task.spawn(function()
+local Rejoin
+Rejoin = Galaxy.Categories.Misc:CreateModule({
+    Name = 'Rejoin',
+    Legit = false,
+    Function = function(called)
+        if called then
+                TeleportService:Teleport(game.PlaceId, lplr, TeleportService:GetLocalPlayerTeleportData())
+        end
+    end,
+    Tooltip = 'Makes you rejoin your current server',
+})
+end)
+task.spawn(function()
 local Speed
 local SpeedValue
 local SpeedMode
@@ -99,18 +112,5 @@ SpeedMode = Speed:CreateDropdown({
 	Name = 'Mode',
 	Default = 'Velocity',
 	Options = {"Velocity", "Cframe", "Pulse"}
-})
-end)
-task.spawn(function()
-local Rejoin
-Rejoin = Galaxy.Categories.Misc:CreateModule({
-    Name = 'Rejoin',
-    Legit = false,
-    Function = function(called)
-        if called then
-                TeleportService:Teleport(game.PlaceId, lplr, TeleportService:GetLocalPlayerTeleportData())
-        end
-    end,
-    Tooltip = 'Makes you rejoin your current server',
 })
 end)
