@@ -1,7 +1,7 @@
 local loadstring = function(...)
 	local res, err = loadstring(...)
 	if err and vape then
-		Galaxy:CreateNotification('Galaxy', 'Failed to load : '..err, 30, "alert")
+		Revenant:CreateNotification('Revenant', 'Failed to load : '..err, 30, "alert")
 	end
 	return res
 end
@@ -14,7 +14,7 @@ end
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/itziceless/Galaxy/'..readfile('Galaxy/Libs/commit.txt')..'/'..select(1, path:gsub('Galaxy/', '')), true)
+			return game:HttpGet('https://raw.githubusercontent.com/itziceless/Revenant/'..readfile('Revenant/Libs/commit.txt')..'/'..select(1, path:gsub('Galaxy/', '')), true)
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)
@@ -56,17 +56,17 @@ local gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA('
 local lplr = playersService.LocalPlayer
 local assetfunction = getcustomasset
 
-local Galaxy = shared.Galaxy
-local entitylib = loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Galaxy/refs/heads/main/libs/entitylib.lua", true))()
---[[local tween = Galaxy.Libraries.tween
-local targetinfo = Galaxy.Libraries.targetinfo
-local getfontsize = Galaxy.Libraries.getfontsize
-local getcustomasset = Galaxy.Libraries.getcustomasset--]]
+local Revenant = shared.Revenant
+local entitylib = loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Revenant/refs/heads/main/libs/entitylib.lua", true))()
+--[[local tween = Revenant.Libraries.tween
+local targetinfo = Revenant.Libraries.targetinfo
+local getfontsize = Revenant.Libraries.getfontsize
+local getcustomasset = Revenant.Libraries.getcustomasset--]]
 
 entitylib.start()
 local AimAssistConnection
 
-AimAssist = Galaxy.Categories.Combat:CreateModule({
+AimAssist = Revenant.Categories.Combat:CreateModule({
 	Name = "AimAssist",
 	Legit = false,
 	Function = function(called)
@@ -112,7 +112,7 @@ local SpeedValue
 local SpeedMode
 local SpeedSlider
 local oldSpeed
-Speed = Galaxy.Categories.Movement:CreateModule({
+Speed = Revenant.Categories.Movement:CreateModule({
     Name = 'Speed',
     Legit = false,
     Function = function(called)
@@ -145,12 +145,12 @@ SpeedMode = Speed:CreateDropdown({
 end)
 task.spawn(function()
 local Rejoin
-Rejoin = Galaxy.Categories.Misc:CreateModule({
+Rejoin = Revenant.Categories.Misc:CreateModule({
     Name = 'Rejoin',
     Legit = false,
     Function = function(called)
         if called then
-				Galaxy.ConfigSystem.CanSave = false
+				Revenant.ConfigSystem.CanSave = false
                 teleportService:Teleport(game.PlaceId, lplr, teleportService:GetLocalPlayerTeleportData())		
         end
     end,
