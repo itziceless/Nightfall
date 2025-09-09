@@ -1,5 +1,7 @@
 repeat task.wait() until game:IsLoaded()
 
+local Nightfall = shared.Nightfall
+
 local isfile = isfile or function(file)
 	local suc, res = pcall(function()
 		return readfile(file)
