@@ -69,48 +69,7 @@ local LoadTime: string = string.format('%.1fs', Nightfall.Load.Time)
 Nightfall:CreateNotification('Nightfall', 'Loaded in ' .. LoadTime, 2, 'normal')
 
 entitylib.start()
-local AimAssistConnection
 
-AimAssist = Nightfall.Categories.Combat:CreateModule({
-	Name = "AimAssist",
-	Legit = false,
-	Function = function(called)
-		if called then
-			-- Enable
-			AimAssistConnection = runService.RenderStepped:Connect(function()
-				local closestChar, closestHead, closestDist
-				for _, player in ipairs(Players:GetPlayers()) do
-					if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
-						local head = player.Character.Head
-						local screenPos, onScreen = gameCamera:WorldToViewportPoint(head.Position)
-						if onScreen then
-							local mouse = inputService:GetMouseLocation()
-							local dist = (Vector2.new(screenPos.X, screenPos.Y) - mouse).Magnitude
-							if not closestDist or dist < closestDist then
-								closestChar = player.Character
-								closestHead = head
-								closestDist = dist
-							end
-						end
-					end
-				end
-
-				if closestHead then
-					-- Smoothly move camera
-					local targetCF = CFrame.new(Camera.CFrame.Position, closestHead.Position)
-					Camera.CFrame = Camera.CFrame:Lerp(targetCF, 0.15) -- adjust smoothing speed here
-				end
-			end)
-		else
-			-- Disable
-			if AimAssistConnection then
-				AimAssistConnection:Disconnect()
-				AimAssistConnection = nil
-			end
-		end
-		Tooltip = "Smoothly aims to closest valid target",
-	end,
-})
 task.spawn(function()
 local Speed
 local SpeedValue
