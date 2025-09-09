@@ -17,7 +17,11 @@ local API = {
 	},
     Modules = {},
     Keybind = { 'RightShift' },
-    Loaded = false,
+    Load = {
+        Start = os.clock(),
+        Time = 0,
+        Loaded = false
+	},
     ColorUpdate = Instance.new('BindableEvent'),
     Libraries = {},
     Place = game.PlaceId,
@@ -2018,17 +2022,8 @@ UserInputService.InputBegan:Connect(function(input, gpe)
     end
 end)
 
-API.Loaded = true
---task.wait(2)
+task.wait(0.7)
 NotificationFrame.Visible = true
---task.wait(1)
-API:CreateNotification(
-    'Nightfall',
-    'Press ' .. tostring(API.Keybind[1]) .. ' to open GUI',
-    20,
-"normal"
-)
-
 shared.Nightfall = API
 					
 return API
