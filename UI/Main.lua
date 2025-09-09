@@ -1,9 +1,9 @@
 local API = {
     Categories = {},
     MainBKG = {
-        Hue = 0.70,
-        Sat = 1,
-        Value = 0.27,
+        Hue = 0.63,
+        Sat = 0.7,
+        Value = 0.1,
     },
     UIColor = {
         Hue = 0.58,
@@ -21,7 +21,7 @@ local API = {
     ColorUpdate = Instance.new('BindableEvent'),
     Libraries = {},
     Place = game.PlaceId,
-    Profile = 'Galaxy',
+    Profile = 'Nightfall',
     Profiles = {},
     RainbowSpeed = { Value = 1 },
     RainbowUpdateSpeed = { Value = 60 },
@@ -49,14 +49,14 @@ if
     and not UserInputService.MouseEnabled
 then
     lplr:Kick(
-        "Mobile not supported, maybe in the future i'll add mobile support. 🤷‍♂"
+        "Mobile not supported, Maybe in the future i'll add Mobile support. 🤷‍♂"
     )
 end
 
 local Config = {}
 
 API.ConfigSystem.CanSave = true
-local FilePath = 'Galaxy/Configs/' .. game.PlaceId .. '.json'
+local FilePath = 'Nightfall/Configs/' .. game.PlaceId .. '.json'
 function API.ConfigSystem:Save_Config()
     if not API.ConfigSystem.CanSave then
         return
@@ -78,13 +78,14 @@ end
 
 local color = {}
 local uipal = {
-	Main = Color3.fromRGB(10,10,10),
+	Main = Color3.fromRGB(8, 10, 13),
 	warn = Color3.fromRGB(255, 150, 2),
 	alert = Color3.fromRGB(255, 72, 0),
 	headerBg = Color3.fromHSV(API.MainBKG.Hue, API.MainBKG.Sat, API.MainBKG.Value),
 	ModuleOn = Color3.fromHSV(API.UIColor.Hue, API.UIColor.Sat, API.UIColor.Value),
     ModuleOn2 = Color3.fromHSV(API.UIColor2.Hue, API.UIColor2.Sat, API.UIColor2.Value),
-	text = Color3.fromRGB(200,200,200),
+	text = Color3.fromRGB(210, 219, 229),
+	textoff = Color3.fromRGB(46, 54, 76),
 	tipBg = Color3.fromRGB(15, 15, 15),
 	Font = Font.fromEnum(Enum.Font.GothamBold),
 	TWEEN = TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
@@ -106,7 +107,7 @@ local Root = Instance.new('ScreenGui')
 Root.Name = 'Root'
 Root.ResetOnSpawn = false
 Root.IgnoreGuiInset = true
-Root.Parent = playerGui
+Root.Parent = gethui()
 
 local ClickGUI = Instance.new('Frame')
 ClickGUI.Name = 'ClickGUI'
@@ -122,6 +123,25 @@ blur.Enabled = false
 local fontsize = Instance.new('GetTextBoundsParams')
 fontsize.Width = math.huge
 fontsize.Font = uipal.Font
+
+local function CreateShadow(Parent)
+    local Shadow = Instance.new("ImageLabel")
+    Shadow.AnchorPoint = Vector2.new(0.5, 0.5)
+	Shadow.Parent = Parent
+    Shadow.BackgroundTransparency = 1
+    Shadow.Position = UDim2.new(0.5, 0, 0.5, 2)
+    Shadow.Size = UDim2.new(1, 127, 1, 127)
+    Shadow.Image = "rbxassetid://115405797570306"
+    Shadow.ImageColor3 = Color3.fromRGB(255, 255, 255)
+    Shadow.ImageTransparency = 0.5
+    Shadow.ScaleType = Enum.ScaleType.Slice
+    Shadow.SliceCenter = Rect.new(Vector2.new(85, 85), Vector2.new(427, 427))
+    Shadow.SliceScale = 1
+
+    return Shadow
+end
+
+CreateShadow(ClickGUI)
 
 local function makeDraggable(frame, handle)
     handle = handle or frame
@@ -199,25 +219,25 @@ function color.Light(col, num)
     )
 end
 
-local GalaxyWatermark = Instance.new("TextLabel")
-GalaxyWatermark.Name = "GalaxyWaterMark"
-GalaxyWatermark.Size = UDim2.new(0, 60, 0, 65)
-GalaxyWatermark.Position = UDim2.new(0, 75, 0, 40)
-GalaxyWatermark.BackgroundColor3 = uipal.headerBg
-GalaxyWatermark.TextColor3 = uipal.text
-GalaxyWatermark.FontFace = uipal.Font
-GalaxyWatermark.BackgroundTransparency = 1
-GalaxyWatermark.TextSize = 35
-GalaxyWatermark.Text = "Galaxy"
-GalaxyWatermark.TextXAlignment = Enum.TextXAlignment.Center
-GalaxyWatermark.BorderSizePixel = 0
-GalaxyWatermark.Parent = Root
+local NightfallWatermark = Instance.new("TextLabel")
+NightfallWatermark.Name = "NightfallWaterMark"
+NightfallWatermark.Size = UDim2.new(0, 60, 0, 65)
+NightfallWatermark.Position = UDim2.new(0, 75, 0, 40)
+NightfallWatermark.BackgroundColor3 = uipal.headerBg
+NightfallWatermark.TextColor3 = uipal.text
+NightfallWatermark.FontFace = uipal.Font
+NightfallWatermark.BackgroundTransparency = 1
+NightfallWatermark.TextSize = 35
+NightfallWatermark.Text = "Nightfall"
+NightfallWatermark.TextXAlignment = Enum.TextXAlignment.Center
+NightfallWatermark.BorderSizePixel = 0
+NightfallWatermark.Parent = Root
 
-local GalaxyWatermarkGradient = Instance.new("UIGradient")
-GalaxyWatermarkGradient.Enabled = true
-GalaxyWatermarkGradient.Parent = GalaxyWatermark
-GalaxyWatermarkGradient.Name = "GalaxyWatermarkGradient"
-GalaxyWatermarkGradient.Color = Gradient
+local NightfallWatermarkGradient = Instance.new("UIGradient")
+NightfallWatermarkGradient.Enabled = true
+NightfallWatermarkGradient.Parent = NightfallWatermark
+NightfallWatermarkGradient.Name = "NightfallWatermarkGradient"
+NightfallWatermarkGradient.Color = Gradient
 
 local ArrayItems = {}
 
@@ -255,7 +275,7 @@ arraylistlabel.TextColor3 = uipal.text
 arraylistlabel.FontFace = uipal.Font
 arraylistlabel.BackgroundTransparency = 1
 arraylistlabel.TextSize = 50
-arraylistlabel.Text = "Galaxy"
+arraylistlabel.Text = "Nightfall"
 arraylistlabel.TextXAlignment = Enum.TextXAlignment.Right
 --arraylistlabel.Visible = false
 arraylistlabel.BorderSizePixel = 0
@@ -346,16 +366,17 @@ settingholderframesorter.FillDirection = Enum.FillDirection.Horizontal
 
 -- MAIN PANEL (LEFT SIDE)
 local mainPanel = Instance.new('Frame')
-mainPanel.Size = UDim2.new(0, 225, 0, 450)
+mainPanel.Size = UDim2.new(0, 230, 0, 425)
 mainPanel.Position = UDim2.new(0, 20, 0, 100)
 mainPanel.BackgroundColor3 = uipal.Main
 mainPanel.BorderSizePixel = 0
 mainPanel.Name = 'MainPanel'
 mainPanel.Parent = ClickGUI
 roundify(mainPanel, 13)
+CreateShadow(mainPanel)
 
 local mpheader = Instance.new('TextLabel')
-mpheader.Text = '     Galaxy'
+mpheader.Text = '     Nightfall'
 mpheader.Size = UDim2.new(1, 0, 0, 50)
 mpheader.BackgroundTransparency = 0
 mpheader.BackgroundColor3 = uipal.headerBg
@@ -372,7 +393,7 @@ makeDraggable(mainPanel, mpheader)
 
 local mpheader2 = Instance.new('Frame')
 mpheader2.Name = 'MPHeader2'
-mpheader2.Size = UDim2.new(1, 0, 0, 10)
+mpheader2.Size = UDim2.new(1, 0, 0, 15)
 mpheader2.Position = UDim2.new(0, 0, 0, 40)
 mpheader2.BackgroundColor3 = uipal.headerBg
 mpheader2.BorderSizePixel = 0
@@ -380,8 +401,8 @@ mpheader2.Parent = mainPanel
 
 -- Inner container for category buttons
 local categoryContainer = Instance.new('Frame')
-categoryContainer.Size = UDim2.new(1, -20, 0, 200)
-categoryContainer.Position = UDim2.new(0, 10, 0, 75)
+categoryContainer.Size = UDim2.new(1, -20, 0, 230)
+categoryContainer.Position = UDim2.new(0, 10, 0, 70)
 categoryContainer.BackgroundColor3 = uipal.headerBg
 categoryContainer.BorderSizePixel = 0
 categoryContainer.Name = 'CategoryContainer'
@@ -397,7 +418,7 @@ categoryLayout.Parent = categoryContainer
 
 -- Footer for Configs & Settings
 local footer = Instance.new('Frame')
-footer.Size = UDim2.new(1, -20, 0, 80)
+footer.Size = UDim2.new(1, -20, 0, 92)
 footer.Position = UDim2.new(0, 10, 1, -110)
 footer.BackgroundColor3 = uipal.headerBg
 footer.Name = 'Footer'
@@ -413,39 +434,115 @@ footerLayout.Parent = footer
 
 local seperator = Instance.new('Frame')
 seperator.Parent = mainPanel
-seperator.Size = UDim2.new(1, -65, 0, 1)
-seperator.Position = UDim2.new(0, 35, 0, 379.5)
+seperator.Size = UDim2.new(1, -65, 0, 2)
+seperator.Position = UDim2.new(0, 35, 0, 358)
 seperator.BorderSizePixel = 0
-seperator.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+seperator.BackgroundColor3 = uipal.textoff
 seperator.BackgroundTransparency = 0.5
 roundify(seperator, 10)
 
 local seperator2 = Instance.new('Frame')
 seperator2.Parent = mainPanel
-seperator2.Size = UDim2.new(1, -65, 0, 1)
-seperator2.Position = UDim2.new(0, 35, 0, 380.5)
+seperator2.Size = UDim2.new(1, -65, 0, 2)
+seperator2.Position = UDim2.new(0, 35, 0, 362)
 seperator2.BorderSizePixel = 0
-seperator2.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+seperator2.BackgroundColor3 = uipal.textoff
 seperator2.BackgroundTransparency = 0.5
 roundify(seperator2, 10)
 
 -- CATEGORY BUTTON CREATION
 local function createCategoryButton(category)
     local btn = Instance.new('TextButton')
-    btn.Size = UDim2.new(1, 0, 0, 40)
+    btn.Size = UDim2.new(1, 0, 0, 46)
     btn.BackgroundColor3 = uipal.headerBg
     btn.Name = category.Name .. '_PanelOpener'
-    btn.TextColor3 = uipal.text
+    btn.TextColor3 = uipal.textoff
     btn.FontFace = uipal.Font
     btn.Visible = true --category.V
+	btn.AutoButtonColor = false
     btn.TextSize = 14
-    btn.Text = '            ' .. category.Name
+    btn.Text = '            '
     btn.TextXAlignment = Enum.TextXAlignment.Left
     btn.Parent = category.Parent
     btn.BorderSizePixel = 0
-    roundify(btn, 13)
+    if category.FirstButton or category.LastButton then
+        roundify(btn, 13)
+	end
 
-    local Icon = Instance.new('ImageLabel')
+	if category.FirstButton then
+		local Firstcornerfiller = Instance.new("Frame")
+		Firstcornerfiller.Parent = btn
+		Firstcornerfiller.Size = UDim2.new(1, 0, 0, 10)
+		Firstcornerfiller.Position = UDim2.new(0, 0, 1, -10)
+		Firstcornerfiller.BorderSizePixel = 0
+		Firstcornerfiller.BackgroundColor3 = uipal.headerBg
+		Firstcornerfiller.BackgroundTransparency = 0
+
+		local FirstcornerfillerGradient = Instance.new("UIGradient")
+		FirstcornerfillerGradient.Enabled = false
+		FirstcornerfillerGradient.Parent = Firstcornerfiller
+		FirstcornerfillerGradient.Color = Gradient
+
+		local visible = false
+    btn.MouseButton1Click:Connect(function()
+        visible = not visible
+		TweenService:Create(
+            Firstcornerfiller,
+            uipal.TWEEN,
+            { BackgroundColor3 = visible and uipal.text or uipal.headerBg }
+        ):Play()
+		if visible then FirstcornerfillerGradient.Enabled = true else FirstcornerfillerGradient.Enabled = false end
+		end)
+	end
+
+	if category.LastButton then
+		local Lastcornerfiller = Instance.new("Frame")
+		Lastcornerfiller.Parent = btn
+		Lastcornerfiller.Size = UDim2.new(1, 0, 0, 10)
+		Lastcornerfiller.Position = UDim2.new(0, 0, 0, 0)
+		Lastcornerfiller.BorderSizePixel = 0
+		Lastcornerfiller.BackgroundColor3 = uipal.headerBg
+		Lastcornerfiller.BackgroundTransparency = 0
+
+		local LastcornerfillerGradient = Instance.new("UIGradient")
+		LastcornerfillerGradient.Enabled = false
+		LastcornerfillerGradient.Parent = Lastcornerfiller
+		LastcornerfillerGradient.Color = Gradient
+
+		local visible = false
+    btn.MouseButton1Click:Connect(function()
+        visible = not visible
+		TweenService:Create(
+            Lastcornerfiller,
+            uipal.TWEEN,
+            { BackgroundColor3 = visible and uipal.text or uipal.headerBg }
+        ):Play()
+		if visible then LastcornerfillerGradient.Enabled = true else LastcornerfillerGradient.Enabled = false end
+		end)
+	end
+
+	local btnLabel = Instance.new("TextLabel")
+		btnLabel.Name = category.Name .. "_PanelOpenerLabel"
+		btnLabel.Size = UDim2.new(1, -20, 0, 45)
+		btnLabel.BackgroundColor3 = uipal.headerBg
+		btnLabel.TextColor3 = uipal.textoff
+		btnLabel.FontFace = uipal.Font
+		btnLabel.BackgroundTransparency = 1
+    	btnLabel.TextWrapped = true
+        btnLabel.TextStrokeTransparency = 1
+		btnLabel.TextSize = 16
+		btnLabel.Text = "       " .. category.Name
+		btnLabel.TextXAlignment = Enum.TextXAlignment.Left
+		btnLabel.BorderSizePixel = 0
+		btnLabel.Parent = btn
+
+	local btnGradient = Instance.new("UIGradient")
+		btnGradient.Enabled = false
+		btnGradient.Parent = btn
+		btnGradient.Name = category.Name .. "_CategoryButtonGradient"
+		btnGradient.Color = Gradient
+
+    --[[local Icon = Instance.new('ImageLabel')
     Icon.Name = 'Icon'
     Icon.Size = UDim2.new(0, 23, 0, 23)
     Icon.Position = UDim2.new(0, 10, 0, 9)
@@ -453,21 +550,30 @@ local function createCategoryButton(category)
     Icon.BackgroundColor3 = uipal.text
     Icon.BackgroundTransparency = 1
     Icon.BorderSizePixel = 0
-    Icon.Parent = btn
+    Icon.Parent = btn--]]
 
+	--main
     local visible = false
     btn.MouseButton1Click:Connect(function()
         visible = not visible
         TweenService:Create(
+            btnLabel,
+            uipal.TWEEN,
+            { TextColor3 = visible and uipal.text or uipal.textoff }
+        ):Play()
+		TweenService:Create(
             btn,
             uipal.TWEEN,
-            { TextColor3 = visible and uipal.ModuleOn or uipal.text }
+            { BackgroundColor3 = visible and uipal.text or uipal.headerBg }
         ):Play()
-        TweenService:Create(
+		if visible then btnGradient.Enabled = true else btnGradient.Enabled = false end
+        --[[TweenService:Create(
             Icon,
             uipal.TWEEN,
             { ImageColor3 = visible and uipal.ModuleOn or uipal.text }
-        ):Play()
+        ):Play()--]]
+		--category fixers 
+
         category._panel.Visible = visible
     end)
 end
@@ -485,20 +591,33 @@ function API:CreateCategory(categorysettings)
     -- Panel
     local panel = Instance.new('Frame')
     panel.Name = categorysettings.name .. '_Panel'
-    panel.Size = UDim2.new(0, 225, 0, 450)
+    panel.Size = UDim2.new(0, 230, 0, 425)
     panel.Position = UDim2.new(
         0,
-        categorysettings.posX or 200,
+        categorysettings.posX or 255,
         0,
-        categorysettings.posY or 140
+        categorysettings.posY or 100
     )
     panel.BackgroundColor3 = uipal.Main
     panel.BorderSizePixel = 0
-    panel.AutomaticSize = Enum.AutomaticSize.Y
     panel.Visible = false -- hidden by default
     panel.Parent = ClickGUI
     panel.ClipsDescendants = false
     roundify(panel, 13)
+	CreateShadow(panel)
+	
+	--[[local Shadow = Instance.new("ImageLabel")
+    Shadow.AnchorPoint = Vector2.new(0.5, 0.5)
+	Shadow.Parent = panel
+    Shadow.BackgroundTransparency = 1
+    Shadow.Position = UDim2.new(0.5, 0, 0.5, 2)
+    Shadow.Size = UDim2.new(1, 100, 1, 0)
+    Shadow.Image = "rbxassetid://115405797570306"
+    Shadow.ImageColor3 = Color3.fromRGB(255, 255, 255)
+    Shadow.ImageTransparency = 0.5
+    Shadow.ScaleType = Enum.ScaleType.Slice
+    Shadow.SliceCenter = Rect.new(Vector2.new(85, 85), Vector2.new(427, 427))
+    Shadow.SliceScale = 1--]]
 
     local header = Instance.new('TextLabel')
     header.Name = 'Header'
@@ -516,12 +635,11 @@ function API:CreateCategory(categorysettings)
 
     local header2 = Instance.new('Frame')
     header2.Name = 'Header'
-    header2.Size = UDim2.new(1, 0, 0, 5)
+    header2.Size = UDim2.new(1, 0, 0, 15)
     header2.BackgroundColor3 = uipal.headerBg
     header2.BorderSizePixel = 0
-    header2.Position = UDim2.new(0, 0, 0, 45)
+    header2.Position = UDim2.new(0, 0, 0, 40)
     header2.Parent = panel
-    roundify(header2, 13)
     makeDraggable(panel, header)
 
     local Icon = Instance.new('ImageLabel')
@@ -547,12 +665,14 @@ function API:CreateCategory(categorysettings)
     listHolder.BorderSizePixel = 0
 
     local listLayout = Instance.new('UIListLayout')
-    listLayout.Padding = UDim.new(0, 20)
+    listLayout.Padding = UDim.new(0, 15)
     listLayout.Parent = listHolder
     listLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
     category._panel = panel
     category._holder = listHolder
+	category.FirstButton = categorysettings.FirstButton or false
+	category.LastButton = categorysettings.LastButton or false
     category.Modules = {}
 
     -- Add category button to main panel
@@ -568,36 +688,38 @@ function API:CreateCategory(categorysettings)
 			ModulesTable = {
                 Toggles = {},
                 Sliders = {},
-                Dropdowns = {}
+                Dropdowns = {},
+				ColorSliders = {},
             }
 		}
 		if Config[module.Name] == nil then
-			Config[module.Name] = {Enabled = false, Keybind = "none", Legit = module.Legit, Toggles = {}, Dropdowns = {}, Sliders = {}}
+			Config[module.Name] = {Enabled = false, Keybind = "none", Legit = module.Legit, Toggles = {}, Dropdowns = {}, Sliders = {}, ColorSliders = {}}
 		end
 
 		local Module = Instance.new("TextButton")
 		Module.Name = module.Name .. "_Module"
-		Module.Size = UDim2.new(1, -20, 0, 40)
+		Module.Size = UDim2.fromOffset(200, 45)
 		Module.BackgroundColor3 = uipal.headerBg
 		Module.Text = ""
 		Module.AutoButtonColor = false
 		Module.BorderSizePixel = 0
 		Module.Parent = listHolder
-		roundify(Module, 13)
+		roundify(Module, 11)
 		
 		local ModuleLabel = Instance.new("TextLabel")
 		ModuleLabel.Name = module.Name .. "_ModuleLabel"
-		ModuleLabel.Size = UDim2.new(1, -20, 0, 40)
+		ModuleLabel.Size = UDim2.new(1, -20, 0, 45)
 		ModuleLabel.BackgroundColor3 = uipal.headerBg
-		ModuleLabel.TextColor3 = color.Dark(uipal.text, 0.3)
+		ModuleLabel.TextColor3 = uipal.textoff
 		ModuleLabel.FontFace = uipal.Font
 		ModuleLabel.BackgroundTransparency = 1
-		ModuleLabel.TextSize = 14
+    	ModuleLabel.TextWrapped = true
+        ModuleLabel.TextStrokeTransparency = 1
+		ModuleLabel.TextSize = 16
 		ModuleLabel.Text = "     " .. module.Name
 		ModuleLabel.TextXAlignment = Enum.TextXAlignment.Left
 		ModuleLabel.BorderSizePixel = 0
 		ModuleLabel.Parent = Module
-		roundify(Module, 13)
 
 		local ModuleGradient = Instance.new("UIGradient")
 		ModuleGradient.Enabled = false
@@ -607,13 +729,13 @@ function API:CreateCategory(categorysettings)
 
 		local ModuleAmbenience = Instance.new("Frame")
 		ModuleAmbenience.Name = module.Name .. "_ModuleAmbience"
-		ModuleAmbenience.Position = UDim2.new(0, 10, 0, 29)
+		ModuleAmbenience.Position = UDim2.new(0, 10, 0, 36)
 		ModuleAmbenience.Size = UDim2.new(1, -20, 0, 15)
 		ModuleAmbenience.BackgroundColor3 = uipal.headerBg
 		ModuleAmbenience.BackgroundTransparency = 0.5
 		ModuleAmbenience.BorderSizePixel = 0
 		ModuleAmbenience.Parent = Module
-		roundify(ModuleAmbenience, 13)
+		roundify(ModuleAmbenience, 12)
 
 		local ModuleAmGradient = Instance.new("UIGradient")
 		ModuleAmGradient.Enabled = false
@@ -623,12 +745,12 @@ function API:CreateCategory(categorysettings)
 
 		local Icon = Instance.new("ImageButton")
 		Icon.Name = module.Name .. "_SettingsIcon"
-		Icon.Position = UDim2.new(0, 175, 0, 13)
-		Icon.ImageColor3 = color.Dark(uipal.text, 0.3)
-		Icon.Size = UDim2.new(0, 15, 0, 15)
-		Icon.BackgroundColor3 = color.Dark(uipal.text, 0.3)
+		Icon.Position = UDim2.new(0, 165, 0, 10)
+		Icon.ImageColor3 = uipal.textoff
+		Icon.Size = UDim2.new(0, 25, 0, 25)
+		Icon.BackgroundColor3 = uipal.textoff
 		Icon.BackgroundTransparency = 1
-		Icon.Image = "rbxassetid://135586317594546"--"rbxassetid://109170511503899"
+		Icon.Image = "rbxassetid://98825735875096"--"rbxassetid://109170511503899"
 		Icon.BorderSizePixel = 0
 		Icon.Parent = Module
 		roundify(ModuleAmbenience, 13)
@@ -668,7 +790,7 @@ function API:CreateCategory(categorysettings)
 		settingsheader.Name = "Header"
 		settingsheader.Size = UDim2.new(1, 0, 0, 50)
 		settingsheader.BackgroundColor3 = uipal.headerBg
-		settingsheader.TextColor3 = color.Dark(uipal.text, 0.3)
+		settingsheader.TextColor3 = uipal.textoff
 		settingsheader.FontFace = uipal.Font
 		settingsheader.TextSize = 14
 		settingsheader.TextXAlignment = Enum.TextXAlignment.Left
@@ -710,7 +832,7 @@ function API:CreateCategory(categorysettings)
 		bind.BackgroundColor3 = uipal.Main
 		bind.Text = "   Bind"
 		bind.TextXAlignment = Enum.TextXAlignment.Left
-		bind.TextColor3 = color.Dark(uipal.text, 0.3)
+		bind.TextColor3 = uipal.textoff
 		bind.TextSize = 14
 		bind.LayoutOrder = -10
 		bind.FontFace = uipal.Font
@@ -724,7 +846,7 @@ function API:CreateCategory(categorysettings)
 		bindholder.BackgroundColor3 = uipal.headerBg
 		bindholder.Text = "none"
 		bindholder.TextXAlignment = Enum.TextXAlignment.Center
-		bindholder.TextColor3 = color.Dark(uipal.text, 0.3)
+		bindholder.TextColor3 = uipal.textoff
 		bindholder.TextSize = 12
 		bindholder.FontFace = uipal.Font
 		bindholder.Parent = bind
@@ -748,8 +870,8 @@ function API:CreateCategory(categorysettings)
 			if module.Enabled then ModuleAmGradient.Enabled = true else ModuleAmGradient.Enabled = false end
 			TweenService:Create(Module, uipal.TWEEN, { BackgroundColor3 = state and uipal.text or uipal.headerBg }):Play()
 			TweenService:Create(ModuleAmbenience, uipal.TWEEN, { BackgroundColor3 = state and uipal.text or uipal.headerBg }):Play()
-			TweenService:Create(Icon, uipal.TWEEN, { ImageColor3 = state and uipal.text or color.Dark(uipal.text, 0.3) }):Play()
-			TweenService:Create(ModuleLabel, uipal.TWEEN, { TextColor3 = state and uipal.text or color.Dark(uipal.text, 0.3) }):Play()
+			TweenService:Create(Icon, uipal.TWEEN, { ImageColor3 = state and uipal.text or uipal.textoff }):Play()
+			TweenService:Create(ModuleLabel, uipal.TWEEN, { TextColor3 = state and uipal.text or uipal.textoff }):Play()
 			API:CreateNotification(module.Name, "<font color='#FFFFFF'> has been </font>"..(module.Enabled and "<font color='#5AFF5A'>Enabled!</font>" or "<font color='#FF5A5A'>Disabled!</font>"), 0.75, "normal")
 			if module.Enabled then ArrayList.Create(module.Name) else ArrayList.Remove(module.Name) end
 			if typeof(def.Function) == "function" then
@@ -799,7 +921,7 @@ bindholder.MouseButton1Down:Connect(function()
 	rebinding = true
 
 	bindholder.Text = "..."
-	bindholder.TextColor3 = color.Dark(uipal.text, 0.3)
+	bindholder.TextColor3 = uipal.textoff
 
 	local tempConnection
 	tempConnection = UserInputService.InputBegan:Connect(function(input, gpe)
@@ -817,7 +939,7 @@ bindholder.MouseButton1Down:Connect(function()
 		if Config[module.Name].Keybind == newKey then
 			Config[module.Name].Keybind = "none"
 			bindholder.Text = "none"
-			bindholder.TextColor3 = color.Dark(uipal.text, 0.3)
+			bindholder.TextColor3 = uipal.textoff
 			if keyConnection then
 				keyConnection:Disconnect()
 				keyConnection = nil
@@ -842,7 +964,7 @@ if Config[module.Name].Keybind and Config[module.Name].Keybind ~= "none" then
 	SetupKeyListener()
 else
 	bindholder.Text = "none"
-	bindholder.TextColor3 = color.Dark(uipal.text, 0.3)
+	bindholder.TextColor3 = uipal.textoff
 end
 
 		Module.MouseButton2Click:Connect(function()
@@ -873,7 +995,7 @@ end
 			Toggle.BackgroundColor3 = uipal.Main
 			Toggle.Text = "   "..togsettings.Name
 			Toggle.TextXAlignment = Enum.TextXAlignment.Left
-			Toggle.TextColor3 = color.Dark(uipal.text, 0.3)
+			Toggle.TextColor3 = uipal.textoff
 			Toggle.TextSize = 14
 			Toggle.LayoutOrder = -9
 			Toggle.FontFace = uipal.Font
@@ -944,7 +1066,7 @@ end
     label.Position = UDim2.new(0, 9, 0, -15)
     label.BackgroundTransparency = 1
     label.TextXAlignment = Enum.TextXAlignment.Left
-    label.TextColor3 = color.Dark(uipal.text, 0.3)
+    label.TextColor3 = uipal.textoff
     label.FontFace = uipal.Font
     label.TextSize = 14
     label.Text = slidersettings.Name
@@ -956,7 +1078,7 @@ end
     valueBox.BackgroundTransparency = 1
     valueBox.ClearTextOnFocus = false
     valueBox.TextXAlignment = Enum.TextXAlignment.Right
-    valueBox.TextColor3 = color.Dark(uipal.text, 0.3)
+    valueBox.TextColor3 = uipal.textoff
     valueBox.FontFace = uipal.Font
     valueBox.TextSize = 14
     valueBox.Parent = SliderHolder
@@ -1097,7 +1219,7 @@ end
             label.Position = UDim2.new(0, 10, 0, -5)
             label.BackgroundTransparency = 1
             label.TextXAlignment = Enum.TextXAlignment.Left
-            label.TextColor3 = color.Dark(uipal.text, 0.3)
+            label.TextColor3 = uipal.textoff
             label.FontFace = uipal.Font
             label.TextSize = 14
             label.Text = dropdownsettings.Name
@@ -1108,7 +1230,7 @@ end
             Selected.Size = UDim2.new(0.8, 0, 0, 28)
             Selected.Position = UDim2.new(0.1, 0, 0, 20)
             Selected.BackgroundColor3 = uipal.headerBg
-            Selected.TextColor3 = color.Dark(uipal.text, 0.3)
+            Selected.TextColor3 = uipal.textoff
             Selected.FontFace = uipal.Font
             Selected.TextSize = 14
             Selected.Text = Config[module.Name].Dropdowns[dropdownsettings.Name].Option or dropdownsettings.Default
@@ -1167,7 +1289,7 @@ end
                 optBtn.Size = UDim2.new(0.9, 0, 0, 28)
                 optBtn.Position = UDim2.new(0.05, 0, 0, 0)
                 optBtn.BackgroundColor3 = uipal.headerBg
-                optBtn.TextColor3 = color.Dark(uipal.text, 0.3)
+                optBtn.TextColor3 = uipal.textoff
                 optBtn.FontFace = uipal.Font
                 optBtn.TextSize = 14
                 optBtn.Text = option
@@ -1223,143 +1345,251 @@ end
             return dropdownapi
         end
 
-        --[[function module:CreateColorSlider(settings)
-			local colorsliderapi = {}
+function module:CreateColorSlider(ColorSliderSettings)
+	ColorSliderAPI = {
+		Name = ColorSliderSettings.Name
+	}
 
-			local holder = Instance.new("Frame")
-			holder.Size = UDim2.new(1,0,0,110)
-			holder.BackgroundTransparency = 1
-			holder.Parent = settingsframe
+	if Config[module.Name].ColorSliders[ColorSliderSettings.Name] == nil then
+                Config[module.Name].ColorSliders[ColorSliderSettings.Name] = {Hue = ColorSliderSettings.Target.Hue, Sat = ColorSliderSettings.Target.Sat, Value = ColorSliderSettings.Target.Value,}
+            end
 
-			local title = Instance.new("TextLabel")
-			title.Size = UDim2.new(1,0,0,20)
-			title.BackgroundTransparency = 1
-			title.Text = settings.Name or "Color Picker"
-			title.TextColor3 = Color3.new(1,1,1)
-			title.Font = Enum.Font.SourceSansBold
-			title.TextSize = 16
-			title.Parent = holder
+	local UserInputService = game:GetService("UserInputService")
+	local TweenService = game:GetService("TweenService")
+	local RunService = game:GetService("RunService")
 
-			assert(settings.Target and settings.Keys, "Target table and Keys must be provided")
+	local definedconfig = Config[module.Name].ColorSliders[ColorSliderSettings.Name]
 
-			-- Initialize defaults
-			for _, key in ipairs(settings.Keys) do
-				if settings.Target[key] == nil then
-					settings.Target[key] = (key == "Hue") and 0 or 1
-				end
+	-- Create the holder frame
+	local ColorSliderHolder = Instance.new('Frame')
+	ColorSliderHolder.Size = UDim2.new(1, 0, 0, 40)
+	ColorSliderHolder.BackgroundColor3 = uipal.Main
+	ColorSliderHolder.BorderSizePixel = 0
+	ColorSliderHolder.LayoutOrder = -6
+	ColorSliderHolder.Parent = settingsholder
+
+	local label = Instance.new('TextLabel')
+	label.Size = UDim2.new(1, -20, 0, 24)
+	label.Position = UDim2.new(0, 10, 0, -3)
+	label.BackgroundTransparency = 1
+	label.TextXAlignment = Enum.TextXAlignment.Left
+	label.TextColor3 = uipal.textoff
+	label.FontFace = uipal.Font
+	label.TextSize = 14
+	label.Text = ColorSliderSettings.Name
+	label.Parent = ColorSliderHolder
+
+	local expandbutton = Instance.new("ImageButton")
+	expandbutton.Name = ColorSliderSettings.Name.. "Expander"
+	expandbutton.Position = UDim2.new(1, -45, 0, 0)
+	expandbutton.ImageColor3 = uipal.textoff
+	expandbutton.Size = UDim2.new(0, 20, 0, 20)
+	expandbutton.BackgroundColor3 = uipal.textoff
+	expandbutton.BackgroundTransparency = 1
+	expandbutton.Image = "rbxassetid://120512721842343"
+	expandbutton.BorderSizePixel = 0
+	expandbutton.Parent = ColorSliderHolder
+	expandbutton.Rotation = 180
+
+	local slidersVisible = false
+
+	-- Function to create a slider
+	local function createSlider(name, yOffset, Visible)
+		local frame = Instance.new("Frame")
+		frame.Size = UDim2.new(0.9, 0, 0, 15)
+		frame.Position = UDim2.new(0.05, 0, 0, yOffset)
+		frame.BackgroundColor3 = Color3.fromRGB(255,255,255)
+		frame.BorderSizePixel = 0
+		frame.Visible = Visible
+		frame.Name = name
+		frame.Parent = ColorSliderHolder
+		roundify(frame, 10)
+
+		local handle = Instance.new("Frame")
+		handle.Size = UDim2.new(0, 12, 0, 12)
+		handle.Position = UDim2.new(0, 0, 0, 1)
+		handle.BorderSizePixel = 0
+		handle.BackgroundTransparency = 0
+		handle.BackgroundColor3 = Color3.fromHSV(0,1,1)
+		handle.Parent = frame
+		roundify(handle, 25)
+
+		local UIStroke = Instance.new('UIStroke')
+		UIStroke.Color = uipal.text
+		UIStroke.Thickness = 3
+		UIStroke.Parent = handle
+
+		return frame, handle
+	end
+
+	local HueSlider, HueHandle = createSlider("HueSlider", 25, true)
+	local SatSlider, SatHandle = createSlider("SatSlider", 50, false)
+	local ValSlider, ValHandle = createSlider("ValSlider", 75, false)
+
+	local Preview = Instance.new("Frame")
+	Preview.Size = UDim2.new(0, 12, 0, 12)
+	Preview.Position = UDim2.new(1, -25, 0, 5)
+	Preview.BackgroundColor3 = Color3.fromHSV(0,1,1)
+	Preview.BorderSizePixel = 0
+	Preview.Parent = ColorSliderHolder
+	roundify(Preview, 4)
+
+	local color = Color3.fromHSV(definedconfig.Hue, definedconfig.Sat, definedconfig.Value)
+		or Color3.fromRGB(Preview.BackgroundColor3)
+	local Hue, Saturation, Value = Color3.toHSV(color)
+	local targetHue, targetSat, targetVal = Hue, Saturation, Value
+
+	-- Gradient functions
+	local function updateHueGradient()
+		local uiGradient = HueSlider:FindFirstChild("UIGradient") or Instance.new("UIGradient")
+		uiGradient.Parent = HueSlider
+		uiGradient.Rotation = 0
+		uiGradient.Color = ColorSequence.new({
+			ColorSequenceKeypoint.new(0, Color3.fromHSV(0,1,1)),       
+			ColorSequenceKeypoint.new(1/6, Color3.fromHSV(1/6,1,1)),  
+			ColorSequenceKeypoint.new(2/6, Color3.fromHSV(2/6,1,1)),  
+			ColorSequenceKeypoint.new(3/6, Color3.fromHSV(3/6,1,1)),  
+			ColorSequenceKeypoint.new(4/6, Color3.fromHSV(4/6,1,1)),  
+			ColorSequenceKeypoint.new(5/6, Color3.fromHSV(5/6,1,1)),  
+			ColorSequenceKeypoint.new(1, Color3.fromHSV(0.95,1,1)),   
+		})
+	end
+
+	local function updateSatGradient()
+		local uiGradient = SatSlider:FindFirstChild("UIGradient") or Instance.new("UIGradient")
+		uiGradient.Parent = SatSlider
+		uiGradient.Rotation = 0
+		uiGradient.Color = ColorSequence.new({
+			ColorSequenceKeypoint.new(0, Color3.fromHSV(Hue,0,Value)),
+			ColorSequenceKeypoint.new(1, Color3.fromHSV(Hue,1,Value)),
+		})
+	end
+
+	local function updateValGradient()
+		local uiGradient = ValSlider:FindFirstChild("UIGradient") or Instance.new("UIGradient")
+		uiGradient.Parent = ValSlider
+		uiGradient.Rotation = 0
+		uiGradient.Color = ColorSequence.new({
+			ColorSequenceKeypoint.new(0, Color3.fromHSV(Hue,Saturation,0)),
+			ColorSequenceKeypoint.new(1, Color3.fromHSV(Hue,Saturation,1)),
+		})
+	end
+
+	local function updateGradients()
+		updateHueGradient()
+		updateSatGradient()
+		updateValGradient()
+	end
+
+	-- New dragging function (like your slider example)
+	local function setupDrag(frame, handle, setTargetFunc)
+		local dragging = false
+
+		-- click track
+		frame.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				dragging = true
+				local relative = (input.Position.X - frame.AbsolutePosition.X) / frame.AbsoluteSize.X
+				setTargetFunc(math.clamp(relative, 0, 1))
 			end
+		end)
 
-			local hueGrad, satGrad, valGrad
-
-			local function createSlider(y, labelText, gradientFunc, key)
-				local sliderFrame = Instance.new("Frame")
-				sliderFrame.Size = UDim2.new(1, -20, 0, 20)
-				sliderFrame.Position = UDim2.new(0, 10, 0, y)
-				sliderFrame.BackgroundColor3 = Color3.fromRGB(50,50,50)
-				sliderFrame.BorderSizePixel = 0
-				sliderFrame.Parent = holder
-
-				local label = Instance.new("TextLabel")
-				label.Size = UDim2.new(0, 60, 1, 0)
-				label.BackgroundTransparency = 1
-				label.Text = labelText
-				label.TextColor3 = Color3.new(1,1,1)
-				label.Font = Enum.Font.SourceSans
-				label.TextSize = 14
-				label.Parent = sliderFrame
-
-				local bar = Instance.new("Frame")
-				bar.Size = UDim2.new(1, -70, 1, -6)
-				bar.Position = UDim2.new(0, 65, 0, 3)
-				bar.BackgroundColor3 = Color3.new(1,1,1)
-				bar.BorderSizePixel = 0
-				bar.Parent = sliderFrame
-
-				local uiGradient = Instance.new("UIGradient")
-				uiGradient.Color = gradientFunc()
-				uiGradient.Parent = bar
-
-				local knob = Instance.new("Frame")
-				knob.Size = UDim2.new(0, 10, 1, 0)
-				knob.BackgroundColor3 = Color3.new(1,1,1)
-				knob.BorderSizePixel = 0
-				knob.Parent = bar
-
-				local function setVal(v)
-					v = math.clamp(v,0,1)
-					knob.Position = UDim2.new(v, -5, 0, 0)
-					settings.Target[key] = v
-
-					-- update dependent gradients
-					if key == "Hue" and satGrad then
-						satGrad.Color = ColorSequence.new{
-							ColorSequenceKeypoint.new(0, Color3.fromHSV(v,0,1)),
-							ColorSequenceKeypoint.new(1, Color3.fromHSV(v,1,1))
-						}
-						if valGrad then
-							valGrad.Color = ColorSequence.new{
-								ColorSequenceKeypoint.new(0, Color3.fromHSV(v, settings.Target.Sat,0)),
-								ColorSequenceKeypoint.new(1, Color3.fromHSV(v, settings.Target.Sat,1))
-							}
-						end
-					elseif key == "Sat" and valGrad then
-						valGrad.Color = ColorSequence.new{
-							ColorSequenceKeypoint.new(0, Color3.fromHSV(settings.Target.Hue,v,0)),
-							ColorSequenceKeypoint.new(1, Color3.fromHSV(settings.Target.Hue,v,1))
-						}
-					end
-				end
-
-				-- drag
-				bar.InputBegan:Connect(function(input)
-					if input.UserInputType == Enum.UserInputType.MouseButton1 then
-						local conn
-						conn = UserInputService.InputChanged:Connect(function(inp)
-							if inp.UserInputType == Enum.UserInputType.MouseMovement then
-								local rel = (inp.Position.X - bar.AbsolutePosition.X)/bar.AbsoluteSize.X
-								setVal(rel)
-							end
-						end)
-						UserInputService.InputEnded:Connect(function(inp)
-							if inp.UserInputType == Enum.UserInputType.MouseButton1 then
-								conn:Disconnect()
-							end
-						end)
-					end
-				end)
-
-				setVal(settings.Target[key])
-				return setVal, uiGradient
+		-- click handle
+		handle.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				dragging = true
+				print(ColorSliderSettings.Target)
 			end
+		end)
 
-			_, hueGrad = createSlider(25, "Hue", function()
-				local keys = {}
-				for i=0,1,0.1 do
-					table.insert(keys, ColorSequenceKeypoint.new(i, Color3.fromHSV(i,1,1)))
-				end
-				return ColorSequence.new(keys)
-			end, "Hue")
-
-			_, satGrad = createSlider(50, "Sat", function()
-				return ColorSequence.new{
-					ColorSequenceKeypoint.new(0, Color3.fromHSV(settings.Target.Hue,0,1)),
-					ColorSequenceKeypoint.new(1, Color3.fromHSV(settings.Target.Hue,1,1))
-				}
-			end, "Sat")
-
-			_, valGrad = createSlider(75, "Value", function()
-				return ColorSequence.new{
-					ColorSequenceKeypoint.new(0, Color3.fromHSV(settings.Target.Hue,settings.Target.Sat,0)),
-					ColorSequenceKeypoint.new(1, Color3.fromHSV(settings.Target.Hue,settings.Target.Sat,1))
-				}
-			end, "Value")
-
-			function colorsliderapi.GetColor()
-				return Color3.fromHSV(settings.Target.Hue, settings.Target.Sat, settings.Target.Value)
+		UserInputService.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				dragging = false
 			end
+		end)
 
-			return colorsliderapi, holder
-		end--]]
+		UserInputService.InputChanged:Connect(function(input)
+			if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+				local relative = (input.Position.X - frame.AbsolutePosition.X) / frame.AbsoluteSize.X
+				setTargetFunc(math.clamp(relative, 0, 1))
+			end
+		end)
+	end
+
+	-- Setup dragging
+	setupDrag(HueSlider, HueHandle, function(val) targetHue = val Hue = val definedconfig.Hue = val task.delay(0.01, function() API.ConfigSystem:Save_Config() end) end)
+	setupDrag(SatSlider, SatHandle, function(val) targetSat = val Saturation = val definedconfig.Sat = val task.delay(0.01, function() API.ConfigSystem:Save_Config() end) end)
+	setupDrag(ValSlider, ValHandle, function(val) targetVal = val Value = val definedconfig.Value = val task.delay(0.01, function() API.ConfigSystem:Save_Config() end) end)
+
+	-- Smooth handle movement and update target color
+	RunService.RenderStepped:Connect(function()
+		local leftPad, rightPad = 0.03, 0
+
+		local hueMin, hueMax = 0, 1
+		local satMin, satMax = 0, 1
+		local valMin, valMax = 0, 1
+
+		Hue = targetHue
+		Saturation = targetSat
+		Value = targetVal
+
+		HueHandle.Position = UDim2.new(math.clamp(targetHue, hueMin, hueMax), -10, 0, 1)
+		SatHandle.Position = UDim2.new(math.clamp(targetSat, satMin, satMax), -10, 0, 1)
+		ValHandle.Position = UDim2.new(math.clamp(targetVal, valMin, valMax), -10, 0, 1)
+
+		if ColorSliderSettings.Target then
+			ColorSliderSettings.Target.Hue = Hue
+			ColorSliderSettings.Target.Sat = Saturation
+			ColorSliderSettings.Target.Value = Value
+		end
+
+		local currentColor = Color3.fromHSV(Hue, Saturation, Value)
+		Preview.BackgroundColor3 = currentColor
+		HueHandle.BackgroundColor3 = currentColor
+		SatHandle.BackgroundColor3 = currentColor
+		ValHandle.BackgroundColor3 = currentColor
+
+		updateGradients()
+	end)
+
+	-- Expand button toggling
+	expandbutton.MouseButton1Click:Connect(function()
+		slidersVisible = not slidersVisible
+		local targetSize = slidersVisible and UDim2.new(1,0,0,90) or UDim2.new(1,0,0,40)
+		TweenService:Create(ColorSliderHolder, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = targetSize}):Play()
+
+		for _, slider in pairs({SatSlider, ValSlider}) do
+			if slidersVisible then
+				slider.Visible = true
+				expandbutton.Rotation = 0
+			end
+			local targetTransparency = slidersVisible and 0 or 1
+			local tween = TweenService:Create(slider, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = targetTransparency})
+			tween:Play()
+			tween.Completed:Connect(function()
+				if not slidersVisible then
+					slider.Visible = false
+					expandbutton.Rotation = 180
+				end
+			end)
+		end
+	end)
+
+	updateGradients()
+
+	-- Functions to get/set color externally
+	local function getColor()
+		return Color3.fromHSV(Hue, Saturation, Value)
+	end
+
+	local function setColor(color)
+		Hue, Saturation, Value = Color3.toHSV(color)
+		targetHue, targetSat, targetVal = Hue, Saturation, Value
+	end
+
+	return getColor, setColor
+end
+       
         task.delay(0.1, function()
             if Config[module.Name].Keybind == "none" then
                 bindholder.Text = "none"
@@ -1389,7 +1619,7 @@ local NotificationFrame = Instance.new("Frame")
 NotificationFrame.Size = UDim2.fromScale(0.3, 0.9)
 NotificationFrame.Name = "NotificationFrame"
 NotificationFrame.Visible = false
-NotificationFrame.Position = UDim2.fromScale(0.35,0)
+NotificationFrame.Position = UDim2.fromScale(0.77,0)
 NotificationFrame.BackgroundTransparency = 1
 NotificationFrame.Parent = Root
 local NotificationFrameSorter = Instance.new("UIListLayout", NotificationFrame)
@@ -1422,12 +1652,18 @@ function API:CreateNotification(title, text, duration, iconType)
 	Notification.Parent = NotificationFrame
 	Notification.BorderSizePixel = 0
 	Notification.BackgroundColor3 = uipal.Main
-	Notification.Size = UDim2.fromOffset(math.max(getfontsize(removeTags(text), 14, uipal.Font).X + 80, 266), 0) -- wider for icon
+	Notification.Size = UDim2.fromOffset(math.max(getfontsize(removeTags(text), 14, uipal.Font).X + 60, 266), 0) -- wider for icon
 	Notification.BackgroundTransparency = 0
-	Notification.ClipsDescendants = true
+	Notification.ClipsDescendants = false
 	Notification.AnchorPoint = Vector2.new(0.5, 1)
 	Notification.Position = UDim2.new(0.5, 0, 1, -20)
 	roundify(Notification, 10)
+	CreateShadow(Notification)
+
+	--[[local NotifStroke = Instance.new("UIStroke")
+	NotifStroke.Color = uipal.textoff
+    NotifStroke.Thickness = 1
+    NotifStroke.Parent = Notification--]]
 
     local IconGradient = Instance.new("UIGradient")
     IconGradient.Enabled = false
@@ -1462,6 +1698,7 @@ function API:CreateNotification(title, text, duration, iconType)
 	iconLabel.BackgroundTransparency = 1
 	iconLabel.ImageColor3 = iconcolor
 	iconLabel.Image = iconId
+	iconLabel.Visible = false
 	iconLabel.Parent = Notification
 
     local IconGradient = Instance.new("UIGradient")
@@ -1477,8 +1714,8 @@ function API:CreateNotification(title, text, duration, iconType)
 	titleLabel.Position = UDim2.fromOffset(20, 10)
 	titleLabel.ZIndex = 5
 	titleLabel.BackgroundTransparency = 1
-	titleLabel.Text = "<stroke color='#FFFFFF' joins='round' thickness='0.3' transparency='0.5'>"..title..'</stroke>'
-	titleLabel.TextXAlignment = Enum.TextXAlignment.Center
+	titleLabel.Text = "<stroke color='#FFFFFF' joins='round' thickness='0.3' transparency='0.5'> "..title..'</stroke>'
+	titleLabel.TextXAlignment = Enum.TextXAlignment.Left
 	titleLabel.TextYAlignment = Enum.TextYAlignment.Top
 	titleLabel.TextColor3 = iconcolor
 	titleLabel.TextSize = 18
@@ -1515,55 +1752,79 @@ function API:CreateNotification(title, text, duration, iconType)
 	local textLabel = Instance.new('TextLabel')
 	textLabel.Name = 'Text'
 	textLabel.Size = UDim2.new(1, -56, 0, 20) 
-	textLabel.Position = UDim2.fromOffset(20, 30)
+	textLabel.Position = UDim2.fromOffset(20, 35)
 	textLabel.BackgroundTransparency = 1
-	textLabel.Text = text
-	textLabel.TextXAlignment = Enum.TextXAlignment.Center
+	textLabel.Text = " "..text
+	textLabel.TextXAlignment = Enum.TextXAlignment.Left
 	textLabel.TextColor3 = Color3.fromRGB(209, 209, 209)
 	textLabel.TextSize = 14
 	textLabel.RichText = true
+	textLabel.Visible = false
 	textLabel.FontFace = uipal.Font
 	textLabel.TextWrapped = true
 	textLabel.Parent = Notification
 
 	-- Countdown timer label
-	local timerLabel = Instance.new("TextLabel")
-	timerLabel.Name = "Timer"
-	timerLabel.Size = UDim2.new(0, 60, 0, 20)
-	timerLabel.Position = UDim2.new(1, -55, 1, -25)
-	timerLabel.BackgroundTransparency = 1
-	timerLabel.Text = string.format("%.2f", duration)
-	timerLabel.TextColor3 = uipal.text
-	timerLabel.TextSize = 14
-	timerLabel.FontFace = uipal.Font
-	timerLabel.Parent = Notification
-    timerLabel.Visible = false
+	local progressBar = Instance.new("Frame")
+	progressBar.Name = "ProgressBar"
+	progressBar.Parent = Notification
+	progressBar.AnchorPoint = Vector2.new(1, 0)
+	progressBar.Position = UDim2.new(1, -5, 1, -10) -- bottom right
+	progressBar.Size = UDim2.new(1, -10, 0, 5) -- full width, 3px tall
+	progressBar.BackgroundColor3 = iconcolor -- or any accent color you want
+	progressBar.BorderSizePixel = 0
+	progressBar.ZIndex = 10
+	roundify(progressBar, 10)
 
-	-- Animate in (grow height)
-	local fullHeight = 75
-	TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {
-		Size = UDim2.fromOffset(Notification.Size.X.Offset, fullHeight)
-	}):Play()
+local TweenService = game:GetService("TweenService")
 
-	local function slideOutNotification()
-		local slideOut = TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-			Size = UDim2.fromOffset(Notification.Size.X.Offset, 0)
+local fullWidth = math.max(getfontsize(removeTags(text), 14, uipal.Font).X + 60, 266)
+local fullHeight = 75
+
+-- Anchor to bottom-right of the frame
+Notification.AnchorPoint = Vector2.new(1, 0) -- right side fixed
+Notification.Size = UDim2.fromOffset(0, fullHeight) -- start collapsed
+
+local function SlideInNotification()
+TweenService:Create(Notification, TweenInfo.new(
+    0.3,
+    Enum.EasingStyle.Quint,
+    Enum.EasingDirection.Out
+), {
+    Size = UDim2.fromOffset(fullWidth, fullHeight)
+}):Play()
+task.wait(0.1)
+textLabel.Visible = true
+end
+
+SlideInNotification()
+
+-- Slide out (shrink width back to 0)
+local function slideOutNotification()
+    local slideOut = TweenService:Create(Notification, TweenInfo.new(
+        0.3,
+        Enum.EasingStyle.Quint,
+        Enum.EasingDirection.In
+    ), {
+        Size = UDim2.fromOffset(0, fullHeight)
+    })
+	textLabel.Visible = false
+	slideOut:Play()
+end
+
+task.spawn(function()
+		local timertween = TweenService:Create(progressBar, TweenInfo.new(
+			duration, -- match notification duration
+			Enum.EasingStyle.Linear,
+			Enum.EasingDirection.Out
+		), {
+			Size = UDim2.new(0, 0, 0, 5) -- shrinks to nothing
 		})
-		slideOut:Play()
-		slideOut.Completed:Wait()
-		Notification:Destroy()
-	end
-
-	-- Countdown loop
-	task.spawn(function()
-		local remaining = duration
-		while remaining > 0 do
-			timerLabel.Text = string.format("%.2f", remaining)
-			task.wait(0.01)
-			remaining -= 0.01
-		end
-		timerLabel.Text = "0.00"
+		timertween:Play()
+		timertween.Completed:Wait()
 		slideOutNotification()
+		task.wait(0.32)
+		Notification:Destroy()
 	end)
 
 	-- Close button click
@@ -1575,52 +1836,56 @@ end
 -- ===================== EXAMPLE USAGE =====================
 local Combat = API:CreateCategory({
     name = 'Combat',
-    posX = 250,
-    posY = 100,
+    --posX = 255,
+    --posY = 100,
     Icon = 'rbxassetid://124357178154991',
     Parent = categoryContainer,
+	FirstButton = true,
 })
 local Movement = API:CreateCategory({
     name = 'Movement',
-    posX = 480,
-    posY = 100,
+    --posX = 490,
+    --posY = 100,
     Icon = 'rbxassetid://108815009799422',
     Parent = categoryContainer,
 })
 local Player = API:CreateCategory({
     name = 'Player',
-    posX = 710,
-    posY = 100,
+    --posX = 725,
+    --posY = 100,
     Icon = 'rbxassetid://91243494248123',
     Parent = categoryContainer,
 })
 local Render = API:CreateCategory({
     name = 'Render',
-    posX = 940,
-    posY = 100,
+    --posX = 960,
+    --posY = 100,
     Icon = 'rbxassetid://105858249804226',
     Parent = categoryContainer,
 })
 local Misc = API:CreateCategory({
-    name = 'Misc',
-    posX = 1170,
-    posY = 100,
-    Icon = 'rbxassetid://83125383106926',
+    name = 'Premium',
+    --posX = 1195,
+    --posY = 100,
+    Icon = 'rbxassetid://136208379510922',
     Parent = categoryContainer,
+	LastButton = true
 })
 local Settings = API:CreateCategory({
     name = 'Settings',
-    posX = 1400,
-    posY = 100,
-    Icon = 'rbxassetid://135586317594546',
+    --posX = 1430,
+    --posY = 100,
+    Icon = 'rbxassetid://98825735875096',
     Parent = footer,
+	FirstButton = true
 })
 local Configs = API:CreateCategory({
     name = 'Configs',
-    posX = 1630,
-    posY = 100,
+    --posX = 1665,
+    --posY = 100,
     Icon = 'rbxassetid://85433960710965',
     Parent = footer,
+	LastButton = true
 })
 
 local Uninject = Settings:CreateModule({
@@ -1634,7 +1899,7 @@ local Uninject = Settings:CreateModule({
             blur:Destroy()
         end
     end,
-    Tooltip = 'Uninjects Galaxy',
+    Tooltip = 'Uninjects Nightfall',
 })
 local GUI = Settings:CreateModule({
 	Name = "Gui",
@@ -1655,6 +1920,18 @@ local Colors = Settings:CreateModule({
 	Function = function(state)
 	end,
 	Tooltip = "Make changes to the Colors of the UI!"
+})
+local MainColorSlider = Colors:CreateColorSlider({
+	Name = "Main",
+	Target = API.MainBKG
+})
+local SGradientColorSlider = Colors:CreateColorSlider({
+	Name = "Start Gradient",
+	Target = API.UIColor
+})
+local EndGradientSlider = Colors:CreateColorSlider({
+	Name = "End Gradient",
+	Target = API.UIColor2
 })
 local ModuleList = Settings:CreateModule({
 	Name = "Module List",
@@ -1702,11 +1979,19 @@ local MainWaterMarkTog = Hud:CreateToggle({
 	default = false,
 	callback = function(val)
 		if val then
-			GalaxyWatermark.Visible = true
+			NightfallWatermark.Visible = true
 		else
-			GalaxyWatermark.Visible = false
+			NightfallWatermark.Visible = false
 		end
 	end,
+})
+local SortUI = Settings:CreateModule({
+	Name = "Sort GUI",
+    Legit = true,
+	Function = function(state)
+		
+	end,
+	Tooltip = "Sorts the GUI into the right places!"
 })
 
 local visibleclickui = false
@@ -1727,23 +2012,23 @@ UserInputService.InputBegan:Connect(function(input, gpe)
     if keyEnum and input.KeyCode == keyEnum then
         visibleclickui = not visibleclickui
         blurenabled = not blurenabled
-        blur.Enabled = blurenabled
+        --blur.Enabled = blurenabled
         ClickGUI.Visible = visibleclickui
         Arraylistmover.Visible = visibleclickui
     end
 end)
 
 API.Loaded = true
-task.wait(2)
+--task.wait(2)
 NotificationFrame.Visible = true
-task.wait(1)
+--task.wait(1)
 API:CreateNotification(
-    'Galaxy',
+    'Nightfall',
     'Press ' .. tostring(API.Keybind[1]) .. ' to open GUI',
-    2,
+    20,
 "normal"
 )
 
-shared.Galaxy = API
+shared.Nightfall = API
 					
 return API
