@@ -20,7 +20,7 @@ local function downloadFile(path, func)
 			error(res)
 		end
 		if path:find('.lua') then
-			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
+			res = '--remove this if you dont want the script to update.\n'..res
 		end
 		writefile(path, res)
 	end
