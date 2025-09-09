@@ -63,6 +63,11 @@ local targetinfo = Nightfall.Libraries.targetinfo
 local getfontsize = Nightfall.Libraries.getfontsize
 local getcustomasset = Nightfall.Libraries.getcustomasset--]]
 
+Nightfall.Load.Loaded = true
+Nightfall.Load.Time = os.clock() - Nightfall.Load.Start
+local LoadTime: string = string.format('%.1fs', Nightfall.Load.Time)
+Nightfall:CreateNotification('Nightfall', 'Loaded in ' .. LoadTime, 2, 'normal')
+
 entitylib.start()
 local AimAssistConnection
 
