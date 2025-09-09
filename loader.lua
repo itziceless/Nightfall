@@ -70,7 +70,8 @@ if not isfile('Nightfall/UI/UI.txt') then
 end
 local gui = readfile('Nightfall/UI/UI.txt')
 loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Nightfall/refs/heads/main/libs/Whitelist.lua", true))()
-local Nightfall = loadstring(downloadFile('Nightfall/UI/'..gui..'.lua'), 'gui')()
+local NightfallUI = loadstring(downloadFile('Nightfall/UI/'..gui..'.lua'), 'gui')()
+local Nightfall = shared.Nightfall
 loadstring(downloadFile('Nightfall/Games/Universal.lua'), 'Universal')()
 	if isfile('Nightfall/Games/'..game.PlaceId..'.lua') then
 		loadstring(readfile('Nightfall/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
@@ -84,3 +85,7 @@ loadstring(downloadFile('Nightfall/Games/Universal.lua'), 'Universal')()
 			end
 		end
 	end
+NightFall.Load.Loaded = true
+NightFall.Load.Time = os.clock() - NightFall.Load.Start
+local LoadTime: string = string.format("%.1fs", NightFall.Load.Time)
+Nightfall:CreateNotification("Nightfall", "Loaded in " .. LoadTime, 2, "normal")
