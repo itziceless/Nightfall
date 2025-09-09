@@ -1,7 +1,5 @@
 repeat task.wait() until game:IsLoaded()
 
-local Nightfall = shared.Nightfall
-
 local isfile = isfile or function(file)
 	local suc, res = pcall(function()
 		return readfile(file)
@@ -46,7 +44,7 @@ end
 local loadstring = function(...)
 	local res, err = loadstring(...)
 	if err and vape then
-		Nightfall:CreateNotification('Nightfall', 'Failed to load : '..err, 30)
+		API:CreateNotification('Nightfall', 'Failed to load : '..err, 30)
 	end
 	return res
 end
