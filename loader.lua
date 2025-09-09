@@ -20,7 +20,7 @@ local function wipeFolder(path)
 	end
 end
 
-for _, folder in {'Revenant', 'Revenant/Games', 'Revenant/PremiumGames', 'Revenant/Configs', 'Revenant/Libs', 'Revenant/UI'} do
+for _, folder in {'Nightfall', 'Nightfall/Games', 'Nightfall/PremiumGames', 'Nightfall/Configs', 'Nightfall/Libs', 'Nightfall/UI'} do
 	if not isfolder(folder) then
 		makefolder(folder)
 	end
@@ -29,7 +29,7 @@ end
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/itziceless/Revenant/'..readfile('Revenant/Libs/commit.txt')..'/'..select(1, path:gsub('Revenant/', '')), true)
+			return game:HttpGet('https://raw.githubusercontent.com/itziceless/Nightfall/'..readfile('Nightfall/Libs/commit.txt')..'/'..select(1, path:gsub('Nightfall/', '')), true)
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)
@@ -44,43 +44,43 @@ end
 local loadstring = function(...)
 	local res, err = loadstring(...)
 	if err and vape then
-		API:CreateNotification('Revenant', 'Failed to load : '..err, 30)
+		Nightfall:CreateNotification('Nightfall', 'Failed to load : '..err, 30)
 	end
 	return res
 end
 
-if not shared.RevenantDeveloper then
+if not shared.NightfallDeveloper then
 	local _, subbed = pcall(function()
-		return game:HttpGet('https://raw.githubusercontent.com/itziceless/Revenant/'..readfile('Revenant/Libs/commit.txt')..'/games/'..game.PlaceId..'.lua', true)
+		return game:HttpGet('https://raw.githubusercontent.com/itziceless/Nightfall/'..readfile('Nightfall/Libs/commit.txt')..'/games/'..game.PlaceId..'.lua', true)
 	end)
 	local commit = subbed:find('currentOid')
 	commit = commit and subbed:sub(commit + 13, commit + 52) or nil
 	commit = commit and #commit == 40 and commit or 'main'
-	if commit == 'main' or (isfile('Revenant/Libs/commit.txt') and readfile('Revenant/Libs/commit.txt') or '') ~= commit then
-		wipeFolder('Revenant/PremiumGames')
-		wipeFolder('Revenant/Games')
-		wipeFolder('Revenant/UI')
-		wipeFolder('Revenant/Libs')
+	if commit == 'main' or (isfile('Nightfall/Libs/commit.txt') and readfile('Nightfall/Libs/commit.txt') or '') ~= commit then
+		wipeFolder('Nightfall/PremiumGames')
+		wipeFolder('Nightfall/Games')
+		wipeFolder('Nightfall/UI')
+		wipeFolder('Nightfall/Libs')
 	end
-	writefile('Revenant/Libs/commit.txt', commit)
+	writefile('Nightfall/Libs/commit.txt', commit)
 end
 
-if not isfile('Revenant/UI/UI.txt') then
-	writefile('Revenant/UI/UI.txt', 'Main')
+if not isfile('Nightfall/UI/UI.txt') then
+	writefile('Nightfall/UI/UI.txt', 'Main')
 end
-local gui = readfile('Revenant/UI/UI.txt')
-loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Revenant/refs/heads/main/libs/Whitelist.lua", true))()
-local Revenant = loadstring(downloadFile('Revenant/UI/'..gui..'.lua'), 'gui')()
-loadstring(downloadFile('Revenant/Games/Universal.lua'), 'Universal')()
-	if isfile('Revenant/Games/'..game.PlaceId..'.lua') then
-		loadstring(readfile('Revenant/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
+local gui = readfile('Nightfall/UI/UI.txt')
+loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Nightfall/refs/heads/main/libs/Whitelist.lua", true))()
+local Nightfall = loadstring(downloadFile('Nightfall/UI/'..gui..'.lua'), 'gui')()
+loadstring(downloadFile('Nightfall/Games/Universal.lua'), 'Universal')()
+	if isfile('Nightfall/Games/'..game.PlaceId..'.lua') then
+		loadstring(readfile('Nightfall/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
 	else
-		if not shared.VapeDeveloper then
+		if not shared.NightfallDeveloper then
 			local suc, res = pcall(function()
-				return game:HttpGet('https://raw.githubusercontent.com/itziceless/Revenant/'..readfile('Revenant/Libs/commit.txt')..'/games/'..game.PlaceId..'.lua', true)
+				return game:HttpGet('https://raw.githubusercontent.com/itziceless/Nightfall/'..readfile('Nightfall/Libs/commit.txt')..'/games/'..game.PlaceId..'.lua', true)
 			end)
 			if suc and res ~= '404: Not Found' then
-				loadstring(downloadFile('Revenant/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
+				loadstring(downloadFile('Nightfall/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
 			end
 		end
 	end
