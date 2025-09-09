@@ -1,7 +1,7 @@
 local loadstring = function(...)
 	local res, err = loadstring(...)
 	if err and vape then
-		Revenant:CreateNotification('Revenant', 'Failed to load : '..err, 30, "alert")
+		Nightfall:CreateNotification('Nightfall', 'Failed to load : '..err, 30, "alert")
 	end
 	return res
 end
@@ -14,7 +14,7 @@ end
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/itziceless/Revenant/'..readfile('Revenant/Libs/commit.txt')..'/'..select(1, path:gsub('Galaxy/', '')), true)
+			return game:HttpGet('https://raw.githubusercontent.com/itziceless/Nightfall/'..readfile('Nightfall/Libs/commit.txt')..'/'..select(1, path:gsub('Nightfall/', '')), true)
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)
@@ -56,17 +56,17 @@ local gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA('
 local lplr = playersService.LocalPlayer
 local assetfunction = getcustomasset
 
-local Revenant = shared.Revenant
-local entitylib = loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Revenant/refs/heads/main/libs/entitylib.lua", true))()
---[[local tween = Revenant.Libraries.tween
-local targetinfo = Revenant.Libraries.targetinfo
-local getfontsize = Revenant.Libraries.getfontsize
-local getcustomasset = Revenant.Libraries.getcustomasset--]]
+local Nightfall = shared.Nightfall
+local entitylib = loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Nightfall/refs/heads/main/libs/entitylib.lua", true))()
+--[[local tween = Nightfall.Libraries.tween
+local targetinfo = Nightfall.Libraries.targetinfo
+local getfontsize = Nightfall.Libraries.getfontsize
+local getcustomasset = Nightfall.Libraries.getcustomasset--]]
 
 entitylib.start()
 local AimAssistConnection
 
-AimAssist = Revenant.Categories.Combat:CreateModule({
+AimAssist = Nightfall.Categories.Combat:CreateModule({
 	Name = "AimAssist",
 	Legit = false,
 	Function = function(called)
@@ -112,7 +112,7 @@ local SpeedValue
 local SpeedMode
 local SpeedSlider
 local oldSpeed
-Speed = Revenant.Categories.Movement:CreateModule({
+Speed = Nightfall.Categories.Movement:CreateModule({
     Name = 'Speed',
     Legit = false,
     Function = function(called)
@@ -145,7 +145,7 @@ SpeedMode = Speed:CreateDropdown({
 end)
 task.spawn(function()
 local Rejoin
-Rejoin = Revenant.Categories.Misc:CreateModule({
+Rejoin = Nightfall.Categories.Misc:CreateModule({
     Name = 'Rejoin',
     Legit = false,
     Function = function(called)
