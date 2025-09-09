@@ -72,7 +72,7 @@ local gui = readfile('Nightfall/UI/UI.txt')
 loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Nightfall/refs/heads/main/libs/Whitelist.lua", true))()
 local NightfallUI = loadstring(downloadFile('Nightfall/UI/'..gui..'.lua'), 'gui')()
 local Nightfall = shared.Nightfall
-loadstring(downloadFile('Nightfall/Games/Universal.lua'), 'Universal')()
+--loadstring(downloadFile('Nightfall/Games/Universal.lua'), 'Universal')()
 	if isfile('Nightfall/Games/'..game.PlaceId..'.lua') then
 		loadstring(readfile('Nightfall/Games/'..game.PlaceId..'.lua'), tostring(game.PlaceId))(...)
 	else
