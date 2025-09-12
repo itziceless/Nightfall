@@ -100,8 +100,9 @@ end
 --PLAYER
 task.spawn(function()
     local NoFallDamage
-    NoFallDamage = Nightfall.Categories.Player.CreateModule({
+    NoFallDamage = Nightfall.Categories.Player:CreateModule({
         Name = "No Fall",
+		Legit = true,
         Function = function(called)
             if called then
                 repeat
