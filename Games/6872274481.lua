@@ -106,8 +106,8 @@ task.spawn(function()
             if called then
                 repeat
                     task.wait()
-                    if lplr.Character.PrimaryPart.Velocity.Y < -70 then
-                        lplr.Character.PrimaryPart.Velocity = Vector3.new(lplr.Character.PrimaryPart.Velocity.X, -10, lplr.Character.PrimaryPart.Velocity.Z)
+                    if lplr.Character.PrimaryPart.Velocity.Y < -80 then
+                        lplr.Character.PrimaryPart.Velocity = Vector3.new(lplr.Character.PrimaryPart.Velocity.X, -5, lplr.Character.PrimaryPart.Velocity.Z)
                     end
                 until not NoFallDamage.Enabled
             end
