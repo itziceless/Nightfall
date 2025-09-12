@@ -99,6 +99,7 @@ end
 
 --PLAYER
 task.spawn(function()
+	local Mode
     local NoFallDamage
     NoFallDamage = Nightfall.Categories.Player:CreateModule({
         Name = "No Fall",
@@ -114,7 +115,13 @@ task.spawn(function()
             end
         end
     })
+	Mode = NoFallDamage:CreateDropdown({
+		Name = "Mode",
+		Default = "Bounce",
+		Options = {'Packet', 'Gravity', 'Teleport', 'Bounce'},
+	})
 end)
+	
 --RENDER
 
 --PREMIUM
