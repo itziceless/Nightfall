@@ -93,71 +93,27 @@ local function GetClosestPlayer(options)
     return closestPlayer
 end
 
+--COMBAT
+
+--MOVEMENT
+
+--PLAYER
 task.spawn(function()
-    local AimAssist
-    local Smoothness
-    local Circle
-    local Distance
-    local TeamCheck
-    local WallCheck
-    local UseTriggerButton
-    local TargetPart
-    local CircleColor
-    AimAssist = Nightfall.Categories.Movement:CreateModule({
-        Name = 'Aim Assist',
-        Legit = true,
-        Function = function(enabled)
-            if enabled then
-                runService.RenderStepped:Connect(function()
-                    local target = GetClosestPlayerr({
-                        Distance = Distance.Get(),
-                        TeamCheck = TeamCheck.Get(),
-                        WallCheck = WallCheck.Get(),
-                        TargetPart = TargetPart.Get()
-                    })
-                    if target and target.Character and target.Character:FindFirstChild(TargetPart.Get()) then
-                        local targetPos = target.Character[TargetPart.Get()].Position
-                        local currentCFrame = gameCamera.CFrame
-                        local targetCFrame = CFrame.new(currentCFrame.Position, targetPos)
-                        gameCamera.CFrame = currentCFrame:Lerp(targetCFrame, Smoothness.Get())
+    local NoFallDamage
+    NoFallDamage = Nightfall.Categories.Player.CreateModule({
+        Name = "No Fall",
+        Function = function(called)
+            if called then
+                repeat
+                    task.wait()
+                    if lplr.Character.PrimaryPart.Velocity.Y < -70 then
+                        lplr.Character.PrimaryPart.Velocity = Vector3.new(lplr.Character.PrimaryPart.Velocity.X, -10, lplr.Character.PrimaryPart.Velocity.Z)
                     end
-                end)
+                until not NoFallDamage.Enabled
             end
-            Tooltip = 'Aims Camera at player.',
-        end,
-    })
-    Circle = AimAssist:CreateToggle({
-        Name = "Enable Circle",
-        Default = true
-    })
-
-    TeamCheck = AimAssist:CreateToggle({
-        Name = "Team Check",
-        Default = false
-    })
-
-    WallCheck = AimAssist:CreateToggle({
-        Name = "Wall Check",
-        Default = false
-    })
-
-    -- Sliders
-    Smoothness = AimAssist:CreateSlider({
-        Name = "Smoothness",
-        Min = 0,
-        Max = 1,
-        Default = 0.2
-    })
-
-    Distance = AimAssist:CreateSlider({
-        Name = "Aim Distance",
-        Min = 1,
-        Max = 300,
-        Default = 50
-    })
-    TargetPart = AimAssist:CreateDropdown({
-        Name = "Target Part",
-        Default = "HumanoidRootPart",
-        Options = {"Head", "HumanoidRootPart"}
+        end
     })
 end)
+--RENDER
+
+--PREMIUM
