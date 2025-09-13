@@ -325,12 +325,13 @@ task.spawn(function()
         Legit = true,
         Function = function(called)
             if called then
-                repeat
-                    task.wait()
                     if not Bedwars.Sprint.issprinting then
                         Bedwars.Sprint:startSprinting()
                     end
-                until not Sprint.Enabled
+                else
+                    if not bedwars.Sprint.stopSprinting then
+				        bedwars.Sprint:stopSprinting()
+                end
             end
         end
     })
