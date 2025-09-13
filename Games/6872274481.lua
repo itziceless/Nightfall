@@ -83,6 +83,8 @@ local entitylib = loadstring(
 
 local Client = require(replicatedStorage.TS.remotes).default.Client
 local Knit = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+local Flamework = require(replicatedStorage['rbxts_include']['node_modules']['@flamework'].core.out).Flamework
+local InventoryUtil = require(replicatedStorage.TS.inventory['inventory-u
 local Bedwars = {
 		KnockbackUtil = debug.getupvalue(require(ReplicatedStorage.TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1),
 		AbilityController = Flamework.resolveDependency('@easy-games/game-core:client/controllers/ability/ability-controller@AbilityController'),
