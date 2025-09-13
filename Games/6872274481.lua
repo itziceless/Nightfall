@@ -380,15 +380,6 @@ task.spawn(function()
     local WallCheck
     local TargetPart
 
-    -- FOV Circle
-    local fovCircle = Drawing.new('Circle')
-    fovCircle.Visible = false
-    fovCircle.Color = Color3.fromRGB(255, 0, 0)
-    fovCircle.Thickness = 2
-    fovCircle.NumSides = 100
-    fovCircle.Radius = 150
-    fovCircle.Filled = false
-
     -- Create AimAssist module
      AimAssist = Nightfall.Categories.Combat:CreateModule({
         Name = 'Aim Assist',
@@ -399,10 +390,17 @@ task.spawn(function()
                     while AimAssist.Enabled do
                         task.wait()
                         if not root then continue end
+                        local fovCircle = Drawing.new('Circle')
+                        fovCircle.Visible = false
+                        fovCircle.Color = Color3.fromRGB(255, 0, 0)
+                        fovCircle.Thickness = 2
+                        fovCircle.NumSides = 100
+                        fovCircle.Radius = 150
+                        fovCircle.Filled = false
 
-                        local mousePos = inputService:GetMouseLocation()
-                        fovCircle.Position = mousePos
-                        fovCircle.Visible = true
+                        if fovCircle then
+                        fovCircle.Position = inputService:GetMouseLocation()
+                        end
 
                         local options = {
                             FOV = fovCircle.Radius,
@@ -418,7 +416,7 @@ task.spawn(function()
                                 if part then
                                     local screenPos, onScreen = Camera:WorldToViewportPoint(part.Position)
                                         if onScreen then
-                                        local mousePos = UserInputService:GetMouseLocation()
+                                        local mousePos = inputService:GetMouseLocation()
                                         local targetPos = Vector2.new(screenPos.X, screenPos.Y)
                                         local newMouse = mousePos:Lerp(targetPos, smoothness)
                                             mousemoverel(newMouse.X - mousePos.X, newMouse.Y - mousePos.Y)
@@ -433,7 +431,6 @@ task.spawn(function()
             end
         end,
     })
-
     -- GUI elements
     FovToggle = AimAssist:CreateToggle({
         Name = 'FOV Circle',
@@ -464,7 +461,39 @@ task.spawn(function()
         Options = { 'HumanoidRootPart', 'Head' },
     })
 end)
-
+task.spawn(function()
+    local KillAura
+    local Delay
+    local Distance 
+    local TeamCheck
+    local WallCheck
+    local Delay
+    KillAura = Nightfall.Categories.Combat:CreateModule({
+        Name = 'KillAura',
+        Legit = false,
+        Function = function(called)
+            if called then
+                local options = {
+                    FOV = fovCircle.Radius,
+                    Distance = Distance.Get(),
+                    TeamCheck = TeamCheck.Get(),
+                    WallCheck = WallCheck.Get(),
+                    TargetPart = TargetPart.Get(),
+                }
+                    local target = GetClosestPlayer(options)
+                        Client:Get("SwordHit"):SendToServer({
+                            weapon = weapons,
+                            entityInstance = Nearest.Character,
+                            chargedAttack = {Delay.Get()},
+                            validate = {
+                                targetPosition = {value = Nearest.Character.PrimaryPart.Position},
+                                selfPosition = {value = lplr.Character.PrimaryPart.Position},
+                            },
+                        })            
+            end
+        end,
+    })
+    end)
 --MOVEMENT
 task.spawn(function()
     local Sprint
