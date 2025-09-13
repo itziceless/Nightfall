@@ -82,8 +82,8 @@ local entitylib = loadstring(
 )()
 
 local Client = require(replicatedStorage.TS.remotes).default.Client
-local Knit = require(replicatedStorage['rbxts_include']['node_modules']["@easy-games"].knit.src).KnitClient
-repeat task.wait() until Knit and Knit.Controllers and debug.getupvalue(Knit.Start, 1)
+local Knit = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+repeat task.wait() until Knit and debug.getupvalue(Knit.Start, 1)
 	--[[if not debug.getupvalue(Knit.Start, 1) then
 		repeat task.wait() until debug.getupvalue(Knit.Start, 1)
 	end--]]
