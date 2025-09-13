@@ -68,8 +68,7 @@ local isnetworkowner = identifyexecutor
     or function()
         return true
     end
-local gameCamera = workspace.CurrentCamera
-    or workspace:FindFirstChildWhichIsA('Camera')
+local gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA('Camera')
 local lplr = playersService.LocalPlayer
 local assetfunction = getcustomasset
 
@@ -238,38 +237,37 @@ local remoteNames = {
     ),
 }
 
-local function getRoot()
-    local r
-    repeat
-        r = lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart")
-        task.wait()
-    until r
-    print("[AimAssist] Root found:", r)
-    return r
+local lplrchar
+local function updateRoot()
+    lplrchar = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
 end
-
-root = getRoot()
-lplr.CharacterAdded:Connect(function()
-    root = getRoot()
+playersService.CharacterAdded:Connect(function()
+    task.wait(1)
+    updateRoot()
 end)
+updateRoot()
 
-
--- Check if a player is alive
+-- Check if player is alive
 local function isAlive(player)
-    local char = player.Character
-    if not char then
-        print("[isAlive] No character for", player.Name)
-        return false
-    end
-    local humanoid = char:FindFirstChild("Humanoid")
-    if not humanoid then
-        print("[isAlive] No humanoid for", player.Name)
-        return false
-    end
-    return humanoid.Health > 0
+    char = player.Character
+    if not char then return false end
+    local hum = char:FindFirstChild("Humanoid")
+    return hum and hum.Health > 0
 end
 
--- Get the closest target
+-- Wait for target part
+local function waitForPart(player, partName)
+    local part
+    repeat
+        if player.Character then
+            part = player.Character:FindFirstChild(partName)
+        end
+        task.wait(0.1)
+    until part
+    return part
+end
+
+-- Get closest target
 local function GetClosestPlayer(options)
     options = options or {}
     local maxDistance = options.Distance or 50
@@ -279,7 +277,7 @@ local function GetClosestPlayer(options)
     local targetPartName = options.TargetPart or "HumanoidRootPart"
 
     if not root then
-        print("[GetClosestPlayer] Root is nil")
+        print("[GetClosestPlayer] No root part!")
         return nil
     end
 
@@ -288,57 +286,59 @@ local function GetClosestPlayer(options)
     local closestPlayer = nil
     local smallestFOV = maxFOV
 
-    for _, player in pairs(playersService:GetPlayers()) do
-        if player == lplr then continue end
+    for _, player in pairs(Players:GetPlayers()) do
+        if player == LocalPlayer then continue end
         if not isAlive(player) then
             print("[GetClosestPlayer] Player dead:", player.Name)
             continue
         end
-        if teamCheck and player.Team == lplr.Team then
+
+        if teamCheck and player.Team == LocalPlayer.Team then
             print("[GetClosestPlayer] Same team, skipping:", player.Name)
             continue
         end
 
-        local part = player.Character:FindFirstChild(targetPartName)
+        local part = player.Character and player.Character:FindFirstChild(targetPartName)
         if not part then
             print("[GetClosestPlayer] Missing target part:", player.Name)
             continue
         end
 
-        local screenPos, onScreen = gameCamera:WorldToViewportPoint(part.Position)
+        local screenPos, onScreen = Camera:WorldToViewportPoint(part.Position)
         if not onScreen then
             print("[GetClosestPlayer] Offscreen:", player.Name)
             continue
         end
 
-        local fovDistance = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
-        local worldDistance = (part.Position - rootPos).Magnitude
+        local fovDist = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
+        local worldDist = (part.Position - rootPos).Magnitude
 
-        if fovDistance <= maxFOV and worldDistance <= maxDistance then
+        if fovDist <= maxFOV and worldDist <= maxDistance then
             if wallCheck then
-                local ray = Ray.new(gameCamera.CFrame.Position, (part.Position - gameCamera.CFrame.Position).Unit * worldDistance)
-                local hit = workspace:FindPartOnRay(ray, lplr.Character)
+                local ray = Ray.new(Camera.CFrame.Position, (part.Position - Camera.CFrame.Position).Unit * worldDist)
+                local hit = workspace:FindPartOnRay(ray, root.Parent)
                 if hit and not hit:IsDescendantOf(player.Character) then
                     print("[GetClosestPlayer] Wall blocking:", player.Name)
                     continue
                 end
             end
 
-            if fovDistance < smallestFOV then
+            if fovDist < smallestFOV then
                 closestPlayer = player
-                smallestFOV = fovDistance
-                print("[GetClosestPlayer] New closest target:", player.Name)
+                smallestFOV = fovDist
             end
-        else
-            print("[GetClosestPlayer] Out of FOV or distance:", player.Name)
         end
     end
 
-    if not closestPlayer then
+    if closestPlayer then
+        print("[GetClosestPlayer] Target acquired:", closestPlayer.Name)
+    else
         print("[GetClosestPlayer] No target in range")
     end
+
     return closestPlayer
 end
+
 --COMBAT
 task.spawn(function()
     local OldKB = nil
@@ -390,7 +390,7 @@ task.spawn(function()
     fovCircle.Filled = false
 
     -- Create AimAssist module
-    AimAssist = Nightfall.Categories.Combat:CreateModule({
+     AimAssist = Nightfall.Categories.Combat:CreateModule({
         Name = 'Aim Assist',
         Legit = true,
         Function = function(enabled)
@@ -398,9 +398,7 @@ task.spawn(function()
                 task.spawn(function()
                     while AimAssist.Enabled do
                         task.wait()
-                        if not root then
-                            continue
-                        end
+                        if not root then continue end
 
                         local mousePos = inputService:GetMouseLocation()
                         fovCircle.Position = mousePos
@@ -415,27 +413,16 @@ task.spawn(function()
                         }
 
                         local target = GetClosestPlayer(options)
-                        if target then
-                            print(target.Name) -- prints the current target
-
-                            local part = target.Character:FindFirstChild(
-                                options.TargetPart
-                            )
-                            if part then
-                                local screenPos, onScreen =
-                                    gameCamera:WorldToViewportPoint(
-                                        part.Position
-                                    )
-                                if onScreen then
-                                    local targetPos =
-                                        Vector2.new(screenPos.X, screenPos.Y)
-                                    local smoothness = 0.25 -- adjust for speed
-                                    local newMouse =
-                                        mousePos:Lerp(targetPos, smoothness)
-                                    mousemoverel(
-                                        newMouse.X - mousePos.X,
-                                        newMouse.Y - mousePos.Y
-                                    )
+                            if target then
+                                local part = waitForPart(target, TargetPart)
+                                if part then
+                                    local screenPos, onScreen = Camera:WorldToViewportPoint(part.Position)
+                                        if onScreen then
+                                        local mousePos = UserInputService:GetMouseLocation()
+                                        local targetPos = Vector2.new(screenPos.X, screenPos.Y)
+                                        local newMouse = mousePos:Lerp(targetPos, smoothness)
+                                            mousemoverel(newMouse.X - mousePos.X, newMouse.Y - mousePos.Y)
+                                                print("[AimAssist] Aiming at:", target.Name)
                                 end
                             end
                         end
