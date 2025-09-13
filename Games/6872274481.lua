@@ -82,68 +82,160 @@ local entitylib = loadstring(
 )()
 
 local Client = require(replicatedStorage.TS.remotes).default.Client
-local Knit = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
-repeat task.wait() until Knit and debug.getupvalue(Knit.Start, 1)
-	--[[if not debug.getupvalue(Knit.Start, 1) then
-		repeat task.wait() until debug.getupvalue(Knit.Start, 1)
-	end--]]
-local Flamework = require(replicatedStorage['rbxts_include']['node_modules']['@flamework'].core.out).Flamework
-local InventoryUtil = require(replicatedStorage.TS.inventory['inventory-util']).InventoryUtil
+local Knit = require(
+    replicatedStorage['rbxts_include']['node_modules']['@easy-games'].knit.src
+).KnitClient
+repeat
+    task.wait()
+until Knit and Knit.Controllers and debug.getupvalue(Knit.Start, 1)
+for i, v in ipairs(Knit.Controllers) do
+    print(i, v)
+end
+local Flamework = require(
+    replicatedStorage['rbxts_include']['node_modules']['@flamework'].core.out
+).Flamework
+local InventoryUtil =
+    require(replicatedStorage.TS.inventory['inventory-util']).InventoryUtil
 local Bedwars = {
-		KnockbackUtil = debug.getupvalue(require(replicatedStorage.TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1),
-		AbilityController = Flamework.resolveDependency('@easy-games/game-core:client/controllers/ability/ability-controller@AbilityController'),
-		AnimationType = require(replicatedStorage.TS.animation['animation-type']).AnimationType,
-		AnimationUtil = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out['shared'].util['animation-util']).AnimationUtil,
-		AppController = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out.client.controllers['app-controller']).AppController,
-		BedBreakEffectMeta = require(replicatedStorage.TS.locker['bed-break-effect']['bed-break-effect-meta']).BedBreakEffectMeta,
-		BedwarsKitMeta = require(replicatedStorage.TS.games.bedwars.kit['bedwars-kit-meta']).BedwarsKitMeta,
-		BlockBreaker = Knit.Controllers.BlockBreakController.blockBreaker,
-		BlockController = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['block-engine'].out).BlockEngine,
-		BlockEngine = require(lplr.PlayerScripts.TS.lib['block-engine']['client-block-engine']).ClientBlockEngine,
-		BlockPlacer = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['block-engine'].out.client.placement['block-placer']).BlockPlacer,
-		BowConstantsTable = debug.getupvalue(Knit.Controllers.ProjectileController.enableBeam, 8),
-		ClickHold = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out.client.ui.lib.util['click-hold']).ClickHold,
-		Client = Client,
-		ClientConstructor = require(replicatedStorage['rbxts_include']['node_modules']['@rbxts'].net.out.client),
-		ClientDamageBlock = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['block-engine'].out.shared.remotes).BlockEngineRemotes.Client,
-		CombatConstant = require(replicatedStorage.TS.combat['combat-constant']).CombatConstant,
-		DamageIndicator = Knit.Controllers.DamageIndicatorController.spawnDamageIndicator,
-		DefaultKillEffect = require(lplr.PlayerScripts.TS.controllers.game.locker['kill-effect'].effects['default-kill-effect']),
-		EmoteType = require(replicatedStorage.TS.locker.emote['emote-type']).EmoteType,
-		GameAnimationUtil = require(replicatedStorage.TS.animation['animation-util']).GameAnimationUtil,
+    KnockbackUtil = debug.getupvalue(
+        require(replicatedStorage.TS.damage['knockback-util']).KnockbackUtil.calculateKnockbackVelocity,
+        1
+    ),
+    AbilityController = Flamework.resolveDependency(
+        '@easy-games/game-core:client/controllers/ability/ability-controller@AbilityController'
+    ),
+    AnimationType = require(replicatedStorage.TS.animation['animation-type']).AnimationType,
+    AnimationUtil = require(
+        replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out['shared'].util['animation-util']
+    ).AnimationUtil,
+    AppController = require(
+        replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out.client.controllers['app-controller']
+    ).AppController,
+    BedBreakEffectMeta = require(
+        replicatedStorage.TS.locker['bed-break-effect']['bed-break-effect-meta']
+    ).BedBreakEffectMeta,
+    BedwarsKitMeta = require(
+        replicatedStorage.TS.games.bedwars.kit['bedwars-kit-meta']
+    ).BedwarsKitMeta,
+    BlockBreaker = Knit.Controllers.BlockBreakController.blockBreaker,
+    BlockController = require(
+        replicatedStorage['rbxts_include']['node_modules']['@easy-games']['block-engine'].out
+    ).BlockEngine,
+    BlockEngine = require(
+        lplr.PlayerScripts.TS.lib['block-engine']['client-block-engine']
+    ).ClientBlockEngine,
+    BlockPlacer = require(
+        replicatedStorage['rbxts_include']['node_modules']['@easy-games']['block-engine'].out.client.placement['block-placer']
+    ).BlockPlacer,
+    BowConstantsTable = debug.getupvalue(
+        Knit.Controllers.ProjectileController.enableBeam,
+        8
+    ),
+    ClickHold = require(
+        replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out.client.ui.lib.util['click-hold']
+    ).ClickHold,
+    Client = Client,
+    ClientConstructor = require(
+        replicatedStorage['rbxts_include']['node_modules']['@rbxts'].net.out.client
+    ),
+    ClientDamageBlock = require(
+        replicatedStorage['rbxts_include']['node_modules']['@easy-games']['block-engine'].out.shared.remotes
+    ).BlockEngineRemotes.Client,
+    CombatConstant = require(replicatedStorage.TS.combat['combat-constant']).CombatConstant,
+    DamageIndicator = Knit.Controllers.DamageIndicatorController.spawnDamageIndicator,
+    DefaultKillEffect = require(
+        lplr.PlayerScripts.TS.controllers.game.locker['kill-effect'].effects['default-kill-effect']
+    ),
+    EmoteType = require(replicatedStorage.TS.locker.emote['emote-type']).EmoteType,
+    GameAnimationUtil = require(
+        replicatedStorage.TS.animation['animation-util']
+    ).GameAnimationUtil,
 }
 local remoteNames = {
-		AfkStatus = debug.getproto(Knit.Controllers.AfkController.KnitStart, 1),
-		AttackEntity = Knit.Controllers.SwordController.sendServerRequest,
-		BeePickup = Knit.Controllers.BeeNetController.trigger,
-		CannonAim = debug.getproto(Knit.Controllers.CannonController.startAiming, 5),
-		CannonLaunch = Knit.Controllers.CannonHandController.launchSelf,
-		ConsumeBattery = debug.getproto(Knit.Controllers.BatteryController.onKitLocalActivated, 1),
-		ConsumeItem = debug.getproto(Knit.Controllers.ConsumeController.onEnable, 1),
-		ConsumeSoul = Knit.Controllers.GrimReaperController.consumeSoul,
-		ConsumeTreeOrb = debug.getproto(Knit.Controllers.EldertreeController.createTreeOrbInteraction, 1),
-		DepositPinata = debug.getproto(debug.getproto(Knit.Controllers.PiggyBankController.KnitStart, 2), 5),
-		DragonBreath = debug.getproto(Knit.Controllers.VoidDragonController.onKitLocalActivated, 5),
-		DragonEndFly = debug.getproto(Knit.Controllers.VoidDragonController.flapWings, 1),
-		DragonFly = Knit.Controllers.VoidDragonController.flapWings,
-		DropItem = Knit.Controllers.ItemDropController.dropItemInHand,
-		EquipItem = debug.getproto(require(replicatedStorage.TS.entity.entities['inventory-entity']).InventoryEntity.equipItem, 3),
-		FireProjectile = debug.getupvalue(Knit.Controllers.ProjectileController.launchProjectileWithValues, 2),
-		GroundHit = Knit.Controllers.FallDamageController.KnitStart,
-		GuitarHeal = Knit.Controllers.GuitarController.performHeal,
-		HannahKill = debug.getproto(Knit.Controllers.HannahController.registerExecuteInteractions, 1),
-		HarvestCrop = debug.getproto(debug.getproto(Knit.Controllers.CropController.KnitStart, 4), 1),
-		KaliyahPunch = debug.getproto(Knit.Controllers.DragonSlayerController.onKitLocalActivated, 1),
-		MageSelect = debug.getproto(Knit.Controllers.MageController.registerTomeInteraction, 1),
-		MinerDig = debug.getproto(Knit.Controllers.MinerController.setupMinerPrompts, 1),
-		PickupItem = Knit.Controllers.ItemDropController.checkForPickup,
-		PickupMetal = debug.getproto(Knit.Controllers.HiddenMetalController.onKitLocalActivated, 4),
-		ReportPlayer = require(lplr.PlayerScripts.TS.controllers.global.report['report-controller']).default.reportPlayer,
-		ResetCharacter = debug.getproto(Knit.Controllers.ResetController.createBindable, 1),
-		SpawnRaven = debug.getproto(Knit.Controllers.RavenController.KnitStart, 1),
-		SummonerClawAttack = Knit.Controllers.SummonerClawHandController.attack,
-		WarlockTarget = debug.getproto(Knit.Controllers.WarlockStaffController.KnitStart, 2)
-	}
+    AfkStatus = debug.getproto(Knit.Controllers.AfkController.KnitStart, 1),
+    AttackEntity = Knit.Controllers.SwordController.sendServerRequest,
+    BeePickup = Knit.Controllers.BeeNetController.trigger,
+    CannonAim = debug.getproto(
+        Knit.Controllers.CannonController.startAiming,
+        5
+    ),
+    CannonLaunch = Knit.Controllers.CannonHandController.launchSelf,
+    ConsumeBattery = debug.getproto(
+        Knit.Controllers.BatteryController.onKitLocalActivated,
+        1
+    ),
+    ConsumeItem = debug.getproto(
+        Knit.Controllers.ConsumeController.onEnable,
+        1
+    ),
+    ConsumeSoul = Knit.Controllers.GrimReaperController.consumeSoul,
+    ConsumeTreeOrb = debug.getproto(
+        Knit.Controllers.EldertreeController.createTreeOrbInteraction,
+        1
+    ),
+    DepositPinata = debug.getproto(
+        debug.getproto(Knit.Controllers.PiggyBankController.KnitStart, 2),
+        5
+    ),
+    DragonBreath = debug.getproto(
+        Knit.Controllers.VoidDragonController.onKitLocalActivated,
+        5
+    ),
+    DragonEndFly = debug.getproto(
+        Knit.Controllers.VoidDragonController.flapWings,
+        1
+    ),
+    DragonFly = Knit.Controllers.VoidDragonController.flapWings,
+    DropItem = Knit.Controllers.ItemDropController.dropItemInHand,
+    EquipItem = debug.getproto(
+        require(replicatedStorage.TS.entity.entities['inventory-entity']).InventoryEntity.equipItem,
+        3
+    ),
+    FireProjectile = debug.getupvalue(
+        Knit.Controllers.ProjectileController.launchProjectileWithValues,
+        2
+    ),
+    GroundHit = Knit.Controllers.FallDamageController.KnitStart,
+    GuitarHeal = Knit.Controllers.GuitarController.performHeal,
+    HannahKill = debug.getproto(
+        Knit.Controllers.HannahController.registerExecuteInteractions,
+        1
+    ),
+    HarvestCrop = debug.getproto(
+        debug.getproto(Knit.Controllers.CropController.KnitStart, 4),
+        1
+    ),
+    KaliyahPunch = debug.getproto(
+        Knit.Controllers.DragonSlayerController.onKitLocalActivated,
+        1
+    ),
+    MageSelect = debug.getproto(
+        Knit.Controllers.MageController.registerTomeInteraction,
+        1
+    ),
+    MinerDig = debug.getproto(
+        Knit.Controllers.MinerController.setupMinerPrompts,
+        1
+    ),
+    PickupItem = Knit.Controllers.ItemDropController.checkForPickup,
+    PickupMetal = debug.getproto(
+        Knit.Controllers.HiddenMetalController.onKitLocalActivated,
+        4
+    ),
+    ReportPlayer = require(
+        lplr.PlayerScripts.TS.controllers.global.report['report-controller']
+    ).default.reportPlayer,
+    ResetCharacter = debug.getproto(
+        Knit.Controllers.ResetController.createBindable,
+        1
+    ),
+    SpawnRaven = debug.getproto(Knit.Controllers.RavenController.KnitStart, 1),
+    SummonerClawAttack = Knit.Controllers.SummonerClawHandController.attack,
+    WarlockTarget = debug.getproto(
+        Knit.Controllers.WarlockStaffController.KnitStart,
+        2
+    ),
+}
 
 local function GetClosestPlayer(options)
     options = options or {}
@@ -198,60 +290,55 @@ end
 
 --COMBAT
 task.spawn(function()
-	local oldUP = Bedwars.KnockbackUtil.kbUpwardStrength
-	local oldDS = Bedwars.KnockbackUtil.kbDirectionStrength
-	local newUP
-	local newDS
-	local velocity
-	Velocity = Nightfall.Categories.Combat:CreateModule({
-		Name = "Velocity",
-		Legit = true,
-		Function = function(called)
-			if called then
-				Bedwars.KnockbackUtil.kbUpwardStrength = newUP.Get()
-				Bedwars.KnockbackUtil.kbDirectionStrength = newDS.Get()
-				else
-				Bedwars.KnockbackUtil.kbUpwardStrength = oldUP
-				Bedwars.KnockbackUtil.kbDirectionStrength = oldDS
-			end
-		end,
-	})
-	newUP = Velocity:CreateSlider({
-		Name = "Upward Strength",
-		Min = 0,
-		Max = 10,
-		Default = 0
-})
-newDS = Velocity:CreateSlider({
-		Name = "Direction Strength",
-		Min = 0,
-		Max = 10,
-		Default = 0
-})
+    local OldKB = nil
+    local NewKB
+    local velocity
+    Velocity = Nightfall.Categories.Combat:CreateModule({
+        Name = 'Velocity',
+        Legit = true,
+        Function = function(called)
+            if called then
+                oldKB = Bedwars.KnockbackUtil.applyKnockback
+                Bedwars.KnockbackUtil.applyKnockback = function(BasePart, number, ...)
+                 return OldKB(Part, NewKb, ...)
+                end
+            else
+                if OldKB then
+                    Bedwars.KnockbackUtil.applyKnockback = OldKb
+                end
+            end
+        end,
+    })
+    NewKB = Velocity:CreateSlider({
+        Name = 'Strength',
+        Min = 0,
+        Max = 30,
+        Default = 0
+    })
 end)
 --MOVEMENT
 
 --PLAYER
-task.spawn(function()
+--[[task.spawn(function()
     local Mode
     local NoFallDamage
     local root = lplr.Character.PrimaryPart
-	local rayParams = RaycastParams.new()
+    local rayParams = RaycastParams.new()
     NoFallDamage = Nightfall.Categories.Player:CreateModule({
         Name = 'No Fall',
         Legit = true,
         Function = function(called)
             if called then
                 repeat
-                    if Mode.Get() == "Bounce" then
-                    if root.AssemblyLinearVelocity.Y < -80 then
-                        root.AssemblyLinearVelocity = Vector3.new(
-                            root.AssemblyLinearVelocity.X,
-                            -2,
-                            root.AssemblyLinearVelocity.Z
-                        )
+                    if Mode.Get() == 'Bounce' then
+                        if root.AssemblyLinearVelocity.Y < -80 then
+                            root.AssemblyLinearVelocity = Vector3.new(
+                                root.AssemblyLinearVelocity.X,
+                                -2,
+                                root.AssemblyLinearVelocity.Z
+                            )
+                        end
                     end
-				end
                 until not NoFallDamage.Enabled
             end
         end,
@@ -261,7 +348,7 @@ task.spawn(function()
         Default = 'Bounce',
         Options = { 'Bounce' },
     })
-end)
+end)--]]
 --RENDER
 
 --PREMIUM
