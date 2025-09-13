@@ -317,6 +317,109 @@ task.spawn(function()
         Default = 0
     })
 end)
+task.spawn(function()
+    local AimAssist
+	local Method = "Screen",
+	local FovToggle
+    local Distance 
+    local TeamCheck 
+    local WallCheck 
+    local TargetPart 
+    local fovCircle = Drawing.new("Circle")
+    fovCircle.Visible = false
+    fovCircle.Color = Color3.fromRGB(255, 0, 0)
+    fovCircle.Thickness = 2
+    fovCircle.NumSides = 100
+    fovCircle.Radius = 150
+    fovCircle.Filled = false
+
+    AimAssist = Nightfall.Categories.Combat:CreateModule({
+        Name = "Aim Assist",
+        Legit = true,
+        Function = function(enabled)
+            if enabled then
+                local options = {
+                    Method = "Screen",
+                    FOV = fovCircle.Radius,
+                    Distance = Distance.Get(), 
+                    TeamCheck = TeamCheck.Get(),
+                    WallCheck = WallCheck.Get(),
+                    TargetPart = TargetPart.Get()
+                }
+
+                task.spawn(function()
+                    while AimAssist.Enabled do
+                        task.wait()
+                        if not root then continue end
+
+                        -- Update FOV circle to mouse
+                        local mousePos = inputService:GetMouseLocation()
+                        fovCircle.Position = mousePos
+                        if not fovCircle.Visible then
+                            fovCircle.Visible = true
+                        end
+
+                        -- Find the closest target
+                        local target = GetClosestPlayer(options)
+                        if target and isAlive(target) then
+                            local part = target.Character:FindFirstChild(options.TargetPart)
+                            if part then
+                                local worldDistance = (part.Position - root.Position).Magnitude
+                                if worldDistance > options.Distance then continue end
+
+                                local screenPos, onScreen = gameCamera:WorldToViewportPoint(part.Position)
+                                if onScreen then
+                                    local targetPos = Vector2.new(screenPos.X, screenPos.Y)
+                                    local fovDistance = (targetPos - mousePos).Magnitude
+                                    if fovDistance <= options.FOV then
+                                        -- Exploit-style aim: move the mouse toward the target
+                                        local smoothness = 0.25 -- 0.0 = instant, 1.0 = slow
+                                        local newMouse = mousePos:Lerp(targetPos, smoothness)
+                                        mousemoverel(newMouse.X - mousePos.X, newMouse.Y - mousePos.Y)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+            else
+                fovCircle.Visible = false
+            end
+        end,
+    })
+
+    -- GUI elements
+    FovToggle = AimAssist:CreateToggle({
+        Name = "FOV Circle",
+        default = false,
+        callback = function(val)
+        end,
+    })
+    Distance = AimAssist:CreateSlider({
+        Name = "Distance",
+        Min = 0,
+        Max = 23,
+        Default = 23,
+    })
+    TeamCheck = AimAssist:CreateToggle({
+        Name = "Team Check",
+        default = true,
+        callback = function(val)
+        end,
+    })
+    WallCheck = AimAssist:CreateToggle({
+        Name = "Wall Check",
+        default = true,
+        callback = function(val)
+        end,
+    })
+    TargetPart = AimAssist:CreateDropdown({
+        Name = "Target Part",
+        Default = "HumanoidRootPart",
+        Options = { "HumanoidRootPart", "Head" },
+    })
+end)
+
 --MOVEMENT
 task.spawn(function()
     local Sprint
