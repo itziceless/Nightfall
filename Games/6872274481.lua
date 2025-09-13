@@ -209,7 +209,7 @@ task.spawn(function()
 				Bedwars.KnockbackUtil.kbDirectionStrength = oldDS
 			end
 		end,
-	)}
+	})
 	newUP = Velocity:CreateSlider({
 		Name = "Upward Strength",
 		Min = 0,
