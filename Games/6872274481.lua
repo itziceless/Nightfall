@@ -82,13 +82,10 @@ local entitylib = loadstring(
 )()
 
 local Client = require(replicatedStorage.TS.remotes).default.Client
-local Knit = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 9)
+local Knit = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
 local Bedwars = {
-	Controllers = {
 		Sprint = Knit.Controllers.SprintController
-	},
 }
-
 
 local function GetClosestPlayer(options)
     options = options or {}
@@ -182,8 +179,8 @@ task.spawn(function()
         Name = "Sprint",
         Function = function(called)
             if called then
-                    if not Bedwars.Controllers.Sprint.issprinting then
-                        Bedwars.Controllers.Sprint:startSprinting()
+                    if not Bedwars.Sprint.issprinting then
+                        Bedwars.Sprint:startSprinting()
                     end
                 until not Sprint.Enabled
             end
