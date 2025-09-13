@@ -150,6 +150,7 @@ local Bedwars = {
     GameAnimationUtil = require(
         replicatedStorage.TS.animation['animation-util']
     ).GameAnimationUtil,
+    Sprint = Knit.Controllers.SprintController,
 }
 local remoteNames = {
     AfkStatus = debug.getproto(Knit.Controllers.AfkController.KnitStart, 1),
@@ -317,7 +318,23 @@ task.spawn(function()
     })
 end)
 --MOVEMENT
-
+task.spawn(function()
+    local Sprint
+    Sprint = Nightfall.Categories.Movement:CreateModule({
+        Name = "Sprint",
+        Legit = true,
+        Function = function(called)
+            if called then
+                repeat
+                    task.wait()
+                    if not Bedwars.Sprint.issprinting then
+                        Bedwars.Sprint:startSprinting()
+                    end
+                until not Sprint.Enabled
+            end
+        end
+    })
+end)
 --PLAYER
 --[[task.spawn(function()
     local Mode
