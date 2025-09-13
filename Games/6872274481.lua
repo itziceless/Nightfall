@@ -406,15 +406,15 @@ task.spawn(function()
 
                         local options = {
                             FOV = fovCircle.Radius,
-                            Distance = Distance:Get(),
-                            TeamCheck = TeamCheck:Get(),
-                            WallCheck = WallCheck:Get(),
-                            TargetPart = TargetPart:Get(),
+                            Distance = Distance.Get(),
+                            TeamCheck = TeamCheck.Get(),
+                            WallCheck = WallCheck.Get(),
+                            TargetPart = TargetPart.Get(),
                         }
 
                         local target = GetClosestPlayer(options)
                             if target then
-                                local part = waitForPart(target, TargetPart)
+                                local part = waitForPart(target, TargetPart.Get())
                                 if part then
                                     local screenPos, onScreen = Camera:WorldToViewportPoint(part.Position)
                                         if onScreen then
