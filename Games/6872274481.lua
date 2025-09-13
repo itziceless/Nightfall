@@ -199,7 +199,7 @@ task.spawn(function()
 	local velocity
 	Velocity = Nightfall.Categories.Combat:CreateModule({
 		Name = "Velocity",
-		Legit = true
+		Legit = true,
 		Function = function(called)
 			if called then
 				Bedwars.KnockbackUtil.kbUpwardStrength = newUP.Get()
