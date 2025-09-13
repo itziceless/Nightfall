@@ -1,37 +1,50 @@
 local loadstring = function(...)
-	local res, err = loadstring(...)
-	if err and vape then
-		Nightfall:CreateNotification('Nightfall', 'Failed to load : '..err, 30, "alert")
-	end
-	return res
+    local res, err = loadstring(...)
+    if err and vape then
+        Nightfall:CreateNotification(
+            'Nightfall',
+            'Failed to load : ' .. err,
+            30,
+            'alert'
+        )
+    end
+    return res
 end
-local isfile = isfile or function(file)
-	local suc, res = pcall(function()
-		return readfile(file)
-	end)
-	return suc and res ~= nil and res ~= ''
-end
+local isfile = isfile
+    or function(file)
+        local suc, res = pcall(function()
+            return readfile(file)
+        end)
+        return suc and res ~= nil and res ~= ''
+    end
 local function downloadFile(path, func)
-	if not isfile(path) then
-		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/itziceless/Nightfall/'..readfile('Nightfall/Libs/commit.txt')..'/'..select(1, path:gsub('Nightfall/', '')), true)
-		end)
-		if not suc or res == '404: Not Found' then
-			error(res)
-		end
-		if path:find('.lua') then
-			res = '--remove this if you dont want the script to update.\n'..res
-		end
-		writefile(path, res)
-	end
-	return (func or readfile)(path)
+    if not isfile(path) then
+        local suc, res = pcall(function()
+            return game:HttpGet(
+                'https://raw.githubusercontent.com/itziceless/Nightfall/'
+                    .. readfile('Nightfall/Libs/commit.txt')
+                    .. '/'
+                    .. select(1, path:gsub('Nightfall/', '')),
+                true
+            )
+        end)
+        if not suc or res == '404: Not Found' then
+            error(res)
+        end
+        if path:find('.lua') then
+            res = '--remove this if you dont want the script to update.\n'
+                .. res
+        end
+        writefile(path, res)
+    end
+    return (func or readfile)(path)
 end
 local run = function(func)
-	func()
+    func()
 end
 local queue_on_teleport = queue_on_teleport or function() end
 local cloneref = cloneref or function(obj)
-	return obj
+    return obj
 end
 
 local playersService = cloneref(game:GetService('Players'))
@@ -49,40 +62,75 @@ local textChatService = cloneref(game:GetService('TextChatService'))
 local contextService = cloneref(game:GetService('ContextActionService'))
 local coreGui = cloneref(game:GetService('CoreGui'))
 
-local isnetworkowner = identifyexecutor and table.find({'Zenith'}, ({identifyexecutor()})[1]) and isnetworkowner or function()
-	return true
-end
-local gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA('Camera')
+local isnetworkowner = identifyexecutor
+        and table.find({ 'Zenith' }, ({ identifyexecutor() })[1])
+        and isnetworkowner
+    or function()
+        return true
+    end
+local gameCamera = workspace.CurrentCamera
+    or workspace:FindFirstChildWhichIsA('Camera')
 local lplr = playersService.LocalPlayer
 local assetfunction = getcustomasset
 
 local Nightfall = shared.Nightfall
-local entitylib = loadstring(game:HttpGet("https://raw.githubusercontent.com/itziceless/Nightfall/refs/heads/main/libs/entitylib.lua", true))()
+local entitylib = loadstring(
+    game:HttpGet(
+        'https://raw.githubusercontent.com/itziceless/Nightfall/refs/heads/main/libs/entitylib.lua',
+        true
+    )
+)()
+
+local Client = require(replicatedStorage.TS.remotes).default.Client
+local Knit = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 9)
+local Bedwars = {
+	Controllers = {
+		Sprint = Knit.Controllers.SprintController
+	},
+}
+
 
 local function GetClosestPlayer(options)
     options = options or {}
     local distanceLimit = options.Distance or 50
     local teamCheck = options.TeamCheck or false
     local wallCheck = options.WallCheck or false
-    local targetPartName = options.TargetPart or "HumanoidRootPart"
+    local targetPartName = options.TargetPart or 'HumanoidRootPart'
 
     local closestPlayer = nil
     local shortestDistance = distanceLimit
 
     for _, player in pairs(playersService:GetPlayers()) do
-        if player ~= lplr and player.Character and player.Character:FindFirstChild(targetPartName) then
-            if teamCheck and player.Team == lplr.Team then continue end
+        if
+            player ~= lplr
+            and player.Character
+            and player.Character:FindFirstChild(targetPartName)
+        then
+            if teamCheck and player.Team == lplr.Team then
+                continue
+            end
 
             local part = player.Character[targetPartName]
-            local screenPos, onScreen = gameCamera:WorldToViewportPoint(part.Position)
-            local mousePos = game:GetService("UserInputService"):GetMouseLocation()
-            local distance = (Vector2.new(screenPos.X, screenPos.Y) - Vector2.new(mousePos.X, mousePos.Y)).Magnitude
+            local screenPos, onScreen =
+                gameCamera:WorldToViewportPoint(part.Position)
+            local mousePos = game:GetService('UserInputService')
+                :GetMouseLocation()
+            local distance = (
+                Vector2.new(screenPos.X, screenPos.Y)
+                - Vector2.new(mousePos.X, mousePos.Y)
+            ).Magnitude
 
             if distance < shortestDistance then
                 if wallCheck then
-                    local ray = Ray.new(gameCamera.CFrame.Position, (part.Position - gameCamera.CFrame.Position).Unit * (part.Position - gameCamera.CFrame.Position).Magnitude)
+                    local ray = Ray.new(
+                        gameCamera.CFrame.Position,
+                        (part.Position - gameCamera.CFrame.Position).Unit
+                            * (part.Position - gameCamera.CFrame.Position).Magnitude
+                    )
                     local hit = workspace:FindPartOnRay(ray, lplr.Character)
-                    if hit and not hit:IsDescendantOf(player.Character) then continue end
+                    if hit and not hit:IsDescendantOf(player.Character) then
+                        continue
+                    end
                 end
                 closestPlayer = player
                 shortestDistance = distance
@@ -99,29 +147,52 @@ end
 
 --PLAYER
 task.spawn(function()
-	local Mode
+    local Mode
     local NoFallDamage
+    local root = lplr.Character.PrimaryPart
+	local rayParams = RaycastParams.new()
     NoFallDamage = Nightfall.Categories.Player:CreateModule({
-        Name = "No Fall",
-		Legit = true,
+        Name = 'No Fall',
+        Legit = true,
+        Function = function(called)
+            if called then
+                repeat
+                    if Mode.Get() == "Bounce" then
+                    if root.AssemblyLinearVelocity.Y < -80 then
+                        root.AssemblyLinearVelocity = Vector3.new(
+                            root.AssemblyLinearVelocity.X,
+                            -2,
+                            root.AssemblyLinearVelocity.Z
+                        )
+                    end
+				end
+                until not NoFallDamage.Enabled
+            end
+        end,
+    })
+    Mode = NoFallDamage:CreateDropdown({
+        Name = 'Mode',
+        Default = 'Bounce',
+        Options = { 'Bounce' },
+    })
+end)
+task.spawn(function()
+    local Sprint
+    Sprint = Nightfall.Categories.Movement:CreateModule({
+        Name = "Sprint",
         Function = function(called)
             if called then
                 repeat
                     task.wait()
-                    if lplr.Character.PrimaryPart.Velocity.Y < -80 then
-                        lplr.Character.PrimaryPart.Velocity = Vector3.new(lplr.Character.PrimaryPart.Velocity.X, -5, lplr.Character.PrimaryPart.Velocity.Z)
+                    if not Bedwars.Controllers.Sprint.issprinting then
+                        Bedwars.Controllers.Sprint:startSprinting()
                     end
-                until not NoFallDamage.Enabled
+                until not Sprint.Enabled
             end
         end
     })
-	Mode = NoFallDamage:CreateDropdown({
-		Name = "Mode",
-		Default = "Bounce",
-		Options = {'Packet', 'Gravity', 'Teleport', 'Bounce'},
-	})
 end)
-	
+
 --RENDER
 
 --PREMIUM
