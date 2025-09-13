@@ -82,7 +82,17 @@ local entitylib = loadstring(
 )()
 
 local Client = require(replicatedStorage.TS.remotes).default.Client
-local Knit = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+local KnitInit, Knit
+KnitInit, Knit = pcall(function()
+			return debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 9)
+		end)
+		if KnitInit then break end
+		task.wait()
+	until KnitInit
+
+	if not debug.getupvalue(Knit.Start, 1) then
+		repeat task.wait() until debug.getupvalue(Knit.Start, 1)
+	end
 local Flamework = require(replicatedStorage['rbxts_include']['node_modules']['@flamework'].core.out).Flamework
 local InventoryUtil = require(replicatedStorage.TS.inventory['inventory-util']).InventoryUtil
 local Bedwars = {
