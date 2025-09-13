@@ -84,7 +84,7 @@ local entitylib = loadstring(
 local Client = require(replicatedStorage.TS.remotes).default.Client
 local KnitInit, Knit
 KnitInit, Knit = pcall(function()
-			return debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 9)
+			return debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
 		end)
 
 	if not debug.getupvalue(Knit.Start, 1) then
