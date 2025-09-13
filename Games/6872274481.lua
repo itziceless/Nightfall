@@ -182,8 +182,6 @@ task.spawn(function()
         Name = "Sprint",
         Function = function(called)
             if called then
-                repeat
-                    task.wait()
                     if not Bedwars.Controllers.Sprint.issprinting then
                         Bedwars.Controllers.Sprint:startSprinting()
                     end
