@@ -238,57 +238,107 @@ local remoteNames = {
     ),
 }
 
+local function getRoot()
+    local r
+    repeat
+        r = lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart")
+        task.wait()
+    until r
+    print("[AimAssist] Root found:", r)
+    return r
+end
+
+root = getRoot()
+lplr.CharacterAdded:Connect(function()
+    root = getRoot()
+end)
+
+
+-- Check if a player is alive
+local function isAlive(player)
+    local char = player.Character
+    if not char then
+        print("[isAlive] No character for", player.Name)
+        return false
+    end
+    local humanoid = char:FindFirstChild("Humanoid")
+    if not humanoid then
+        print("[isAlive] No humanoid for", player.Name)
+        return false
+    end
+    return humanoid.Health > 0
+end
+
+-- Get the closest target
 local function GetClosestPlayer(options)
     options = options or {}
-    local distanceLimit = options.Distance or 50
+    local maxDistance = options.Distance or 50
+    local maxFOV = options.FOV or 150
     local teamCheck = options.TeamCheck or false
     local wallCheck = options.WallCheck or false
-    local targetPartName = options.TargetPart or 'HumanoidRootPart'
+    local targetPartName = options.TargetPart or "HumanoidRootPart"
 
+    if not root then
+        print("[GetClosestPlayer] Root is nil")
+        return nil
+    end
+
+    local rootPos = root.Position
+    local mousePos = inputService:GetMouseLocation()
     local closestPlayer = nil
-    local shortestDistance = distanceLimit
+    local smallestFOV = maxFOV
 
     for _, player in pairs(playersService:GetPlayers()) do
-        if
-            player ~= lplr
-            and player.Character
-            and player.Character:FindFirstChild(targetPartName)
-        then
-            if teamCheck and player.Team == lplr.Team then
-                continue
-            end
+        if player == lplr then continue end
+        if not isAlive(player) then
+            print("[GetClosestPlayer] Player dead:", player.Name)
+            continue
+        end
+        if teamCheck and player.Team == lplr.Team then
+            print("[GetClosestPlayer] Same team, skipping:", player.Name)
+            continue
+        end
 
-            local part = player.Character[targetPartName]
-            local screenPos, onScreen =
-                gameCamera:WorldToViewportPoint(part.Position)
-            local mousePos = game:GetService('UserInputService')
-                :GetMouseLocation()
-            local distance = (
-                Vector2.new(screenPos.X, screenPos.Y)
-                - Vector2.new(mousePos.X, mousePos.Y)
-            ).Magnitude
+        local part = player.Character:FindFirstChild(targetPartName)
+        if not part then
+            print("[GetClosestPlayer] Missing target part:", player.Name)
+            continue
+        end
 
-            if distance < shortestDistance then
-                if wallCheck then
-                    local ray = Ray.new(
-                        gameCamera.CFrame.Position,
-                        (part.Position - gameCamera.CFrame.Position).Unit
-                            * (part.Position - gameCamera.CFrame.Position).Magnitude
-                    )
-                    local hit = workspace:FindPartOnRay(ray, lplr.Character)
-                    if hit and not hit:IsDescendantOf(player.Character) then
-                        continue
-                    end
+        local screenPos, onScreen = gameCamera:WorldToViewportPoint(part.Position)
+        if not onScreen then
+            print("[GetClosestPlayer] Offscreen:", player.Name)
+            continue
+        end
+
+        local fovDistance = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
+        local worldDistance = (part.Position - rootPos).Magnitude
+
+        if fovDistance <= maxFOV and worldDistance <= maxDistance then
+            if wallCheck then
+                local ray = Ray.new(gameCamera.CFrame.Position, (part.Position - gameCamera.CFrame.Position).Unit * worldDistance)
+                local hit = workspace:FindPartOnRay(ray, lplr.Character)
+                if hit and not hit:IsDescendantOf(player.Character) then
+                    print("[GetClosestPlayer] Wall blocking:", player.Name)
+                    continue
                 end
-                closestPlayer = player
-                shortestDistance = distance
             end
+
+            if fovDistance < smallestFOV then
+                closestPlayer = player
+                smallestFOV = fovDistance
+                print("[GetClosestPlayer] New closest target:", player.Name)
+            end
+        else
+            print("[GetClosestPlayer] Out of FOV or distance:", player.Name)
         end
     end
 
+    if not closestPlayer then
+        print("[GetClosestPlayer] No target in range")
+    end
     return closestPlayer
 end
-
 --COMBAT
 task.spawn(function()
     local OldKB = nil
@@ -300,8 +350,12 @@ task.spawn(function()
         Function = function(called)
             if called then
                 oldKB = Bedwars.KnockbackUtil.applyKnockback
-                Bedwars.KnockbackUtil.applyKnockback = function(BasePart, number, ...)
-                 return OldKB(Part, NewKb, ...)
+                Bedwars.KnockbackUtil.applyKnockback = function(
+                    BasePart,
+                    number,
+                    ...
+                )
+                    return OldKB(Part, NewKb, ...)
                 end
             else
                 if OldKB then
@@ -314,18 +368,20 @@ task.spawn(function()
         Name = 'Strength',
         Min = 0,
         Max = 30,
-        Default = 0
+        Default = 0,
     })
 end)
+-- AIM ASSIST MODULE
 task.spawn(function()
     local AimAssist
-	local Method = "Screen",
-	local FovToggle
-    local Distance 
-    local TeamCheck 
-    local WallCheck 
-    local TargetPart 
-    local fovCircle = Drawing.new("Circle")
+    local FovToggle
+    local Distance
+    local TeamCheck
+    local WallCheck
+    local TargetPart
+
+    -- FOV Circle
+    local fovCircle = Drawing.new('Circle')
     fovCircle.Visible = false
     fovCircle.Color = Color3.fromRGB(255, 0, 0)
     fovCircle.Thickness = 2
@@ -333,50 +389,53 @@ task.spawn(function()
     fovCircle.Radius = 150
     fovCircle.Filled = false
 
+    -- Create AimAssist module
     AimAssist = Nightfall.Categories.Combat:CreateModule({
-        Name = "Aim Assist",
+        Name = 'Aim Assist',
         Legit = true,
         Function = function(enabled)
             if enabled then
-                local options = {
-                    Method = "Screen",
-                    FOV = fovCircle.Radius,
-                    Distance = Distance.Get(), 
-                    TeamCheck = TeamCheck.Get(),
-                    WallCheck = WallCheck.Get(),
-                    TargetPart = TargetPart.Get()
-                }
-
                 task.spawn(function()
                     while AimAssist.Enabled do
                         task.wait()
-                        if not root then continue end
-
-                        -- Update FOV circle to mouse
-                        local mousePos = inputService:GetMouseLocation()
-                        fovCircle.Position = mousePos
-                        if not fovCircle.Visible then
-                            fovCircle.Visible = true
+                        if not root then
+                            continue
                         end
 
-                        -- Find the closest target
-                        local target = GetClosestPlayer(options)
-                        if target and isAlive(target) then
-                            local part = target.Character:FindFirstChild(options.TargetPart)
-                            if part then
-                                local worldDistance = (part.Position - root.Position).Magnitude
-                                if worldDistance > options.Distance then continue end
+                        local mousePos = inputService:GetMouseLocation()
+                        fovCircle.Position = mousePos
+                        fovCircle.Visible = true
 
-                                local screenPos, onScreen = gameCamera:WorldToViewportPoint(part.Position)
+                        local options = {
+                            FOV = fovCircle.Radius,
+                            Distance = Distance:Get(),
+                            TeamCheck = TeamCheck:Get(),
+                            WallCheck = WallCheck:Get(),
+                            TargetPart = TargetPart:Get(),
+                        }
+
+                        local target = GetClosestPlayer(options)
+                        if target then
+                            print(target.Name) -- prints the current target
+
+                            local part = target.Character:FindFirstChild(
+                                options.TargetPart
+                            )
+                            if part then
+                                local screenPos, onScreen =
+                                    gameCamera:WorldToViewportPoint(
+                                        part.Position
+                                    )
                                 if onScreen then
-                                    local targetPos = Vector2.new(screenPos.X, screenPos.Y)
-                                    local fovDistance = (targetPos - mousePos).Magnitude
-                                    if fovDistance <= options.FOV then
-                                        -- Exploit-style aim: move the mouse toward the target
-                                        local smoothness = 0.25 -- 0.0 = instant, 1.0 = slow
-                                        local newMouse = mousePos:Lerp(targetPos, smoothness)
-                                        mousemoverel(newMouse.X - mousePos.X, newMouse.Y - mousePos.Y)
-                                    end
+                                    local targetPos =
+                                        Vector2.new(screenPos.X, screenPos.Y)
+                                    local smoothness = 0.25 -- adjust for speed
+                                    local newMouse =
+                                        mousePos:Lerp(targetPos, smoothness)
+                                    mousemoverel(
+                                        newMouse.X - mousePos.X,
+                                        newMouse.Y - mousePos.Y
+                                    )
                                 end
                             end
                         end
@@ -390,33 +449,32 @@ task.spawn(function()
 
     -- GUI elements
     FovToggle = AimAssist:CreateToggle({
-        Name = "FOV Circle",
+        Name = 'FOV Circle',
         default = false,
         callback = function(val)
+            fovCircle.Visible = val
         end,
     })
     Distance = AimAssist:CreateSlider({
-        Name = "Distance",
+        Name = 'Distance',
         Min = 0,
-        Max = 23,
+        Max = 50,
         Default = 23,
     })
     TeamCheck = AimAssist:CreateToggle({
-        Name = "Team Check",
+        Name = 'Team Check',
         default = true,
-        callback = function(val)
-        end,
+        callback = function(val) end,
     })
     WallCheck = AimAssist:CreateToggle({
-        Name = "Wall Check",
+        Name = 'Wall Check',
         default = true,
-        callback = function(val)
-        end,
+        callback = function(val) end,
     })
     TargetPart = AimAssist:CreateDropdown({
-        Name = "Target Part",
-        Default = "HumanoidRootPart",
-        Options = { "HumanoidRootPart", "Head" },
+        Name = 'Target Part',
+        Default = 'HumanoidRootPart',
+        Options = { 'HumanoidRootPart', 'Head' },
     })
 end)
 
@@ -424,19 +482,19 @@ end)
 task.spawn(function()
     local Sprint
     Sprint = Nightfall.Categories.Movement:CreateModule({
-        Name = "Sprint",
+        Name = 'Sprint',
         Legit = true,
         Function = function(called)
             if called then
-                    if not Bedwars.Sprint.issprinting then
-                        Bedwars.Sprint:startSprinting()
-                    end
-                else
-                    if not bedwars.Sprint.stopSprinting then
-				        bedwars.Sprint:stopSprinting()
+                if not Bedwars.Sprint.issprinting then
+                    Bedwars.Sprint:startSprinting()
+                end
+            else
+                if not bedwars.Sprint.stopSprinting then
+                    bedwars.Sprint:stopSprinting()
                 end
             end
-        end
+        end,
     })
 end)
 --PLAYER
