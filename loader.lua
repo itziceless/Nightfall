@@ -88,4 +88,4 @@ local Nightfall = shared.Nightfall
 NightFall.Load.Loaded = true
 NightFall.Load.Time = os.clock() - NightFall.Load.Start
 local LoadTime: string = string.format("%.1fs", NightFall.Load.Time)
-Nightfall:CreateNotification("Nightfall", "Loaded in " .. LoadTime, 2, "normal")
+Nightfall:CreateNotification("Nightfall", "Loaded in " .. LoadTime, 2)
